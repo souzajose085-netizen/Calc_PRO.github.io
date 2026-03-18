@@ -341,12 +341,11 @@
                             </div>
                             <div id="services-container" class="space-y-3"></div>
                             <button onclick="adicionarServico()" class="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-xs font-bold text-slate-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
-                                <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR SERVIÇO
+                                <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR ITEM
                             </button>
-                            <textarea id="detalhesServico" style="display:none;"></textarea>
-                            <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:10px;padding:10px 12px;">
-                                <svg class="ico text-slate-300 text-xs" style="flex-shrink:0;margin-top:2px;" aria-hidden="true"><use href="#i-pen-to-square"></use></svg>
-                                <span style="font-size:12px;color:#94a3b8;line-height:1.5;"><strong style="color:#64748b;font-weight:600;">Obs:</strong> Ex: Instalar tomada 20A, passar fio 2,5mm, disjuntor C20...</span>
+                            <div class="relative">
+                                <svg class="ico absolute top-3 left-3 text-slate-300 text-xs" aria-hidden="true"><use href="#i-pen-to-square"></use></svg>
+                                <textarea id="detalhesServico" rows="2" placeholder="Observações técnicas (Ex: fio 2,5mm, disjuntor 20A...)" class="input-field w-full pl-9 p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none resize-none placeholder-slate-400 transition-all"></textarea>
                             </div>
                         </div>
 
@@ -362,10 +361,6 @@
                             <button onclick="adicionarMaterial()" class="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-xs font-bold text-slate-500 hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50 transition-all flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
                                 <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR MATERIAL
                             </button>
-                            <div style="display:flex;align-items:flex-start;gap:7px;background:#f8fafc;border:1px dashed #e2e8f0;border-radius:10px;padding:10px 12px;">
-                                <svg class="ico text-slate-300 text-xs" style="flex-shrink:0;margin-top:2px;" aria-hidden="true"><use href="#i-pen-to-square"></use></svg>
-                                <span style="font-size:12px;color:#94a3b8;line-height:1.5;"><strong style="color:#64748b;font-weight:600;">Obs:</strong> Ex: Fio 2,5mm 10m, disjuntor C20A, tomada 20A...</span>
-                            </div>
                         </div>
 
                         <!-- Custos -->
@@ -942,73 +937,24 @@
                     <div id="resultado-carga" class="hidden bg-[#0f172a] text-white p-4 rounded-2xl space-y-4">
 
                         <!-- Título -->
-                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">Resultado — Demanda Elétrica NBR 5410</p>
+                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">⚡ Resultado — Demanda Elétrica NBR 5410</p>
 
-                        <!-- Badges acordeão -->
+                        <!-- Sistema + cabo -->
                         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-
-                            <!-- Badge Sistema -->
-                            <div style="flex:1;min-width:130px;border-radius:10px;overflow:visible;">
-                                <button onclick="_toggleResAcc('sis')" style="width:100%;display:flex;align-items:center;gap:6px;padding:8px 10px;background:#1e3a5f;border:1px solid #2563eb;border-radius:10px;cursor:pointer;text-align:left;">
-                                    <span style="font-size:13px;flex-shrink:0;">🔌</span>
-                                    <div style="flex:1;min-width:0;">
-                                        <div id="res-sistema-nome" style="font-size:12px;font-weight:900;color:white;">—</div>
-                                        <div id="res-sistema-sub" style="font-size:9px;color:#93c5fd;">—</div>
-                                    </div>
-                                    <span id="res-arr-sis" style="font-size:10px;color:#93c5fd;flex-shrink:0;">▾</span>
-                                </button>
-                                <div id="res-acc-sis" style="display:none;padding:10px;background:#1e293b;border:1px solid #2563eb;border-top:none;border-radius:0 0 10px 10px;flex-direction:column;gap:8px;">
-                                    <div>
-                                        <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Sistema</p>
-                                        <div style="display:flex;gap:4px;">
-                                            <button id="rbb-mono" onclick="setCargaSistema('mono')" style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #3b82f6;background:#1e3a5f;color:#93c5fd;">Monofásico</button>
-                                            <button id="rbb-bi"   onclick="setCargaSistema('bi')"   style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #334155;background:#0f172a;color:#64748b;">Bifásico</button>
-                                            <button id="rbb-tri"  onclick="setCargaSistema('tri')"  style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #334155;background:#0f172a;color:#64748b;">Trifásico</button>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Tensão</p>
-                                        <div style="display:flex;gap:4px;">
-                                            <button id="rbb-127" onclick="setTensao(127)" style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #3b82f6;background:#1e3a5f;color:#93c5fd;">127V</button>
-                                            <button id="rbb-220" onclick="setTensao(220)" style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #334155;background:#0f172a;color:#64748b;">220V</button>
-                                            <button id="rbb-380" onclick="setTensao(380)" style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #334155;background:#0f172a;color:#64748b;">380V</button>
-                                        </div>
-                                    </div>
-                                    <button onclick="_resRecalcular()" style="width:100%;padding:7px;border-radius:8px;background:#f97316;border:none;color:#000;font-weight:700;font-size:11px;cursor:pointer;">↺ RECALCULAR</button>
+                            <div id="res-sistema-badge" style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #2563eb;border-radius:8px;padding:6px 10px;">
+                                <span style="font-size:14px;">🔌</span>
+                                <div>
+                                    <div id="res-sistema-nome" style="font-size:12px;font-weight:900;color:white;">—</div>
+                                    <div id="res-sistema-sub" style="font-size:9px;color:#93c5fd;">—</div>
                                 </div>
                             </div>
-
-                            <!-- Badge Cabo -->
-                            <div style="flex:1;min-width:130px;border-radius:10px;overflow:visible;">
-                                <button onclick="_toggleResAcc('cab')" style="width:100%;display:flex;align-items:center;gap:6px;padding:8px 10px;background:#1e3a5f;border:1px solid #f97316;border-radius:10px;cursor:pointer;text-align:left;">
-                                    <span style="font-size:13px;flex-shrink:0;">🔧</span>
-                                    <div style="flex:1;min-width:0;">
-                                        <div id="res-cabo-nome" style="font-size:12px;font-weight:900;color:white;">Cobre — PVC</div>
-                                        <div id="res-cabo-sub"  style="font-size:9px;color:#93c5fd;">Método B1</div>
-                                    </div>
-                                    <span id="res-arr-cab" style="font-size:10px;color:#93c5fd;flex-shrink:0;">▾</span>
-                                </button>
-                                <div id="res-acc-cab" style="display:none;padding:10px;background:#1e293b;border:1px solid #f97316;border-top:none;border-radius:0 0 10px 10px;flex-direction:column;gap:8px;">
-                                    <div>
-                                        <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Material</p>
-                                        <div style="display:flex;gap:4px;">
-                                            <button id="rbb-cu" onclick="_setMaterialCabo('cu')" style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #3b82f6;background:#1e3a5f;color:#93c5fd;">Cobre (Cu)</button>
-                                            <button id="rbb-al" onclick="_setMaterialCabo('al')" style="flex:1;padding:6px 2px;border-radius:7px;font-size:10px;font-weight:700;cursor:pointer;border:1.5px solid #334155;background:#0f172a;color:#64748b;">Alumínio (Al)</button>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;margin-bottom:4px;">Método de instalação</p>
-                                        <select id="rbb-metodo" style="width:100%;padding:6px 8px;border:1px solid #334155;border-radius:7px;font-size:10px;background:#0f172a;color:#94a3b8;">
-                                            <option value="B1">B1 — conduite embutido</option>
-                                            <option value="B2">B2 — eletroduto embutido</option>
-                                            <option value="C">C — fixado na parede</option>
-                                            <option value="E">E — ao ar livre</option>
-                                        </select>
-                                    </div>
-                                    <button onclick="_resRecalcular()" style="width:100%;padding:7px;border-radius:8px;background:#f97316;border:none;color:#000;font-weight:700;font-size:11px;cursor:pointer;">↺ RECALCULAR</button>
+                            <div style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #f97316;border-radius:8px;padding:6px 10px;">
+                                <span style="font-size:14px;">🔧</span>
+                                <div>
+                                    <div style="font-size:12px;font-weight:900;color:white;">Cobre — PVC</div>
+                                    <div style="font-size:9px;color:#93c5fd;">Método B1 — embutido</div>
                                 </div>
                             </div>
-
                         </div>
 
                         <div style="height:1px;background:rgba(255,255,255,.06);"></div>
@@ -1025,14 +971,9 @@
                                 <p class="text-[9px] text-slate-500" id="res-fd-sub">fd —</p>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
-                                <p class="text-[9px] text-slate-400 uppercase font-bold">fp médio ponderado</p>
-                                <p class="text-base font-black text-purple-300" id="res-fp">—</p>
-                                <p class="text-[9px] text-slate-500">média dos equip.</p>
-                            </div>
-                            <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Corrente Ib</p>
                                 <p class="text-base font-black text-orange-300" id="res-corrente">— A</p>
-                                <p class="text-[9px] text-slate-500" id="res-corrente-sub">P ÷ (V × fp)</p>
+                                <p class="text-[9px] text-slate-500">P ÷ (V × fp)</p>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Disjuntor Geral</p>
@@ -1042,23 +983,25 @@
                             <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Bitola Mínima</p>
                                 <p class="text-base font-black text-green-400" id="res-fio">— mm²</p>
-                                <p class="text-[9px] text-slate-500" id="res-fio-sub">—</p>
+                                <p class="text-[9px] text-slate-500" id="res-fio-sub">Iz —A</p>
+                            </div>
+                            <div class="bg-white/10 p-3 rounded-xl">
+                                <p class="text-[9px] text-slate-400 uppercase font-bold">Proteção DR</p>
+                                <p class="text-base font-black text-purple-300" id="res-dr">30 mA</p>
+                                <p class="text-[9px] text-slate-500" id="res-dr-sub">Áreas molhadas</p>
                             </div>
                         </div>
-
-                        <!-- Alerta disjuntor > Iz -->
-                        <div id="res-alerta" style="display:none;background:#450a0a;border:1px solid #7f1d1d;border-radius:8px;padding:7px 10px;font-size:10px;color:#fca5a5;font-weight:600;"></div>
 
                         <div style="height:1px;background:rgba(255,255,255,.06);"></div>
 
                         <!-- Circuitos sugeridos -->
-                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">Circuitos sugeridos</p>
+                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">📋 Circuitos sugeridos</p>
                         <div id="res-circuitos" style="display:flex;flex-direction:column;gap:4px;"></div>
 
                         <div style="height:1px;background:rgba(255,255,255,.06);"></div>
 
                         <!-- Quadro de distribuição -->
-                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">Quadro de distribuição</p>
+                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">⬛ Quadro de distribuição</p>
                         <div id="res-quadro" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#0d1b2a;border:1px solid #1e3a5f;border-radius:10px;padding:8px;"></div>
                         <p id="res-quadro-obs" style="font-size:9px;color:#334155;text-align:center;"></p>
 
@@ -1321,87 +1264,45 @@
 
     <!-- ÁREA DE IMPRESSÃO — DEMANDA ELÉTRICA -->
     <div id="printable-demanda" class="hidden">
-        <div style="font-family:'Inter',sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:32px;">
-            <!-- Cabeçalho -->
-            <div style="background:#0f172a;padding:16px 20px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
-                <div>
-                    <p style="color:#93c5fd;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 2px;">Eletricista Power</p>
-                    <p style="color:white;font-size:16px;font-weight:900;margin:0;">Demanda Elétrica NBR 5410</p>
+        <div style="font-family:'Inter',sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:40px;">
+            <div style="background:#0f172a;padding:24px;border-radius:12px;margin-bottom:24px;text-align:center;">
+                <p style="color:#93c5fd;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin:0 0 4px;">Eletricista Power — Ferramenta CALC NBR</p>
+                <h1 style="color:white;font-size:20px;font-weight:900;text-transform:uppercase;margin:0;">Cálculo de Demanda Elétrica</h1>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;" id="print-demanda-grid">
+                <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;">
+                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 4px;">Carga Instalada</p>
+                    <p style="font-size:20px;font-weight:900;color:#0f172a;margin:0;" id="prd-potencia">—</p>
                 </div>
-                <div style="text-align:right;">
-                    <p style="color:#64748b;font-size:9px;margin:0;">ABNT NBR 5410:2004</p>
-                    <p style="color:#64748b;font-size:9px;margin:2px 0 0;" id="prd-data">—</p>
+                <div style="background:#fefce8;padding:16px;border-radius:10px;border:1px solid #fde047;">
+                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 4px;">Carga Demanda</p>
+                    <p style="font-size:20px;font-weight:900;color:#854d0e;margin:0;" id="prd-demanda">—</p>
+                </div>
+                <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;">
+                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 4px;">Corrente</p>
+                    <p style="font-size:20px;font-weight:900;color:#0f172a;margin:0;" id="prd-corrente">—</p>
+                </div>
+                <div style="background:#fefce8;padding:16px;border-radius:10px;border:1px solid #fde047;">
+                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 4px;">Disjuntor</p>
+                    <p style="font-size:20px;font-weight:900;color:#854d0e;margin:0;" id="prd-disjuntor">—</p>
+                </div>
+                <div style="background:#f0fdf4;padding:16px;border-radius:10px;border:1px solid #bbf7d0;">
+                    <p style="font-size:10px;font-weight:700;color:#166534;text-transform:uppercase;margin:0 0 4px;">Fio Mínimo</p>
+                    <p style="font-size:20px;font-weight:900;color:#14532d;margin:0;" id="prd-fio">—</p>
+                </div>
+                <div style="background:#eff6ff;padding:16px;border-radius:10px;border:1px solid #bfdbfe;">
+                    <p style="font-size:10px;font-weight:700;color:#1e40af;text-transform:uppercase;margin:0 0 4px;">Fator Demanda</p>
+                    <p style="font-size:20px;font-weight:900;color:#1e3a8a;margin:0;" id="prd-fd">—</p>
                 </div>
             </div>
-            <!-- Badges sistema + cabo -->
-            <div style="display:flex;gap:8px;margin-bottom:14px;">
-                <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;background:#dbeafe;border:1px solid #93c5fd;border-radius:8px;">
-                    <span style="font-size:14px;">🔌</span>
-                    <div>
-                        <div style="font-size:12px;font-weight:900;color:#1e3a8a;" id="prd-sistema-nome">—</div>
-                        <div style="font-size:9px;color:#3b82f6;" id="prd-sistema-sub">—</div>
-                    </div>
-                </div>
-                <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff7ed;border:1px solid #fb923c;border-radius:8px;">
-                    <span style="font-size:14px;">🔧</span>
-                    <div>
-                        <div style="font-size:12px;font-weight:900;color:#9a3412;" id="prd-cabo-nome">—</div>
-                        <div style="font-size:9px;color:#f97316;" id="prd-cabo-sub">—</div>
-                    </div>
-                </div>
-            </div>
-            <!-- Título seção -->
-            <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Resultados do cálculo</p>
-            <!-- Grid de resultados -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;" id="print-demanda-grid">
-                <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0;">
-                    <p style="font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 3px;">Carga Instalada</p>
-                    <p style="font-size:18px;font-weight:900;color:#0f172a;margin:0;" id="prd-potencia">—</p>
-                </div>
-                <div style="background:#fefce8;padding:12px;border-radius:8px;border:1px solid #fde047;">
-                    <p style="font-size:9px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 3px;">Carga Demanda</p>
-                    <p style="font-size:18px;font-weight:900;color:#854d0e;margin:0;" id="prd-demanda">—</p>
-                    <p style="font-size:9px;color:#a16207;margin:2px 0 0;" id="prd-fd">—</p>
-                </div>
-                <div style="background:#f5f3ff;padding:12px;border-radius:8px;border:1px solid #ddd6fe;">
-                    <p style="font-size:9px;font-weight:700;color:#6d28d9;text-transform:uppercase;margin:0 0 3px;">fp médio ponderado</p>
-                    <p style="font-size:18px;font-weight:900;color:#5b21b6;margin:0;" id="prd-fp">—</p>
-                </div>
-                <div style="background:#fff7ed;padding:12px;border-radius:8px;border:1px solid #fed7aa;">
-                    <p style="font-size:9px;font-weight:700;color:#c2410c;text-transform:uppercase;margin:0 0 3px;">Corrente Ib</p>
-                    <p style="font-size:18px;font-weight:900;color:#9a3412;margin:0;" id="prd-corrente">—</p>
-                    <p style="font-size:9px;color:#c2410c;margin:2px 0 0;" id="prd-corrente-sub">—</p>
-                </div>
-                <div style="background:#fefce8;padding:12px;border-radius:8px;border:1px solid #fde047;">
-                    <p style="font-size:9px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 3px;">Disjuntor Geral</p>
-                    <p style="font-size:18px;font-weight:900;color:#854d0e;margin:0;" id="prd-disjuntor">—</p>
-                    <p style="font-size:9px;color:#a16207;margin:2px 0 0;" id="prd-disj-sub">—</p>
-                </div>
-                <div style="background:#f0fdf4;padding:12px;border-radius:8px;border:1px solid #bbf7d0;">
-                    <p style="font-size:9px;font-weight:700;color:#166534;text-transform:uppercase;margin:0 0 3px;">Bitola Mínima</p>
-                    <p style="font-size:18px;font-weight:900;color:#14532d;margin:0;" id="prd-fio">—</p>
-                    <p style="font-size:9px;color:#166534;margin:2px 0 0;" id="prd-fio-sub">—</p>
-                </div>
-            </div>
-            <!-- Circuitos sugeridos -->
-            <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;">Circuitos sugeridos</p>
-            <div id="prd-circuitos" style="margin-bottom:14px;"></div>
-            <!-- Quadro de distribuição -->
-            <div style="background:#0f172a;border-radius:10px;padding:12px;margin-bottom:14px;">
-                <p style="font-size:9px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Quadro de Distribuição</p>
-                <div id="prd-quadro" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;"></div>
-                <p id="prd-quadro-obs" style="font-size:8px;color:#334155;text-align:center;margin:6px 0 0;"></p>
-            </div>
-            <!-- Equipamentos -->
-            <div id="prd-equipamentos" style="margin-bottom:14px;"></div>
-            <!-- Rodapé -->
-            <div style="text-align:center;font-size:9px;color:#94a3b8;border-top:1px dashed #cbd5e1;padding-top:12px;">
+            <div id="prd-equipamentos" style="margin-bottom:24px;"></div>
+            <div style="text-align:center;font-size:11px;color:#94a3b8;border-top:1px dashed #cbd5e1;padding-top:16px;">
                 <p>Ref: ABNT NBR 5410:2004 — Gerado via <strong>Eletricista Power</strong></p>
             </div>
         </div>
     </div>
 
-        <!-- ÁREA DE IMPRESSÃO (PDF) -->
+    <!-- ÁREA DE IMPRESSÃO (PDF) -->
     <div id="printable-area" class="hidden">
         <div style="font-family:'Inter',sans-serif;color:#334155;max-width:800px;margin:0 auto;padding:40px;position:relative;">
 
@@ -2216,62 +2117,193 @@
             const container = document.getElementById('services-container');
             const div = document.createElement('div');
             div.className = 'service-row bg-white p-3 rounded-2xl border border-slate-200 shadow-sm relative animate-slide-up';
+            const select = document.createElement('select');
+            select.className = 'service-select w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 outline-none';
+            select.onchange = function() { atualizarPrecoInput(this); _atualizarFAB(); };
+
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = '';
+            defaultOpt.disabled = true;
+            defaultOpt.selected = true;
+            defaultOpt.textContent = 'Selecione...';
+            select.appendChild(defaultOpt);
+
+            state.meusServicos.forEach(s => {
+                const opt = document.createElement('option');
+                opt.value = s.nome;          // textContent escapa automaticamente
+                opt.textContent = s.nome;
+                opt.dataset.min = s.min;
+                select.appendChild(opt);
+            });
+
             div.innerHTML = `
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                    <div style="width:30px;height:30px;border-radius:8px;background:#dbeafe;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg style="width:13px;height:13px;fill:#2563eb;" viewBox="0 0 512 512"><path d="M78.6 5C69.1-2.4 55.6-1.5 47 7L7 47c-8.5 8.5-9.4 22-2.1 31.6l80 104c4.5 5.8 11.1 9.2 18.1 9.2l31.4 0c8.8 0 16-7.2 16-16l0-31.4c0-7-3.4-13.7-9.2-18.1L78.6 5zM160 256c0 53 43 96 96 96s96-43 96-96s-43-96-96-96s-96 43-96 96z"/></svg>
+                <div class="mb-2 pr-6"></div>
+                <div class="flex gap-2">
+                    <div class="relative flex-grow">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">R$</span>
+                        <input type="text" class="service-price w-full pl-8 p-2 bg-white border border-slate-200 rounded-lg text-sm font-bold outline-none" placeholder="0,00" onkeyup="formatarMoeda(this);_atualizarFAB();" inputmode="numeric">
                     </div>
-                    <input type="text" class="service-name flex-1 bg-transparent border-none outline-none text-sm font-bold text-slate-700 placeholder-slate-400" placeholder="Nome do serviço..." oninput="_atualizarFAB()">
-                    <button onclick="this.closest('.service-row').remove();_atualizarFAB();" class="text-slate-300 hover:text-red-400 transition-colors flex-shrink-0">
-                        <svg class="ico" aria-hidden="true"><use href="#i-trash-can"></use></svg>
-                    </button>
+                    <div class="flex items-center border border-slate-200 rounded-lg bg-slate-50 w-24">
+                        <button onclick="alterarQtd(this,-1)" class="w-8 h-full text-slate-500 font-bold hover:bg-white rounded-l-lg transition-colors">-</button>
+                        <input type="number" class="qty-value flex-grow text-center text-sm font-bold text-slate-700 bg-transparent border-0 outline-none w-8" value="1" min="1" inputmode="numeric">
+                        <button onclick="alterarQtd(this,1)" class="w-8 h-full text-slate-500 font-bold hover:bg-white rounded-r-lg transition-colors">+</button>
+                    </div>
                 </div>
-                <div style="display:flex;gap:8px;align-items:center;">
-                    <div style="position:relative;flex:1;">
-                        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#94a3b8;">R$</span>
-                        <input type="text" class="service-price w-full bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none" style="padding:8px 8px 8px 28px;" placeholder="0,00" onkeyup="formatarMoeda(this);_atualizarFAB();" inputmode="numeric">
-                    </div>
-                    <div style="display:flex;align-items:center;border:1.5px solid #e2e8f0;border-radius:10px;background:#f8fafc;overflow:hidden;flex-shrink:0;">
-                        <button onclick="alterarQtd(this,-1)" style="width:28px;height:34px;background:none;border:none;font-size:16px;font-weight:700;color:#64748b;cursor:pointer;">−</button>
-                        <input type="number" class="qty-value" style="width:28px;text-align:center;font-size:13px;font-weight:700;border:none;background:transparent;outline:none;color:#1e293b;" value="1" min="1" inputmode="numeric">
-                        <button onclick="alterarQtd(this,1)" style="width:28px;height:34px;background:none;border:none;font-size:16px;font-weight:700;color:#64748b;cursor:pointer;">+</button>
-                    </div>
-                </div>`;
+                <button onclick="this.closest('.service-row').remove();_atualizarFAB();" class="absolute top-3 right-3 text-slate-300 hover:text-red-400 transition-colors"><svg class="ico" aria-hidden="true"><use href="#i-trash-can"></use></svg></button>
+            `;
+            div.querySelector('.mb-2').appendChild(select);
             container.appendChild(div);
-            div.querySelector('.service-name').focus();
-            _atualizarFAB();
         }
 
+        // ─────────────────────────────────────────────
+        // MATERIAIS
+        // ─────────────────────────────────────────────
+        function popularSelect1(sel, isInterruptor, isCaixa, isDisjuntor, isTomada, isEletroduto, isQuadro, isFio, isCaboPP) {
+            sel.innerHTML = '';
+            const mkOpts = (placeholder, lista, cor1, cor2) => {
+                [{ v:'', t: placeholder }].concat(lista.map(v => ({ v, t: v })))
+                    .forEach(item => { const o = document.createElement('option'); o.value = item.v; o.textContent = item.t; if(!item.v) o.disabled = true; sel.appendChild(o); });
+                sel.style.borderColor = cor1; sel.style.color = cor2;
+            };
+            if (isInterruptor || isCaixa || isTomada || isQuadro)
+                mkOpts('Instalação...', INSTALACAO_INTERRUPTOR, '#93c5fd', '#1d4ed8');
+            else if (isDisjuntor)
+                mkOpts('Polo...', POLO_DISJUNTOR, '#6ee7b7', '#065f46');
+            else if (isEletroduto)
+                mkOpts('Tipo...', TIPO_ELETRODUTO, '#d8b4fe', '#6b21a8');
+            else if (isCaboPP)
+                mkOpts('Seção...', SECAO_CABO_PP, '#f9a8d4', '#9d174d');
+            else if (isFio) {
+                [{ v:'rolo100', t:'Rolo 100m' }, { v:'un', t:'Unidade (un)' }]
+                    .forEach(item => { const o = document.createElement('option'); o.value = item.v; o.textContent = item.t; sel.appendChild(o); });
+                sel.style.borderColor = '#e2e8f0'; sel.style.color = '#475569';
+            } else {
+                const o = document.createElement('option'); o.value = ''; o.textContent = '—'; o.disabled = true; sel.appendChild(o);
+                sel.style.borderColor = '#e2e8f0'; sel.style.color = '#cbd5e1';
+            }
+        }
 
+        function popularSelect2(sel, isInterruptor, isCaixa, isDisjuntor, isTomada, isEletroduto, isQuadro, isFio, isCaboPP) {
+            sel.innerHTML = '';
+            const mkOpts = (placeholder, lista, cor1, cor2) => {
+                [{ v:'', t: placeholder }].concat(lista.map(v => ({ v, t: v })))
+                    .forEach(item => { const o = document.createElement('option'); o.value = item.v; o.textContent = item.t; if(!item.v) o.disabled = true; sel.appendChild(o); });
+                sel.style.borderColor = cor1; sel.style.color = cor2;
+            };
+            if (isInterruptor)       mkOpts('Teclas...',     TECLAS_INTERRUPTOR, '#93c5fd', '#1d4ed8');
+            else if (isCaixa)        mkOpts('Tampa...',      TAMPA_CAIXA,        '#93c5fd', '#1d4ed8');
+            else if (isDisjuntor)    mkOpts('Curva...',      CURVA_DISJUNTOR,    '#6ee7b7', '#065f46');
+            else if (isTomada)       mkOpts('Amperagem...',  AMPER_TOMADA,       '#93c5fd', '#1d4ed8');
+            else if (isEletroduto)   mkOpts('Unidade...',    UNID_ELETRODUTO,    '#d8b4fe', '#6b21a8');
+            else if (isQuadro)       mkOpts('Barramento...', BARRAMENTO_QUADRO,  '#93c5fd', '#1d4ed8');
+            else if (isCaboPP)       mkOpts('Condutores...', CONDUTORES_CABO_PP, '#f9a8d4', '#9d174d');
+            else if (isFio) {
+                const def = document.createElement('option'); def.value = ''; def.textContent = 'Cor (fio)...'; sel.appendChild(def);
+                CORES_FIO.forEach(c => { const o = document.createElement('option'); o.value = c; o.textContent = c; sel.appendChild(o); });
+                sel.style.borderColor = '#fed7aa'; sel.style.color = '#c2410c';
+            } else {
+                const o = document.createElement('option'); o.value = ''; o.textContent = '—'; o.disabled = true; sel.appendChild(o);
+                sel.style.borderColor = '#e2e8f0'; sel.style.color = '#cbd5e1';
+            }
+        }
 
         function adicionarMaterial() {
             const container = document.getElementById('materials-container');
             const div = document.createElement('div');
             div.className = 'material-row bg-white p-3 rounded-2xl border border-orange-100 shadow-sm relative animate-slide-up';
+
+            // Select de material
+            const select = document.createElement('select');
+            select.className = 'mat-select w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 outline-none';
+            const defaultOpt = document.createElement('option');
+            defaultOpt.value = ''; defaultOpt.disabled = true; defaultOpt.selected = true;
+            defaultOpt.textContent = 'Selecione material...';
+            select.appendChild(defaultOpt);
+            state.meusMateriais.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.nome; opt.textContent = m.nome;
+                opt.dataset.preco         = m.preco;
+                opt.dataset.unidade       = m.unidade || 'un';
+                opt.dataset.isFio         = m.isFio ? '1' : '0';
+                opt.dataset.isInterruptor = m.isInterruptor ? '1' : '0';
+                opt.dataset.isCaixa       = m.isCaixa ? '1' : '0';
+                opt.dataset.isDisjuntor   = m.isDisjuntor ? '1' : '0';
+                opt.dataset.isTomada      = m.isTomada ? '1' : '0';
+                opt.dataset.isEletroduto  = m.isEletroduto ? '1' : '0';
+                opt.dataset.isQuadro      = m.isQuadro ? '1' : '0';
+                opt.dataset.isCaboPP      = m.isCaboPP ? '1' : '0';
+                select.appendChild(opt);
+            });
+
+            // Select 1 (unidade OU instalação OU polo OU tipo)
+            const sel1 = document.createElement('select');
+            sel1.className = 'mat-sel1 p-2 bg-slate-50 rounded-lg text-xs font-bold outline-none';
+            sel1.style.cssText = 'min-width:100px; border:1px solid #e2e8f0; color:#475569;';
+            popularSelect1(sel1, false, false, false, false, false, false, false, false);
+
+            // Select 2
+            const sel2 = document.createElement('select');
+            sel2.className = 'mat-sel2 p-2 bg-slate-50 rounded-lg text-xs font-bold outline-none';
+            sel2.style.cssText = 'min-width:110px; border:1px solid #e2e8f0; color:#cbd5e1;';
+            popularSelect2(sel2, false, false, false, false, false, false, false, false);
+
+            select.onchange = function() {
+                _atualizarFAB();
+                const opt = this.options[this.selectedIndex];
+                const row = this.closest('.material-row');
+                const isInt = opt.dataset.isInterruptor === '1';
+                const isCai = opt.dataset.isCaixa       === '1';
+                const isDis = opt.dataset.isDisjuntor   === '1';
+                const isTom = opt.dataset.isTomada      === '1';
+                const isEle = opt.dataset.isEletroduto  === '1';
+                const isQua = opt.dataset.isQuadro      === '1';
+                const isFio = opt.dataset.isFio         === '1';
+                const isCPP = opt.dataset.isCaboPP      === '1';
+                const s1 = row.querySelector('.mat-sel1');
+                const s2 = row.querySelector('.mat-sel2');
+                popularSelect1(s1, isInt, isCai, isDis, isTom, isEle, isQua, isFio, isCPP);
+                popularSelect2(s2, isInt, isCai, isDis, isTom, isEle, isQua, isFio, isCPP);
+                if (isFio) s1.value = opt.dataset.unidade || 'rolo100';
+                const precoUnit = parseFloat(opt.dataset.preco) || 0;
+                const input = row.querySelector('.mat-price');
+                input.value = precoUnit.toFixed(2).replace('.', ',');
+                formatarMoeda(input);
+            };
+
+            sel1.onchange = function() {
+                const row = this.closest('.material-row');
+                const matOpt = row.querySelector('.mat-select').options[row.querySelector('.mat-select').selectedIndex];
+                // Aviso 5 fix: não atualizar preço para tipos que não dependem de unidade
+                if (!matOpt || !matOpt.dataset.preco) return;
+                if (matOpt.dataset.isInterruptor === '1' || matOpt.dataset.isCaixa === '1' ||
+                    matOpt.dataset.isTomada === '1'      || matOpt.dataset.isQuadro === '1') return;
+                const precoUnit = parseFloat(matOpt.dataset.preco) || 0;
+                const mult = this.value === 'rolo100' ? 100 : 1;
+                const input = row.querySelector('.mat-price');
+                input.value = (precoUnit * mult).toFixed(2).replace('.', ',');
+                formatarMoeda(input);
+            };
+
             div.innerHTML = `
-                <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
-                    <div style="width:30px;height:30px;border-radius:8px;background:#ffedd5;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-                        <svg style="width:13px;height:13px;fill:#ea580c;" viewBox="0 0 512 512"><path d="M243.4 2.6l-224 96c-14 6-21.8 21-18.7 35.8S16.8 160 32 160v8c0 13.3 10.7 24 24 24H456c13.3 0 24-10.7 24-24v-8c15.2 0 28.3-10.7 31.3-25.6s-4.8-29.9-18.7-35.8l-224-96c-8.1-3.4-17.2-3.4-25.2 0zM128 224H64V416H128V224zm256 0v192h64V224H384z"/></svg>
+                <div class="mb-2 pr-6 mat-select-wrap"></div>
+                <div class="flex gap-2 flex-wrap mb-2 mat-extras"></div>
+                <div class="flex gap-2">
+                    <div class="relative flex-grow">
+                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">R$</span>
+                        <input type="text" class="mat-price w-full pl-8 p-2 bg-white border border-slate-200 rounded-lg text-sm font-bold outline-none" placeholder="0,00" onkeyup="formatarMoeda(this);_atualizarFAB();" inputmode="numeric">
                     </div>
-                    <input type="text" class="mat-name flex-1 bg-transparent border-none outline-none text-sm font-bold text-slate-700 placeholder-slate-400" placeholder="Nome do material..." oninput="_atualizarFAB()">
-                    <button onclick="this.closest('.material-row').remove();_atualizarFAB();" class="text-slate-300 hover:text-red-400 transition-colors flex-shrink-0">
-                        <svg class="ico" aria-hidden="true"><use href="#i-trash-can"></use></svg>
-                    </button>
+                    <div class="flex items-center border border-slate-200 rounded-lg bg-slate-50 w-24">
+                        <button onclick="alterarQtd(this,-1)" class="w-8 h-full text-slate-500 font-bold hover:bg-white rounded-l-lg transition-colors">-</button>
+                        <input type="number" class="qty-value flex-grow text-center text-sm font-bold text-slate-700 bg-transparent border-0 outline-none w-8" value="1" min="1" inputmode="numeric">
+                        <button onclick="alterarQtd(this,1)" class="w-8 h-full text-slate-500 font-bold hover:bg-white rounded-r-lg transition-colors">+</button>
+                    </div>
                 </div>
-                <div style="display:flex;gap:8px;align-items:center;">
-                    <div style="position:relative;flex:1;">
-                        <span style="position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;color:#94a3b8;">R$</span>
-                        <input type="text" class="mat-price w-full bg-white border border-slate-200 rounded-xl text-sm font-bold text-slate-700 outline-none" style="padding:8px 8px 8px 28px;" placeholder="0,00" onkeyup="formatarMoeda(this);_atualizarFAB();" inputmode="numeric">
-                    </div>
-                    <div style="display:flex;align-items:center;border:1.5px solid #e2e8f0;border-radius:10px;background:#f8fafc;overflow:hidden;flex-shrink:0;">
-                        <button onclick="alterarQtd(this,-1)" style="width:28px;height:34px;background:none;border:none;font-size:16px;font-weight:700;color:#64748b;cursor:pointer;">−</button>
-                        <input type="number" class="qty-value" style="width:28px;text-align:center;font-size:13px;font-weight:700;border:none;background:transparent;outline:none;color:#1e293b;" value="1" min="1" inputmode="numeric">
-                        <button onclick="alterarQtd(this,1)" style="width:28px;height:34px;background:none;border:none;font-size:16px;font-weight:700;color:#64748b;cursor:pointer;">+</button>
-                    </div>
-                </div>`;
+                <button onclick="this.closest('.material-row').remove();_atualizarFAB();" class="absolute top-3 right-3 text-slate-300 hover:text-red-400 transition-colors"><svg class="ico" aria-hidden="true"><use href="#i-trash-can"></use></svg></button>
+            `;
+            div.querySelector('.mat-select-wrap').appendChild(select);
+            div.querySelector('.mat-extras').appendChild(sel1);
+            div.querySelector('.mat-extras').appendChild(sel2);
             container.appendChild(div);
-            div.querySelector('.mat-name').focus();
-            _atualizarFAB();
         }
 
 
@@ -2338,6 +2370,12 @@
             renderListaMateriaisBase();
         }
 
+        function atualizarPrecoInput(select) {
+            const min = select.options[select.selectedIndex].dataset.min;
+            const input = select.closest('.service-row').querySelector('.service-price');
+            input.value = parseFloat(min).toFixed(2).replace('.', ',');
+            formatarMoeda(input);
+        }
 
         function alterarQtd(btn, delta) {
             const input = btn.parentElement.querySelector('.qty-value');
@@ -2352,7 +2390,9 @@
         function _coletarServicos() {
             let totalServicos = 0, itens = [];
             document.querySelectorAll('.service-row').forEach(row => {
-                const nome  = row.querySelector('.service-name')?.value?.trim() || '';
+                const select = row.querySelector('select');
+                if (select.selectedIndex === 0) return;
+                const nome  = select.value;
                 const preco = parseMoeda(row.querySelector('.service-price')?.value);
                 const qtd   = parseInt(row.querySelector('.qty-value')?.value, 10) || 1;
                 if (nome && preco > 0) {
@@ -2366,16 +2406,40 @@
         function _coletarMateriais() {
             let mat = 0, itensMat = [];
             document.querySelectorAll('.material-row').forEach(row => {
-                const nome  = row.querySelector('.mat-name')?.value?.trim() || '';
-                const preco = parseMoeda(row.querySelector('.mat-price')?.value);
-                const qtd   = parseInt(row.querySelector('.qty-value')?.value, 10) || 1;
+                const select = row.querySelector('.mat-select');
+                if (!select || select.selectedIndex === 0) return;
+                const opt     = select.options[select.selectedIndex];
+                const nome    = select.value;
+                const preco   = parseMoeda(row.querySelector('.mat-price')?.value);
+                const qtd     = parseInt(row.querySelector('.qty-value')?.value, 10) || 1;
+                const isInt   = opt.dataset.isInterruptor === '1';
+                const isCaixa = opt.dataset.isCaixa === '1';
+                const isDis   = opt.dataset.isDisjuntor === '1';
+                const isTom   = opt.dataset.isTomada === '1';
+                const isEle   = opt.dataset.isEletroduto === '1';
+                const isQua   = opt.dataset.isQuadro === '1';
+                const isCPP   = opt.dataset.isCaboPP === '1';
+                const sel1val = row.querySelector('.mat-sel1')?.value || '';
+                const sel2val = row.querySelector('.mat-sel2')?.value || '';
+                let nomeCompleto = nome;
+                if (isCPP) {
+                    nomeCompleto = `${nome} ${sel2val || '?'}x${sel1val || '?'}`;
+                } else if (isInt || isCaixa || isDis || isTom || isEle || isQua) {
+                    const detalhes = [sel1val, sel2val].filter(Boolean);
+                    if (detalhes.length) nomeCompleto = `${nome} (${detalhes.join(' | ')})`;
+                } else {
+                    const unLabel = UNIDADES.find(u => u.val === sel1val)?.label || sel1val;
+                    const detalhes = [unLabel, sel2val].filter(Boolean);
+                    if (detalhes.length) nomeCompleto = `${nome} (${detalhes.join(' | ')})`;
+                }
                 if (nome && preco > 0) {
                     mat += preco * qtd;
-                    itensMat.push({ nome, qtd, total: preco * qtd, unitario: preco });
+                    itensMat.push({ nome: nomeCompleto, qtd, total: preco * qtd, unitario: preco });
                 }
             });
             return { mat, itensMat };
         }
+
         function _calcularTotais(totalServicos, mat) {
             const km           = parseFloat(document.getElementById('distanciaKm').value) || 0;
             const horas        = parseFloat(document.getElementById('tempoHoras').value) || 0;
@@ -2633,57 +2697,13 @@
         // DEMANDA — COMPARTILHAR / IMPRIMIR / PDF
         // ─────────────────────────────────────────────
         function _preencherPrintDemanda() {
-            const _g  = id => document.getElementById(id)?.textContent || '—';
-            const _gs = id => document.getElementById(id)?.style || {};
-
-            // Data atual
-            const hoje = new Date();
-            const dataStr = hoje.toLocaleDateString('pt-BR');
-            document.getElementById('prd-data').textContent = dataStr;
-
-            // Sistema e cabo
-            document.getElementById('prd-sistema-nome').textContent = _g('res-sistema-nome');
-            document.getElementById('prd-sistema-sub').textContent  = _g('res-sistema-sub');
-            document.getElementById('prd-cabo-nome').textContent    = _g('res-cabo-nome');
-            document.getElementById('prd-cabo-sub').textContent     = _g('res-cabo-sub');
-
-            // Cards de resultado
-            document.getElementById('prd-potencia').textContent     = _g('res-potencia');
-            document.getElementById('prd-demanda').textContent      = _g('res-demanda');
-            document.getElementById('prd-fd').textContent           = _g('res-fd-sub');
-            document.getElementById('prd-fp').textContent           = _g('res-fp');
-            document.getElementById('prd-corrente').textContent     = _g('res-corrente');
-            document.getElementById('prd-corrente-sub').textContent = _g('res-corrente-sub');
-            document.getElementById('prd-disjuntor').textContent    = _g('res-disjuntor');
-            document.getElementById('prd-disj-sub').textContent     = _g('res-disj-sub');
-            document.getElementById('prd-fio').textContent          = _g('res-fio');
-            document.getElementById('prd-fio-sub').textContent      = _g('res-fio-sub');
-
-            // Circuitos — clonar do resultado
-            const circSrc = document.getElementById('res-circuitos');
-            const circDst = document.getElementById('prd-circuitos');
-            if (circSrc && circDst) {
-                circDst.innerHTML = '';
-                circSrc.querySelectorAll('div').forEach(row => {
-                    const clone = document.createElement('div');
-                    clone.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:3px;';
-                    const nome = row.querySelector('span')?.textContent || '';
-                    const tags = [...row.querySelectorAll('span')].slice(1).map(t => {
-                        const bg = t.style.background || '#e2e8f0';
-                        const col = t.style.color || '#334155';
-                        return '<span style="font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;background:' + bg + ';color:' + col + ';">' + t.textContent + '</span>';
-                    }).join(' ');
-                    clone.innerHTML = '<span style="font-size:10px;font-weight:700;color:#334155;">' + nome + '</span><div style="display:flex;gap:3px;">' + tags + '</div>';
-                    circDst.appendChild(clone);
-                });
-            }
-
-            // Quadro — clonar do resultado
-            const qdSrc = document.getElementById('res-quadro');
-            const qdDst = document.getElementById('prd-quadro');
-            if (qdSrc && qdDst) qdDst.innerHTML = qdSrc.innerHTML;
-            const qdObs = document.getElementById('res-quadro-obs');
-            if (qdObs) document.getElementById('prd-quadro-obs').textContent = qdObs.textContent;
+            const _g = id => document.getElementById(id)?.textContent || '—';
+            document.getElementById('prd-potencia').textContent  = _g('res-potencia');
+            document.getElementById('prd-demanda').textContent   = _g('res-demanda');
+            document.getElementById('prd-corrente').textContent  = _g('res-corrente');
+            document.getElementById('prd-disjuntor').textContent = _g('res-disjuntor') + ' — ' + _g('res-disj-sub');
+            document.getElementById('prd-fio').textContent       = _g('res-fio') + ' (' + _g('res-fio-sub') + ')';
+            document.getElementById('prd-fd').textContent        = _g('res-fd-sub');
 
             // Lista de equipamentos
             const itens = [];
@@ -2828,50 +2848,110 @@
 
         function carregarDoHistorico(item) {
             if (!confirm('Carregar este orçamento?')) return;
-            document.getElementById('nomeCliente').value     = item.cliente    || '';
-            document.getElementById('enderecoCliente').value = item.endereco   || '';
-            document.getElementById('telefoneCliente').value = item.telefone   || '';
-            document.getElementById('nomePrestador').value   = item.prestador  || '';
-            document.getElementById('detalhesServico').value = item.detalhes   || '';
-            if (document.getElementById('dataServico'))  document.getElementById('dataServico').value  = item.data  || '';
-            if (document.getElementById('horaServico'))  document.getElementById('horaServico').value  = item.hora  || '';
-            if (document.getElementById('inputGarantia')) document.getElementById('inputGarantia').value = item.garantia || '90';
+            document.getElementById('nomeCliente').value      = item.cliente;
+            document.getElementById('enderecoCliente').value  = item.endereco || '';
+            document.getElementById('telefoneCliente').value  = item.telefone || '';
+            document.getElementById('nomePrestador').value    = item.prestador;
+            document.getElementById('detalhesServico').value  = item.detalhes;
 
-            // Recriar cards de serviços
-            const sContainer = document.getElementById('services-container');
-            sContainer.innerHTML = '';
-            (item.itens || []).forEach(s => {
-                adicionarServico();
-                const row = sContainer.lastElementChild;
-                if (!row) return;
-                const nameInp = row.querySelector('.service-name');
-                const priceInp = row.querySelector('.service-price');
-                const qtyInp = row.querySelector('.qty-value');
-                if (nameInp)  nameInp.value  = s.nome || '';
-                if (priceInp) { priceInp.value = (s.unitario || 0).toFixed(2).replace('.', ','); formatarMoeda(priceInp); }
-                if (qtyInp)   qtyInp.value   = s.qtd || 1;
+            const container = document.getElementById('services-container');
+            container.innerHTML = '';
+
+            item.itens.forEach(servico => {
+                const div = document.createElement('div');
+                div.className = 'service-row bg-white p-3 rounded-2xl border border-slate-200 shadow-sm relative';
+                const select = document.createElement('select');
+                select.className = 'service-select w-full p-2 bg-slate-50 border border-slate-200 rounded-lg text-sm font-bold text-slate-700 outline-none';
+                select.onchange = function() { atualizarPrecoInput(this); };
+
+                state.meusServicos.forEach(s => {
+                    const opt = document.createElement('option');
+                    opt.value = s.nome;
+                    opt.textContent = s.nome;
+                    opt.dataset.min = s.min;
+                    if (s.nome === servico.nome) opt.selected = true;
+                    select.appendChild(opt);
+                });
+
+                const valUnit = servico.unitario
+                    ? servico.unitario.toFixed(2).replace('.', ',')
+                    : '0,00';
+
+                div.innerHTML = `
+                    <div class="mb-2 pr-6"></div>
+                    <div class="flex gap-2">
+                        <div class="relative flex-grow">
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs font-bold">R$</span>
+                            <input type="text" class="service-price w-full pl-8 p-2 bg-white border border-slate-200 rounded-lg text-sm font-bold outline-none" onkeyup="formatarMoeda(this)" inputmode="numeric">
+                        </div>
+                        <div class="flex items-center border border-slate-200 rounded-lg bg-slate-50 w-24">
+                            <button onclick="alterarQtd(this,-1)" class="w-8 h-full text-slate-500 font-bold hover:bg-white rounded-l-lg transition-colors">-</button>
+                            <input type="number" class="qty-value flex-grow text-center text-sm font-bold text-slate-700 bg-transparent border-0 outline-none w-8" value="${sanitizar(servico.qtd)}" min="1" inputmode="numeric">
+                            <button onclick="alterarQtd(this,1)" class="w-8 h-full text-slate-500 font-bold hover:bg-white rounded-r-lg transition-colors">+</button>
+                        </div>
+                    </div>
+                    <button onclick="this.closest('.service-row').remove()" class="absolute top-3 right-3 text-slate-300 hover:text-red-400 transition-colors"><svg class="ico" aria-hidden="true"><use href="#i-trash-can"></use></svg></button>
+                `;
+                div.querySelector('.mb-2').appendChild(select);
+
+                // Seta o valor do preço depois do innerHTML
+                const priceInput = div.querySelector('.service-price');
+                priceInput.value = valUnit;
+
+                container.appendChild(div);
             });
 
-            // Recriar cards de materiais
-            const mContainer = document.getElementById('materials-container');
-            mContainer.innerHTML = '';
-            (item.itensMat || []).forEach(m => {
-                adicionarMaterial();
-                const row = mContainer.lastElementChild;
-                if (!row) return;
-                const nameInp = row.querySelector('.mat-name');
-                const priceInp = row.querySelector('.mat-price');
-                const qtyInp = row.querySelector('.qty-value');
-                if (nameInp)  nameInp.value  = m.nome || '';
-                if (priceInp) { priceInp.value = (m.unitario || 0).toFixed(2).replace('.', ','); formatarMoeda(priceInp); }
-                if (qtyInp)   qtyInp.value   = m.qtd || 1;
-            });
+            // ── RESTAURAR MATERIAIS (Bug 2 fix) ──────────────────
+            const matContainer = document.getElementById('materials-container');
+            matContainer.innerHTML = '';
+            if (item.itensMat && item.itensMat.length > 0) {
+                item.itensMat.forEach(mat => {
+                    adicionarMaterial();
+                    const matRows = matContainer.querySelectorAll('.material-row');
+                    const lastRow = matRows[matRows.length - 1];
+                    if (!lastRow) return;
+                    const matSelect = lastRow.querySelector('.mat-select');
+                    if (matSelect) {
+                        for (let i = 0; i < matSelect.options.length; i++) {
+                            if (matSelect.options[i].value === mat.nome ||
+                                mat.nome.startsWith(matSelect.options[i].value)) {
+                                matSelect.selectedIndex = i;
+                                matSelect.dispatchEvent(new Event('change'));
+                                break;
+                            }
+                        }
+                    }
+                    const priceInput = lastRow.querySelector('.mat-price');
+                    if (priceInput) {
+                        priceInput.value = mat.unitario
+                            ? mat.unitario.toFixed(2).replace('.', ',')
+                            : '0,00';
+                        formatarMoeda(priceInput);
+                    }
+                    const qtyInput = lastRow.querySelector('.qty-value');
+                    if (qtyInput) qtyInput.value = mat.qtd || 1;
+                });
+            }
 
-            if (document.getElementById('distanciaKm')) document.getElementById('distanciaKm').value = item.km || '';
-            if (document.getElementById('tempoHoras'))  document.getElementById('tempoHoras').value  = item.horas || '';
             toggleHistory();
+            document.getElementById('input-section').classList.remove('hidden');
+            document.getElementById('results-section').classList.add('hidden');
             _atualizarFAB();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+
+        function limparHistorico() {
+            if (bloqueado('limpar')) return;
+            if (confirm('Apagar todo o histórico?')) {
+                state.historico = [];
+                saveState();
+                renderHistoricoUI();
+            }
+        }
+
+        // ─────────────────────────────────────────────
+        // CONFIGURAÇÕES
+        // ─────────────────────────────────────────────
         function reiniciar() {
             document.getElementById('input-section').classList.remove('hidden');
             document.getElementById('results-section').classList.add('hidden');
@@ -2905,9 +2985,9 @@
             // Verifica ao menos 1 serviço com nome + valor preenchidos
             let temServico = false;
             document.querySelectorAll('.service-row').forEach(row => {
-                const nome  = row.querySelector('.service-name')?.value?.trim() || '';
+                const sel = row.querySelector('.service-select');
                 const preco = parseMoeda(row.querySelector('.service-price')?.value || '');
-                if (nome && preco > 0) temServico = true;
+                if (sel && sel.selectedIndex > 0 && preco > 0) temServico = true;
             });
             return temServico;
         }
@@ -3481,17 +3561,9 @@
             if (_modoTeste && v !== 'mono') { _toastTeste('Modo TESTE: apenas sistema Monofásico disponível.'); return; }
             cargaSistema = v;
             ['mono','bi','tri'].forEach(s => {
-                const cb = document.getElementById('cbtn-'+s);
-                if (cb) cb.className = s === v
+                document.getElementById('cbtn-'+s).className = s === v
                     ? 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-500 bg-blue-50 text-blue-700'
                     : 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-slate-200 text-slate-500';
-                // Sincronizar botões do acordeão do resultado
-                const rb = document.getElementById('rbb-'+s);
-                if (rb) {
-                    rb.style.borderColor = s === v ? '#3b82f6' : '#334155';
-                    rb.style.background  = s === v ? '#1e3a5f' : '#0f172a';
-                    rb.style.color       = s === v ? '#93c5fd' : '#64748b';
-                }
             });
         }
 
@@ -3503,13 +3575,6 @@
                 if (el) el.className = t === v
                     ? 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-500 bg-blue-50 text-blue-700'
                     : 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-slate-200 text-slate-500';
-                // Sincronizar botões do acordeão do resultado
-                const rb = document.getElementById('rbb-'+t);
-                if (rb) {
-                    rb.style.borderColor = t === v ? '#3b82f6' : '#334155';
-                    rb.style.background  = t === v ? '#1e3a5f' : '#0f172a';
-                    rb.style.color       = t === v ? '#93c5fd' : '#64748b';
-                }
             });
         }
 
@@ -4319,76 +4384,6 @@
         }
 
 
-        // ── Variáveis do cabo (recálculo inline) ──────────────
-        let _cabMaterial = 'cu';  // cu | al
-
-        // ── Tabelas NBR 5410 — correntes por método e bitola (Cu, PVC 70°C, 3 cond.) ──
-        const BITOLAS_CARGA  = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50];
-        const SERIE_DISJ_CARGA = [6,10,16,20,25,32,40,50,63,80,100,125,160,200];
-
-        // ── Funções dos acordeões do resultado ─────────────────
-        function _toggleResAcc(id) {
-            const body = document.getElementById('res-acc-' + id);
-            const arr  = document.getElementById('res-arr-' + id);
-            if (!body) return;
-            const isOpen = body.style.display === 'flex';
-            // Fecha todos
-            ['sis','cab'].forEach(x => {
-                const b = document.getElementById('res-acc-' + x);
-                const a = document.getElementById('res-arr-' + x);
-                if (b) b.style.display = 'none';
-                if (a) a.textContent = '▾';
-            });
-            if (!isOpen) {
-                body.style.display = 'flex';
-                arr.textContent = '▴';
-            }
-        }
-
-        function _setMaterialCabo(mat) {
-            _cabMaterial = mat;
-            document.getElementById('rbb-cu').style.borderColor = mat === 'cu' ? '#3b82f6' : '#334155';
-            document.getElementById('rbb-cu').style.background  = mat === 'cu' ? '#1e3a5f' : '#0f172a';
-            document.getElementById('rbb-cu').style.color       = mat === 'cu' ? '#93c5fd' : '#64748b';
-            document.getElementById('rbb-al').style.borderColor = mat === 'al' ? '#3b82f6' : '#334155';
-            document.getElementById('rbb-al').style.background  = mat === 'al' ? '#1e3a5f' : '#0f172a';
-            document.getElementById('rbb-al').style.color       = mat === 'al' ? '#93c5fd' : '#64748b';
-        }
-
-        function _resRecalcular() {
-            // Fecha acordeões
-            ['sis','cab'].forEach(x => {
-                const b = document.getElementById('res-acc-' + x);
-                const a = document.getElementById('res-arr-' + x);
-                if (b) b.style.display = 'none';
-                if (a) a.textContent = '▾';
-            });
-            // Sincronizar botões de sistema/tensão nos accordeões com o estado atual
-            _sincronizarBotoesResAcc();
-            calcularCarga();
-        }
-
-        function _sincronizarBotoesResAcc() {
-            // Sistema
-            ['mono','bi','tri'].forEach(s => {
-                const b = document.getElementById('rbb-' + s);
-                if (!b) return;
-                const on = (s === cargaSistema);
-                b.style.borderColor = on ? '#3b82f6' : '#334155';
-                b.style.background  = on ? '#1e3a5f' : '#0f172a';
-                b.style.color       = on ? '#93c5fd' : '#64748b';
-            });
-            // Tensão
-            [127,220,380].forEach(v => {
-                const b = document.getElementById('rbb-' + v);
-                if (!b) return;
-                const on = (v === tensaoCarga);
-                b.style.borderColor = on ? '#3b82f6' : '#334155';
-                b.style.background  = on ? '#1e3a5f' : '#0f172a';
-                b.style.color       = on ? '#93c5fd' : '#64748b';
-            });
-        }
-
         function calcularCarga() {
             const itens = document.querySelectorAll('#carga-itens > div');
             if (itens.length === 0) {
@@ -4398,102 +4393,73 @@
 
             const fd     = parseFloat(document.getElementById('carga-tipo-inst')?.value) || 1.0;
             const tensao = tensaoCarga || 127;
-            const metodo = document.getElementById('rbb-metodo')?.value || 'B1';
-            const fAl    = _cabMaterial === 'al' ? 0.78 : 1.0;
+            const fpMedio = 0.92;
 
-            // ── Carga instalada + fp ponderado (CORRETO) ────────────
-            let cargaInstalada = 0, somaPxFP = 0;
+            let cargaInstalada = 0;
             itens.forEach(row => {
                 const w   = parseFloat(row.querySelector('.carga-watts')?.value) || 0;
-                const fp  = parseFloat(row.querySelector('.carga-fp')?.value)    || 1.0;
                 const qtd = parseFloat(row.querySelector('.carga-qtd')?.value)   || 1;
-                const pot = w * qtd;
-                cargaInstalada += pot;
-                somaPxFP       += pot * fp;
+                cargaInstalada += w * qtd;
             });
-            const fpPonderado  = cargaInstalada > 0 ? somaPxFP / cargaInstalada : 0.92;
+
             const cargaDemanda = Math.round(cargaInstalada * fd);
 
-            // ── Corrente Ib — CORRIGIDA ──────────────────────────────
-            // Mono: I = P / (V × fp)
-            // Bi:   I = P / (V × fp)  — V é a tensão entre fases
-            // Tri:  I = P / (√3 × V × fp)
-            let Ib;
-            if (cargaSistema === 'tri') Ib = cargaDemanda / (Math.sqrt(3) * tensao * fpPonderado);
-            else                       Ib = cargaDemanda / (tensao * fpPonderado);
-            Ib = Math.ceil(Ib * 10) / 10;
+            let corrente;
+            if (cargaSistema === 'tri')     corrente = cargaDemanda / (Math.sqrt(3) * tensao * fpMedio);
+            else if (cargaSistema === 'bi') corrente = cargaDemanda / (2 * tensao * fpMedio);
+            else                           corrente = cargaDemanda / (tensao * fpMedio);
+            corrente = Math.ceil(corrente * 10) / 10;
 
-            // ── Bitola mínima — tabela correta por método e material ──
-            const tabMetodo = CORRENTES_NBR[metodo] || CORRENTES_NBR['B1'];
-            let fioB = null, fioIz = 0;
-            for (const b of BITOLAS_CARGA) {
-                const Iz = Math.round(tabMetodo[b] * fAl);
-                if (Iz >= Ib) { fioB = b; fioIz = Iz; break; }
-            }
-            const fioStr = fioB ? fioB + ' mm²' : '> 50 mm²';
-            const fioIzStr = fioIz ? fioIz + 'A' : '—';
+            const serieDisj = [6,10,16,20,25,32,40,50,63,80,100,125,160,200];
+            const disjuntor = serieDisj.find(d => d >= corrente) || serieDisj[serieDisj.length - 1];
 
-            // ── Disjuntor ────────────────────────────────────────────
-            const disjuntor = SERIE_DISJ_CARGA.find(d => d >= Ib) || SERIE_DISJ_CARGA[SERIE_DISJ_CARGA.length - 1];
-            const disjPolo  = cargaSistema === 'tri' ? 'Tetrapolar' : cargaSistema === 'bi' ? 'Tripolar' : 'Bipolar';
-            const alertaDisj = fioIz > 0 && disjuntor > fioIz;
+            const tabelaBitola = [
+                {b:1.5,  Iz:13}, {b:2.5, Iz:17}, {b:4,  Iz:23},
+                {b:6,    Iz:29}, {b:10,  Iz:39}, {b:16, Iz:52},
+                {b:25,   Iz:66}, {b:35,  Iz:83}, {b:50, Iz:99},
+            ];
+            const fioRec = tabelaBitola.find(t => t.Iz >= corrente);
+            const fioStr = fioRec ? fioRec.b + ' mm²' : '> 50 mm²';
+            const fioIz  = fioRec ? fioRec.Iz + 'A' : '—';
 
-            // ── Nomes sistema e cabo ─────────────────────────────────
             const sistemaNome = cargaSistema === 'tri' ? 'Trifásico' : cargaSistema === 'bi' ? 'Bifásico' : 'Monofásico';
-            const sistemaSub  = cargaSistema === 'tri' ? tensao+'V — 3F + N + PE'
-                              : cargaSistema === 'bi'  ? tensao+'V — 2F + N'
-                              :                          tensao+'V — F + N + PE';
-            const caboNome = (_cabMaterial === 'al' ? 'Alumínio' : 'Cobre') + ' — PVC';
-            const caboSub  = 'Método ' + metodo + (_cabMaterial === 'al' ? ' (Al)' : '');
+            const sistemaSub  = cargaSistema === 'tri' ? tensao+'V — 3F + N + PE' : cargaSistema === 'bi' ? tensao+'V — 2F + N' : tensao+'V — F + N + PE';
+            const disjPolo    = cargaSistema === 'tri' ? 'Tetrapolar' : cargaSistema === 'bi' ? 'Tripolar' : 'Bipolar';
 
-            // ── Circuitos — tensão automática por tipo ───────────────
-            // Chuveiro sempre 220V; demais seguem a tensão do sistema
-            const vSis = tensao === 380 ? 220 : tensao;
+            // Circuitos sugeridos NBR 5410
             const circuitos = [
-                {nome:'Iluminação geral',      bitola:'1,5 mm²', disj:'B 10A', tens: vSis+'V', dr:false},
-                {nome:'Tomadas TUG',           bitola:'2,5 mm²', disj:'C 20A', tens: vSis+'V', dr:false},
-                {nome:'Chuveiro (TUE)',         bitola:'10 mm²',  disj:'C 50A', tens:'220V',    dr:true},
-                {nome:'Ar-condicionado (TUE)', bitola:'2,5 mm²', disj:'C 20A', tens:'220V',    dr:false},
-                {nome:'Cozinha / Serviço',     bitola:'2,5 mm²', disj:'C 20A', tens: vSis+'V', dr:true},
+                {nome:'💡 Iluminação geral',      bitola:'1,5 mm²', disj:'B 10A', tens:tensao+'V',  dr:false},
+                {nome:'🔌 Tomadas TUG',            bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V',  dr:false},
+                {nome:'🚿 Chuveiro (TUE)',          bitola:'10 mm²',  disj:'C 50A', tens:'220V',      dr:true},
+                {nome:'❄️ Ar-condicionado (TUE)',   bitola:'2,5 mm²', disj:'C 20A', tens:'220V',      dr:false},
+                {nome:'🍳 Cozinha / Serviço',       bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V',  dr:true},
             ];
 
-            // ── Quadro de distribuição ───────────────────────────────
+            // Quadro de distribuição
             const circQD = [
-                {nome:'Disjuntor geral',  amp: disjuntor+'A', cor:'#ef4444'},
-                {nome:'Chuveiro',         amp:'50A',           cor:'#f97316'},
-                {nome:'Iluminação',       amp:'10A',           cor:'#eab308'},
-                {nome:'Tomadas TUG',      amp:'20A',           cor:'#eab308'},
-                {nome:'Ar-condicionado',  amp:'20A',           cor:'#22c55e'},
-                {nome:'Cozinha/Serviço',  amp:'20A',           cor:'#3b82f6'},
-                {nome:'Reserva',          amp:'—',             cor:'#334155', reserva:true},
-                {nome:'Reserva',          amp:'—',             cor:'#334155', reserva:true},
+                {nome:'Disjuntor geral',  amp:disjuntor+'A', cor:'#ef4444'},
+                {nome:'Chuveiro',         amp:'50A',         cor:'#f97316'},
+                {nome:'Iluminação',       amp:'10A',         cor:'#eab308'},
+                {nome:'Tomadas TUG',      amp:'20A',         cor:'#eab308'},
+                {nome:'Ar-condicionado',  amp:'20A',         cor:'#22c55e'},
+                {nome:'Cozinha/Serviço',  amp:'20A',         cor:'#3b82f6'},
+                {nome:'Reserva',          amp:'—',           cor:'#334155', reserva:true},
+                {nome:'Reserva',          amp:'—',           cor:'#334155', reserva:true},
             ];
 
-            // ── Preencher HTML ───────────────────────────────────────
+            // Preencher campos
+            document.getElementById('res-potencia').textContent    = cargaInstalada.toLocaleString('pt-BR') + ' W';
+            document.getElementById('res-demanda').textContent     = cargaDemanda.toLocaleString('pt-BR') + ' VA';
+            document.getElementById('res-fd-sub').textContent      = 'fd = ' + (fd * 100).toFixed(0) + '%';
+            document.getElementById('res-corrente').textContent    = corrente.toFixed(1) + ' A';
+            document.getElementById('res-disjuntor').textContent   = disjuntor + ' A';
+            document.getElementById('res-disj-sub').textContent    = 'Curva C — ' + disjPolo;
+            document.getElementById('res-fio').textContent         = fioStr;
+            document.getElementById('res-fio-sub').textContent     = 'Iz = ' + fioIz + ' — método B1';
+            document.getElementById('res-dr').textContent          = '30 mA';
+            document.getElementById('res-dr-sub').textContent      = 'Obrig. áreas molhadas';
             document.getElementById('res-sistema-nome').textContent = sistemaNome;
             document.getElementById('res-sistema-sub').textContent  = sistemaSub;
-            document.getElementById('res-cabo-nome').textContent    = caboNome;
-            document.getElementById('res-cabo-sub').textContent     = caboSub;
-            document.getElementById('res-potencia').textContent     = cargaInstalada.toLocaleString('pt-BR') + ' W';
-            document.getElementById('res-demanda').textContent      = cargaDemanda.toLocaleString('pt-BR') + ' VA';
-            document.getElementById('res-fd-sub').textContent       = 'fd = ' + (fd * 100).toFixed(0) + '%';
-            document.getElementById('res-fp').textContent           = fpPonderado.toFixed(3);
-            document.getElementById('res-corrente').textContent     = Ib.toFixed(1) + ' A';
-            document.getElementById('res-corrente-sub').textContent = cargaSistema === 'tri' ? 'P ÷ (√3 × V × fp)' : 'P ÷ (V × fp)';
-            document.getElementById('res-disjuntor').textContent    = disjuntor + ' A';
-            document.getElementById('res-disj-sub').textContent     = 'Curva C — ' + disjPolo;
-            document.getElementById('res-fio').textContent          = fioStr;
-            document.getElementById('res-fio-sub').textContent      = 'Iz = ' + fioIzStr + ' — ' + metodo + (_cabMaterial === 'al' ? ' Al' : '');
-
-            // Alerta
-            const alertEl = document.getElementById('res-alerta');
-            if (alertaDisj) {
-                const proxBitola = BITOLAS_CARGA.find(b => Math.round((tabMetodo[b]||0)*fAl) >= disjuntor);
-                alertEl.textContent = '⚠️ Disjuntor ' + disjuntor + 'A > Iz ' + fioIz + 'A do cabo — aumente para ' + (proxBitola ? proxBitola + ' mm²' : '> 50 mm²');
-                alertEl.style.display = 'block';
-            } else {
-                alertEl.style.display = 'none';
-            }
 
             // Circuitos
             const circEl = document.getElementById('res-circuitos');
@@ -4522,15 +4488,12 @@
                     '<span style="font-size:10px;font-weight:900;color:#fcd34d;">' + c.amp + '</span>';
                 qdEl.appendChild(item);
             });
-            document.getElementById('res-quadro-obs').textContent =
-                circQD.length + ' posições · ' + circQD.filter(c=>c.reserva).length + ' reservas (NBR 5410 obrig.)';
-
-            // Sincronizar botões dos acordeões com estado atual
-            _sincronizarBotoesResAcc();
+            document.getElementById('res-quadro-obs').textContent = circQD.length + ' posições · ' + circQD.filter(c=>c.reserva).length + ' reservas (NBR 5410 obrig.)';
 
             document.getElementById('resultado-carga').classList.remove('hidden');
             document.getElementById('resultado-carga').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
+
         // — QUEDA DE TENSÃO — variáveis de estado
         let quedaSistema  = 'mono';
         let quedaTipoCirc = 'terminal';
