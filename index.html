@@ -341,11 +341,11 @@
                             </div>
                             <div id="services-container" class="space-y-3"></div>
                             <button onclick="adicionarServico()" class="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-xs font-bold text-slate-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
-                                <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR ITEM
+                                <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR SERVIÇO
                             </button>
                             <div class="relative">
                                 <svg class="ico absolute top-3 left-3 text-slate-300 text-xs" aria-hidden="true"><use href="#i-pen-to-square"></use></svg>
-                                <textarea id="detalhesServico" rows="2" placeholder="Observações técnicas (Ex: fio 2,5mm, disjuntor 20A...)" class="input-field w-full pl-9 p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none resize-none placeholder-slate-400 transition-all"></textarea>
+                                <textarea id="detalhesServico" rows="2" placeholder="Ex: Instalar tomada 20A, passar fio 2,5mm, disjuntor C20..." class="input-field w-full pl-9 p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none resize-none placeholder-slate-400 transition-all"></textarea>
                             </div>
                         </div>
 
@@ -361,6 +361,10 @@
                             <button onclick="adicionarMaterial()" class="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-xs font-bold text-slate-500 hover:border-orange-500 hover:text-orange-600 hover:bg-orange-50 transition-all flex items-center justify-center gap-2 active:scale-95 touch-manipulation">
                                 <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR MATERIAL
                             </button>
+                            <div class="relative">
+                                <svg class="ico absolute top-3 left-3 text-slate-300 text-xs" aria-hidden="true"><use href="#i-pen-to-square"></use></svg>
+                                <textarea id="detalhesMaterial" rows="2" placeholder="Ex: Fio 2,5mm 10m, disjuntor C20A, tomada 20A..." class="input-field w-full pl-9 p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium text-slate-700 focus:outline-none resize-none placeholder-slate-400 transition-all"></textarea>
+                            </div>
                         </div>
 
                         <!-- Custos -->
@@ -1316,45 +1320,87 @@
 
     <!-- ÁREA DE IMPRESSÃO — DEMANDA ELÉTRICA -->
     <div id="printable-demanda" class="hidden">
-        <div style="font-family:'Inter',sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:40px;">
-            <div style="background:#0f172a;padding:24px;border-radius:12px;margin-bottom:24px;text-align:center;">
-                <p style="color:#93c5fd;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin:0 0 4px;">Eletricista Power — Ferramenta CALC NBR</p>
-                <h1 style="color:white;font-size:20px;font-weight:900;text-transform:uppercase;margin:0;">Cálculo de Demanda Elétrica</h1>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;" id="print-demanda-grid">
-                <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;">
-                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 4px;">Carga Instalada</p>
-                    <p style="font-size:20px;font-weight:900;color:#0f172a;margin:0;" id="prd-potencia">—</p>
+        <div style="font-family:'Inter',sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:32px;">
+            <!-- Cabeçalho -->
+            <div style="background:#0f172a;padding:16px 20px;border-radius:10px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;">
+                <div>
+                    <p style="color:#93c5fd;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 2px;">Eletricista Power</p>
+                    <p style="color:white;font-size:16px;font-weight:900;margin:0;">Demanda Elétrica NBR 5410</p>
                 </div>
-                <div style="background:#fefce8;padding:16px;border-radius:10px;border:1px solid #fde047;">
-                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 4px;">Carga Demanda</p>
-                    <p style="font-size:20px;font-weight:900;color:#854d0e;margin:0;" id="prd-demanda">—</p>
-                </div>
-                <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;">
-                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 4px;">Corrente</p>
-                    <p style="font-size:20px;font-weight:900;color:#0f172a;margin:0;" id="prd-corrente">—</p>
-                </div>
-                <div style="background:#fefce8;padding:16px;border-radius:10px;border:1px solid #fde047;">
-                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 4px;">Disjuntor</p>
-                    <p style="font-size:20px;font-weight:900;color:#854d0e;margin:0;" id="prd-disjuntor">—</p>
-                </div>
-                <div style="background:#f0fdf4;padding:16px;border-radius:10px;border:1px solid #bbf7d0;">
-                    <p style="font-size:10px;font-weight:700;color:#166534;text-transform:uppercase;margin:0 0 4px;">Fio Mínimo</p>
-                    <p style="font-size:20px;font-weight:900;color:#14532d;margin:0;" id="prd-fio">—</p>
-                </div>
-                <div style="background:#eff6ff;padding:16px;border-radius:10px;border:1px solid #bfdbfe;">
-                    <p style="font-size:10px;font-weight:700;color:#1e40af;text-transform:uppercase;margin:0 0 4px;">Fator Demanda</p>
-                    <p style="font-size:20px;font-weight:900;color:#1e3a8a;margin:0;" id="prd-fd">—</p>
+                <div style="text-align:right;">
+                    <p style="color:#64748b;font-size:9px;margin:0;">ABNT NBR 5410:2004</p>
+                    <p style="color:#64748b;font-size:9px;margin:2px 0 0;" id="prd-data">—</p>
                 </div>
             </div>
-            <div id="prd-equipamentos" style="margin-bottom:24px;"></div>
-            <div style="text-align:center;font-size:11px;color:#94a3b8;border-top:1px dashed #cbd5e1;padding-top:16px;">
+            <!-- Badges sistema + cabo -->
+            <div style="display:flex;gap:8px;margin-bottom:14px;">
+                <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;background:#dbeafe;border:1px solid #93c5fd;border-radius:8px;">
+                    <span style="font-size:14px;">🔌</span>
+                    <div>
+                        <div style="font-size:12px;font-weight:900;color:#1e3a8a;" id="prd-sistema-nome">—</div>
+                        <div style="font-size:9px;color:#3b82f6;" id="prd-sistema-sub">—</div>
+                    </div>
+                </div>
+                <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 10px;background:#fff7ed;border:1px solid #fb923c;border-radius:8px;">
+                    <span style="font-size:14px;">🔧</span>
+                    <div>
+                        <div style="font-size:12px;font-weight:900;color:#9a3412;" id="prd-cabo-nome">—</div>
+                        <div style="font-size:9px;color:#f97316;" id="prd-cabo-sub">—</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Título seção -->
+            <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Resultados do cálculo</p>
+            <!-- Grid de resultados -->
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;" id="print-demanda-grid">
+                <div style="background:#f8fafc;padding:12px;border-radius:8px;border:1px solid #e2e8f0;">
+                    <p style="font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 3px;">Carga Instalada</p>
+                    <p style="font-size:18px;font-weight:900;color:#0f172a;margin:0;" id="prd-potencia">—</p>
+                </div>
+                <div style="background:#fefce8;padding:12px;border-radius:8px;border:1px solid #fde047;">
+                    <p style="font-size:9px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 3px;">Carga Demanda</p>
+                    <p style="font-size:18px;font-weight:900;color:#854d0e;margin:0;" id="prd-demanda">—</p>
+                    <p style="font-size:9px;color:#a16207;margin:2px 0 0;" id="prd-fd">—</p>
+                </div>
+                <div style="background:#f5f3ff;padding:12px;border-radius:8px;border:1px solid #ddd6fe;">
+                    <p style="font-size:9px;font-weight:700;color:#6d28d9;text-transform:uppercase;margin:0 0 3px;">fp médio ponderado</p>
+                    <p style="font-size:18px;font-weight:900;color:#5b21b6;margin:0;" id="prd-fp">—</p>
+                </div>
+                <div style="background:#fff7ed;padding:12px;border-radius:8px;border:1px solid #fed7aa;">
+                    <p style="font-size:9px;font-weight:700;color:#c2410c;text-transform:uppercase;margin:0 0 3px;">Corrente Ib</p>
+                    <p style="font-size:18px;font-weight:900;color:#9a3412;margin:0;" id="prd-corrente">—</p>
+                    <p style="font-size:9px;color:#c2410c;margin:2px 0 0;" id="prd-corrente-sub">—</p>
+                </div>
+                <div style="background:#fefce8;padding:12px;border-radius:8px;border:1px solid #fde047;">
+                    <p style="font-size:9px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 3px;">Disjuntor Geral</p>
+                    <p style="font-size:18px;font-weight:900;color:#854d0e;margin:0;" id="prd-disjuntor">—</p>
+                    <p style="font-size:9px;color:#a16207;margin:2px 0 0;" id="prd-disj-sub">—</p>
+                </div>
+                <div style="background:#f0fdf4;padding:12px;border-radius:8px;border:1px solid #bbf7d0;">
+                    <p style="font-size:9px;font-weight:700;color:#166534;text-transform:uppercase;margin:0 0 3px;">Bitola Mínima</p>
+                    <p style="font-size:18px;font-weight:900;color:#14532d;margin:0;" id="prd-fio">—</p>
+                    <p style="font-size:9px;color:#166534;margin:2px 0 0;" id="prd-fio-sub">—</p>
+                </div>
+            </div>
+            <!-- Circuitos sugeridos -->
+            <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin:0 0 6px;">Circuitos sugeridos</p>
+            <div id="prd-circuitos" style="margin-bottom:14px;"></div>
+            <!-- Quadro de distribuição -->
+            <div style="background:#0f172a;border-radius:10px;padding:12px;margin-bottom:14px;">
+                <p style="font-size:9px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.06em;margin:0 0 8px;">Quadro de Distribuição</p>
+                <div id="prd-quadro" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;"></div>
+                <p id="prd-quadro-obs" style="font-size:8px;color:#334155;text-align:center;margin:6px 0 0;"></p>
+            </div>
+            <!-- Equipamentos -->
+            <div id="prd-equipamentos" style="margin-bottom:14px;"></div>
+            <!-- Rodapé -->
+            <div style="text-align:center;font-size:9px;color:#94a3b8;border-top:1px dashed #cbd5e1;padding-top:12px;">
                 <p>Ref: ABNT NBR 5410:2004 — Gerado via <strong>Eletricista Power</strong></p>
             </div>
         </div>
     </div>
 
-    <!-- ÁREA DE IMPRESSÃO (PDF) -->
+        <!-- ÁREA DE IMPRESSÃO (PDF) -->
     <div id="printable-area" class="hidden">
         <div style="font-family:'Inter',sans-serif;color:#334155;max-width:800px;margin:0 auto;padding:40px;position:relative;">
 
@@ -2749,13 +2795,57 @@
         // DEMANDA — COMPARTILHAR / IMPRIMIR / PDF
         // ─────────────────────────────────────────────
         function _preencherPrintDemanda() {
-            const _g = id => document.getElementById(id)?.textContent || '—';
-            document.getElementById('prd-potencia').textContent  = _g('res-potencia');
-            document.getElementById('prd-demanda').textContent   = _g('res-demanda');
-            document.getElementById('prd-corrente').textContent  = _g('res-corrente');
-            document.getElementById('prd-disjuntor').textContent = _g('res-disjuntor') + ' — ' + _g('res-disj-sub');
-            document.getElementById('prd-fio').textContent       = _g('res-fio') + ' (' + _g('res-fio-sub') + ')';
-            document.getElementById('prd-fd').textContent        = _g('res-fd-sub');
+            const _g  = id => document.getElementById(id)?.textContent || '—';
+            const _gs = id => document.getElementById(id)?.style || {};
+
+            // Data atual
+            const hoje = new Date();
+            const dataStr = hoje.toLocaleDateString('pt-BR');
+            document.getElementById('prd-data').textContent = dataStr;
+
+            // Sistema e cabo
+            document.getElementById('prd-sistema-nome').textContent = _g('res-sistema-nome');
+            document.getElementById('prd-sistema-sub').textContent  = _g('res-sistema-sub');
+            document.getElementById('prd-cabo-nome').textContent    = _g('res-cabo-nome');
+            document.getElementById('prd-cabo-sub').textContent     = _g('res-cabo-sub');
+
+            // Cards de resultado
+            document.getElementById('prd-potencia').textContent     = _g('res-potencia');
+            document.getElementById('prd-demanda').textContent      = _g('res-demanda');
+            document.getElementById('prd-fd').textContent           = _g('res-fd-sub');
+            document.getElementById('prd-fp').textContent           = _g('res-fp');
+            document.getElementById('prd-corrente').textContent     = _g('res-corrente');
+            document.getElementById('prd-corrente-sub').textContent = _g('res-corrente-sub');
+            document.getElementById('prd-disjuntor').textContent    = _g('res-disjuntor');
+            document.getElementById('prd-disj-sub').textContent     = _g('res-disj-sub');
+            document.getElementById('prd-fio').textContent          = _g('res-fio');
+            document.getElementById('prd-fio-sub').textContent      = _g('res-fio-sub');
+
+            // Circuitos — clonar do resultado
+            const circSrc = document.getElementById('res-circuitos');
+            const circDst = document.getElementById('prd-circuitos');
+            if (circSrc && circDst) {
+                circDst.innerHTML = '';
+                circSrc.querySelectorAll('div').forEach(row => {
+                    const clone = document.createElement('div');
+                    clone.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:5px 8px;border-radius:6px;background:#f8fafc;border:1px solid #e2e8f0;margin-bottom:3px;';
+                    const nome = row.querySelector('span')?.textContent || '';
+                    const tags = [...row.querySelectorAll('span')].slice(1).map(t => {
+                        const bg = t.style.background || '#e2e8f0';
+                        const col = t.style.color || '#334155';
+                        return '<span style="font-size:8px;font-weight:700;padding:1px 5px;border-radius:4px;background:' + bg + ';color:' + col + ';">' + t.textContent + '</span>';
+                    }).join(' ');
+                    clone.innerHTML = '<span style="font-size:10px;font-weight:700;color:#334155;">' + nome + '</span><div style="display:flex;gap:3px;">' + tags + '</div>';
+                    circDst.appendChild(clone);
+                });
+            }
+
+            // Quadro — clonar do resultado
+            const qdSrc = document.getElementById('res-quadro');
+            const qdDst = document.getElementById('prd-quadro');
+            if (qdSrc && qdDst) qdDst.innerHTML = qdSrc.innerHTML;
+            const qdObs = document.getElementById('res-quadro-obs');
+            if (qdObs) document.getElementById('prd-quadro-obs').textContent = qdObs.textContent;
 
             // Lista de equipamentos
             const itens = [];
@@ -3613,9 +3703,17 @@
             if (_modoTeste && v !== 'mono') { _toastTeste('Modo TESTE: apenas sistema Monofásico disponível.'); return; }
             cargaSistema = v;
             ['mono','bi','tri'].forEach(s => {
-                document.getElementById('cbtn-'+s).className = s === v
+                const cb = document.getElementById('cbtn-'+s);
+                if (cb) cb.className = s === v
                     ? 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-500 bg-blue-50 text-blue-700'
                     : 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-slate-200 text-slate-500';
+                // Sincronizar botões do acordeão do resultado
+                const rb = document.getElementById('rbb-'+s);
+                if (rb) {
+                    rb.style.borderColor = s === v ? '#3b82f6' : '#334155';
+                    rb.style.background  = s === v ? '#1e3a5f' : '#0f172a';
+                    rb.style.color       = s === v ? '#93c5fd' : '#64748b';
+                }
             });
         }
 
@@ -3627,6 +3725,13 @@
                 if (el) el.className = t === v
                     ? 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-500 bg-blue-50 text-blue-700'
                     : 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-slate-200 text-slate-500';
+                // Sincronizar botões do acordeão do resultado
+                const rb = document.getElementById('rbb-'+t);
+                if (rb) {
+                    rb.style.borderColor = t === v ? '#3b82f6' : '#334155';
+                    rb.style.background  = t === v ? '#1e3a5f' : '#0f172a';
+                    rb.style.color       = t === v ? '#93c5fd' : '#64748b';
+                }
             });
         }
 
@@ -4440,12 +4545,6 @@
         let _cabMaterial = 'cu';  // cu | al
 
         // ── Tabelas NBR 5410 — correntes por método e bitola (Cu, PVC 70°C, 3 cond.) ──
-        const CORRENTES_CARGA = {
-            B1: {1.5:13, 2.5:18, 4:24, 6:31, 10:43, 16:57, 25:73, 35:89,  50:108},
-            B2: {1.5:13, 2.5:17, 4:23, 6:29, 10:39, 16:52, 25:66, 35:83,  50:99 },
-            C:  {1.5:15, 2.5:20, 4:27, 6:35, 10:47, 16:63, 25:81, 35:99,  50:119},
-            E:  {1.5:17, 2.5:23, 4:31, 6:40, 10:54, 16:73, 25:94, 35:114, 50:138},
-        };
         const BITOLAS_CARGA  = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50];
         const SERIE_DISJ_CARGA = [6,10,16,20,25,32,40,50,63,80,100,125,160,200];
 
@@ -4547,7 +4646,7 @@
             Ib = Math.ceil(Ib * 10) / 10;
 
             // ── Bitola mínima — tabela correta por método e material ──
-            const tabMetodo = CORRENTES_CARGA[metodo] || CORRENTES_CARGA['B1'];
+            const tabMetodo = CORRENTES_NBR[metodo] || CORRENTES_NBR['B1'];
             let fioB = null, fioIz = 0;
             for (const b of BITOLAS_CARGA) {
                 const Iz = Math.round(tabMetodo[b] * fAl);
