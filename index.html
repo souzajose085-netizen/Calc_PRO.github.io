@@ -203,7 +203,7 @@
                             Eletricista Power
                         </h1>
                         <p class="font-semibold" style="white-space:nowrap;font-size:9.7px;letter-spacing:0.01em;line-height:1;margin-top:-1px;">
-                            <span style="color:#f97316;">Crie Orçamentos</span><span style="color:#fff;"> Profissionais,</span><span style="color:#93c5fd;"> conquiste! 🏆</span>
+                            <span style="color:#f97316;">Crie Orçamentos</span><span style="color:#fff;"> Profissionais,</span><span style="color:#93c5fd;"> conquiste clientes 🏆</span>
                         </p>
                     </div>
                 </div>
@@ -867,46 +867,46 @@
 
                     <!-- Demanda mínima por cômodo -->
                     <div id="acc-nbr-comodo" class="bg-purple-50 rounded-xl border border-purple-100 overflow-hidden">
-                        <button onclick="toggleAccordion('acc-nbr-comodo'); setTimeout(() => { initComodoReferencia(); initGridComodosPre(); }, 50);" class="w-full p-3 flex justify-between items-center">
+                        <button onclick="toggleAccordion('acc-nbr-comodo'); setTimeout(initGridComodosPre, 50);" class="w-full p-3 flex justify-between items-center">
                             <span class="text-xs font-bold text-purple-700 uppercase">📐 Demanda mínima por cômodo (NBR 5410)</span>
                             <svg class="ico text-purple-400 text-xs accordion-icon" aria-hidden="true"><use href="#i-chevron-down"></use></svg>
                         </button>
                         <div class="accordion-content">
                             <div class="p-3 space-y-3">
 
-                                <!-- Sub-abas -->
-                                <div class="flex gap-1 bg-white rounded-xl p-1 border border-purple-100">
-                                    <button onclick="trocarSubAbaComodo('entrada')" id="stab-entrada" class="flex-1 py-2 rounded-lg text-xs font-bold bg-purple-600 text-white transition-all">Cômodos</button>
-                                    <button onclick="trocarSubAbaComodo('resultado')" id="stab-resultado" class="flex-1 py-2 rounded-lg text-xs font-bold text-purple-500 transition-all">Resultados</button>
+                                <!-- Planta da residência -->
+                                <div style="background:#faf8f4;border:1.5px solid #e8e0d0;border-radius:10px;padding:8px;">
+                                    <p style="font-size:9px;font-weight:700;color:#92877a;text-transform:uppercase;letter-spacing:.1em;text-align:center;margin-bottom:6px;">🏠 Planta da Residência — NBR 5410</p>
+                                    <div id="grid-comodos-pre" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#c8bfb0;border:1.5px solid #c8bfb0;border-radius:4px;overflow:hidden;"></div>
+                                    <p style="font-size:9px;color:#a09688;text-align:center;font-style:italic;margin-top:5px;">Toque para selecionar · toque novamente para remover</p>
                                 </div>
 
-                                <!-- Sub-aba: entrada -->
-                                <div id="saba-entrada" class="space-y-2">
-                                    <p class="text-[10px] text-slate-500">Adicione os cômodos, escolha Perímetro (m) ou Área (m²) e informe o valor.</p>
+                                <!-- Btn residência típica -->
+                                <button onclick="adicionarTodosComodos()" id="btn-todos-comodos"
+                                    class="w-full py-2 border border-purple-300 rounded-lg text-[11px] font-bold text-purple-600 hover:bg-purple-100 transition-all flex items-center justify-center gap-1">
+                                    <span id="ico-todos-comodos">+</span> Residência típica de uma vez
+                                </button>
 
-                                    <!-- CÔMODOS PRÉ-DEFINIDOS (NBR 5410) -->
-                                    <div class="bg-white border border-purple-200 rounded-xl p-3 space-y-2">
-                                        <p class="text-[10px] font-bold text-purple-600 uppercase tracking-wide">⚡ Adicionar cômodo pré-definido (NBR 5410)</p>
-                                        <p class="text-[10px] text-slate-400">Toque para adicionar com área mínima sugerida pela norma.</p>
-                                        <div class="grid grid-cols-2 gap-2" id="grid-comodos-pre"></div>
-                                        <button onclick="adicionarTodosComodos()" id="btn-todos-comodos" class="w-full py-2 border border-purple-300 rounded-xl text-[10px] font-bold text-purple-600 hover:bg-purple-50 transition-all flex items-center justify-center gap-1">
-                                            <span id="ico-todos-comodos">+</span> Adicionar todos de uma vez
-                                        </button>
-                                    </div>
+                                <!-- Label cômodos selecionados -->
+                                <p id="lbl-comodos-sel" class="text-[10px] font-bold text-slate-400 uppercase tracking-wide hidden">Cômodos selecionados</p>
 
-                                    <div id="comodos-lista" class="space-y-2"></div>
-                                    <button onclick="adicionarComodo()" id="btn-add-comodo" class="w-full py-2 border-2 border-dashed border-purple-300 rounded-xl text-xs font-bold text-purple-500 hover:bg-purple-100 transition-all flex items-center justify-center gap-1">
-                                        <svg class="ico" aria-hidden="true"><use href="#i-plus"></use></svg> ADICIONAR CÔMODO PERSONALIZADO
-                                    </button>
-                                    <button onclick="calcularDemandaComodo()" class="w-full py-2 rounded-xl text-xs font-black" style="background:#f97316;color:#000;">CALCULAR MÍNIMO NBR →</button>
-                                </div>
+                                <!-- Lista de cômodos adicionados -->
+                                <div id="comodos-lista" class="space-y-2"></div>
 
-                                <!-- Sub-aba: resultado -->
-                                <div id="saba-resultado" class="hidden">
-                                    <div id="res-comodo" class="space-y-2">
-                                        <p class="text-[10px] text-slate-400 text-center py-4">Adicione cômodos e clique em Calcular.</p>
-                                    </div>
-                                </div>
+                                <!-- Btn personalizado -->
+                                <button onclick="adicionarComodo()" id="btn-add-comodo"
+                                    class="w-full py-1.5 border-2 border-dashed border-purple-300 rounded-lg text-[11px] font-bold text-purple-500 hover:bg-purple-100 transition-all flex items-center justify-center gap-1">
+                                    <svg class="ico" aria-hidden="true"><use href="#i-plus"></use></svg> Personalizado
+                                </button>
+
+                                <!-- Resultado -->
+                                <div id="res-comodo" class="space-y-2"></div>
+
+                                <!-- Btn calcular -->
+                                <button onclick="calcularDemandaComodo()"
+                                    class="w-full py-2.5 rounded-xl text-xs font-black" style="background:#f97316;color:#000;">
+                                    CALCULAR MÍNIMO NBR →
+                                </button>
 
                             </div>
                         </div>
@@ -926,21 +926,40 @@
 
                     <div id="carga-itens" class="space-y-2"></div>
 
-                    <button id="btn-add-manual" onclick="addCargaItem()" class="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-xs font-bold text-slate-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center justify-center gap-2">
+                    <button id="btn-add-manual" onclick="addCargaItemEquip({nome:'Equipamento', w:0, fp:1.00})" class="w-full py-3 border-2 border-dashed border-slate-300 rounded-xl text-xs font-bold text-slate-500 hover:border-blue-500 hover:text-blue-600 hover:bg-blue-50 transition-all flex items-center justify-center gap-2">
                         <svg class="ico" aria-hidden="true"><use href="#i-circle-plus"></use></svg> ADICIONAR MANUALMENTE
                     </button>
-
-                    <div id="msg-pro-manual" style="display:none;align-items:center;justify-content:center;gap:8px;background:#fef9ee;border:1.5px solid #f59e0b;border-radius:12px;padding:10px 14px;font-size:11px;font-weight:700;color:#92400e;">
-                        <span style="font-size:15px;">⚡</span>
-                        <span>Quer mais? A versão PRO libera tudo sem limites — <a href="https://beacons.ai/josetecinstalation/eletronicos" target="_blank" style="color:#d97706;text-decoration:underline;">Clique aqui</a>!</span>
-                    </div>
 
                     <button onclick="calcularCarga()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl text-sm flex items-center justify-center gap-2">
                         <svg class="ico" aria-hidden="true"><use href="#i-calculator"></use></svg> CALCULAR DEMANDA ELÉTRICA
                     </button>
 
-                    <div id="resultado-carga" class="hidden bg-[#0f172a] text-white p-4 rounded-2xl space-y-3">
-                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">Resultado</p>
+                    <div id="resultado-carga" class="hidden bg-[#0f172a] text-white p-4 rounded-2xl space-y-4">
+
+                        <!-- Título -->
+                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">⚡ Resultado — Demanda Elétrica NBR 5410</p>
+
+                        <!-- Sistema + cabo -->
+                        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+                            <div id="res-sistema-badge" style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #2563eb;border-radius:8px;padding:6px 10px;">
+                                <span style="font-size:14px;">🔌</span>
+                                <div>
+                                    <div id="res-sistema-nome" style="font-size:12px;font-weight:900;color:white;">—</div>
+                                    <div id="res-sistema-sub" style="font-size:9px;color:#93c5fd;">—</div>
+                                </div>
+                            </div>
+                            <div style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #f97316;border-radius:8px;padding:6px 10px;">
+                                <span style="font-size:14px;">🔧</span>
+                                <div>
+                                    <div style="font-size:12px;font-weight:900;color:white;">Cobre — PVC</div>
+                                    <div style="font-size:9px;color:#93c5fd;">Método B1 — embutido</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="height:1px;background:rgba(255,255,255,.06);"></div>
+
+                        <!-- Cards principais -->
                         <div class="grid grid-cols-2 gap-2">
                             <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Carga Instalada</p>
@@ -948,31 +967,49 @@
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Carga Demanda</p>
-                                <p class="text-base font-black text-yellow-300" id="res-demanda">— W</p>
+                                <p class="text-base font-black text-yellow-300" id="res-demanda">— VA</p>
+                                <p class="text-[9px] text-slate-500" id="res-fd-sub">fd —</p>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
-                                <p class="text-[9px] text-slate-400 uppercase font-bold">Corrente</p>
-                                <p class="text-base font-black text-white" id="res-corrente">— A</p>
+                                <p class="text-[9px] text-slate-400 uppercase font-bold">Corrente Ib</p>
+                                <p class="text-base font-black text-orange-300" id="res-corrente">— A</p>
+                                <p class="text-[9px] text-slate-500">P ÷ (V × fp)</p>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
-                                <p class="text-[9px] text-slate-400 uppercase font-bold">Disjuntor</p>
-                                <p class="text-base font-black text-yellow-300" id="res-disjuntor">—</p>
+                                <p class="text-[9px] text-slate-400 uppercase font-bold">Disjuntor Geral</p>
+                                <p class="text-base font-black text-yellow-300" id="res-disjuntor">— A</p>
+                                <p class="text-[9px] text-slate-500" id="res-disj-sub">Curva C</p>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
-                                <p class="text-[9px] text-slate-400 uppercase font-bold">Fio Mínimo</p>
-                                <p class="text-base font-black text-green-400" id="res-fio">—</p>
+                                <p class="text-[9px] text-slate-400 uppercase font-bold">Bitola Mínima</p>
+                                <p class="text-base font-black text-green-400" id="res-fio">— mm²</p>
+                                <p class="text-[9px] text-slate-500" id="res-fio-sub">Iz —A</p>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
-                                <p class="text-[9px] text-slate-400 uppercase font-bold">Fator Demanda</p>
-                                <p class="text-base font-black text-blue-300" id="res-fd">—</p>
+                                <p class="text-[9px] text-slate-400 uppercase font-bold">Proteção DR</p>
+                                <p class="text-base font-black text-purple-300" id="res-dr">30 mA</p>
+                                <p class="text-[9px] text-slate-500" id="res-dr-sub">Áreas molhadas</p>
                             </div>
                         </div>
 
-                        <!-- Botão de ação -->
+                        <div style="height:1px;background:rgba(255,255,255,.06);"></div>
+
+                        <!-- Circuitos sugeridos -->
+                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">📋 Circuitos sugeridos</p>
+                        <div id="res-circuitos" style="display:flex;flex-direction:column;gap:4px;"></div>
+
+                        <div style="height:1px;background:rgba(255,255,255,.06);"></div>
+
+                        <!-- Quadro de distribuição -->
+                        <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">⬛ Quadro de distribuição</p>
+                        <div id="res-quadro" style="display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#0d1b2a;border:1px solid #1e3a5f;border-radius:10px;padding:8px;"></div>
+                        <p id="res-quadro-obs" style="font-size:9px;color:#334155;text-align:center;"></p>
+
+                        <!-- Botão compartilhar -->
                         <div class="pt-2 border-t border-white/10">
                             <button onclick="compartilharDemanda()" id="btnCompartilharDemanda" class="w-full flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 transition-colors py-3 rounded-xl touch-manipulation active:scale-95">
                                 <svg class="ico text-blue-300" aria-hidden="true"><use href="#i-share-nodes"></use></svg>
-                                <span class="text-xs font-bold text-white uppercase">Compartilhar / PDF</span>
+                                <span class="text-xs font-bold text-white uppercase">Compartilhar / Exportar PDF</span>
                             </button>
                         </div>
                     </div>
@@ -2660,17 +2697,18 @@
         // DEMANDA — COMPARTILHAR / IMPRIMIR / PDF
         // ─────────────────────────────────────────────
         function _preencherPrintDemanda() {
-            document.getElementById('prd-potencia').textContent  = document.getElementById('res-potencia').textContent;
-            document.getElementById('prd-demanda').textContent   = document.getElementById('res-demanda').textContent;
-            document.getElementById('prd-corrente').textContent  = document.getElementById('res-corrente').textContent;
-            document.getElementById('prd-disjuntor').textContent = document.getElementById('res-disjuntor').textContent;
-            document.getElementById('prd-fio').textContent       = document.getElementById('res-fio').textContent;
-            document.getElementById('prd-fd').textContent        = document.getElementById('res-fd').textContent;
+            const _g = id => document.getElementById(id)?.textContent || '—';
+            document.getElementById('prd-potencia').textContent  = _g('res-potencia');
+            document.getElementById('prd-demanda').textContent   = _g('res-demanda');
+            document.getElementById('prd-corrente').textContent  = _g('res-corrente');
+            document.getElementById('prd-disjuntor').textContent = _g('res-disjuntor') + ' — ' + _g('res-disj-sub');
+            document.getElementById('prd-fio').textContent       = _g('res-fio') + ' (' + _g('res-fio-sub') + ')';
+            document.getElementById('prd-fd').textContent        = _g('res-fd-sub');
 
             // Lista de equipamentos
             const itens = [];
             document.querySelectorAll('#carga-itens > div').forEach(row => {
-                const nome = row.querySelector('input[type=text]')?.value || '—';
+                const nome = row.querySelector('.carga-nome')?.value || row.querySelector('input[type="text"]')?.value || '—';
                 const w    = row.querySelector('.carga-watts')?.value || '0';
                 const qtd  = row.querySelector('.carga-qtd')?.value || '1';
                 if (parseFloat(w) > 0) itens.push({ nome, w, qtd });
@@ -3489,6 +3527,7 @@
 
         // — CARGA ELÉTRICA —
         let cargaSistema = 'mono';
+        let _chamadoPorTodos = false;
 
         const EQUIP_PRE = [
             { nome:'Chuveiro elétrico',     w:5500, fp:1.00 },
@@ -3566,162 +3605,248 @@
 
         function addCargaItemEquip(eq) {
             const cont = document.getElementById('carga-itens');
-            const div  = document.createElement('div');
-            div.className = 'flex gap-2 items-center bg-slate-50 p-2 rounded-xl border border-slate-200 flex-wrap';
-            div.innerHTML = `
-                <input type="text" value="${sanitizar(eq.nome)}" class="input-field flex-grow p-2 rounded-lg border border-slate-200 text-xs min-w-0" style="min-width:120px;">
-                <input type="number" value="${eq.w}" class="input-field w-20 p-2 rounded-lg border border-slate-200 text-xs carga-watts" placeholder="W">
-                <select class="input-field p-2 rounded-lg border border-slate-200 text-xs carga-fp" style="width:90px;">
-                    <option value="1.00" ${eq.fp===1.00?'selected':''}>fp 1,00</option>
-                    <option value="0.92" ${eq.fp===0.92?'selected':''}>fp 0,92</option>
-                    <option value="0.85" ${eq.fp===0.85?'selected':''}>fp 0,85</option>
-                    <option value="0.80" ${eq.fp===0.80?'selected':''}>fp 0,80</option>
-                    <option value="0.75" ${eq.fp===0.75?'selected':''}>fp 0,75</option>
-                </select>
-                <input type="number" value="1" min="1" class="input-field w-14 p-2 rounded-lg border border-slate-200 text-xs carga-qtd" placeholder="Qtd">
-                <button onclick="this.closest('div').remove();" class="text-slate-300 hover:text-red-400"><svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg></button>
-            `;
-            cont.appendChild(div);
+            if (_modoTeste && cont.querySelectorAll(':scope > div').length >= 1) {
+                _toastTeste('🔒 Apenas 1 equipamento no modo TESTE.');
+                return;
+            }
+            const card = document.createElement('div');
+            card.className = 'bg-slate-50 border border-slate-200 rounded-xl p-2';
+            card.innerHTML = `
+                <input type="text" value="${sanitizar(eq.nome)}"
+                    class="input-field carga-nome w-full p-1.5 rounded-lg border border-slate-200 text-xs font-bold mb-1.5"
+                    placeholder="Nome do equipamento">
+                <div style="display:flex;gap:4px;align-items:center;flex-wrap:nowrap;">
+                    <div style="display:flex;align-items:center;gap:3px;background:white;border:0.5px solid #e2e8f0;border-radius:6px;padding:3px 6px;flex:1;">
+                        <span style="font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;">W</span>
+                        <input type="number" value="${eq.w}"
+                            class="input-field carga-watts border-0 bg-transparent text-xs font-bold text-center p-0"
+                            style="width:100%;outline:none;" placeholder="0">
+                    </div>
+                    <div style="display:flex;align-items:center;gap:3px;background:white;border:0.5px solid #e2e8f0;border-radius:6px;padding:3px 6px;">
+                        <span style="font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;">fp</span>
+                        <select class="input-field carga-fp border-0 bg-transparent text-xs font-bold p-0" style="outline:none;width:44px;">
+                            <option value="1.00" ${eq.fp===1.00?'selected':''}>1,00</option>
+                            <option value="0.92" ${eq.fp===0.92?'selected':''}>0,92</option>
+                            <option value="0.85" ${eq.fp===0.85?'selected':''}>0,85</option>
+                            <option value="0.80" ${eq.fp===0.80?'selected':''}>0,80</option>
+                            <option value="0.75" ${eq.fp===0.75?'selected':''}>0,75</option>
+                        </select>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:3px;background:white;border:0.5px solid #e2e8f0;border-radius:6px;padding:3px 6px;">
+                        <span style="font-size:9px;font-weight:700;color:#94a3b8;text-transform:uppercase;">Qtd</span>
+                        <input type="number" value="1" min="1"
+                            class="input-field carga-qtd border-0 bg-transparent text-xs font-bold text-center p-0"
+                            style="width:30px;outline:none;" placeholder="1">
+                    </div>
+                    <button onclick="this.closest('.bg-slate-50').remove();"
+                        class="text-slate-300 hover:text-red-400 flex-shrink-0" style="padding:0 2px;">
+                        <svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg>
+                    </button>
+                </div>`;
+            cont.appendChild(card);
         }
 
 
-        const COMODOS_SUGESTAO = [
-            '🛏 Quarto','🛋 Sala','🍳 Cozinha','🚿 Banheiro',
-            '🧺 Lavanderia','🚗 Garagem','🏢 Escritório','🍽 Área de serviço',
-            '🏊 Área externa','📦 Depósito'
-        ];
+
 
         // ─────────────────────────────────────────────
         // CÔMODOS PRÉ-DEFINIDOS NBR 5410
         // area em m², perimetro em m conforme norma
         // ─────────────────────────────────────────────
         const COMODOS_PRE = [
-            { nome: '🛏 Quarto simples',       tipo: 'area',      valor: 9,    cor: '#7c3aed', bg: '#ede9fe', desc: '9 m²' },
-            { nome: '🛏 Quarto casal',          tipo: 'area',      valor: 12,   cor: '#7c3aed', bg: '#ede9fe', desc: '12 m²' },
-            { nome: '🛋 Sala de estar',         tipo: 'area',      valor: 16,   cor: '#2563eb', bg: '#dbeafe', desc: '16 m²' },
-            { nome: '🛋 Sala de jantar',        tipo: 'area',      valor: 12,   cor: '#2563eb', bg: '#dbeafe', desc: '12 m²' },
-            { nome: '🍳 Cozinha',               tipo: 'area',      valor: 8,    cor: '#ea580c', bg: '#ffedd5', desc: '8 m²' },
-            { nome: '🚿 Banheiro',              tipo: 'area',      valor: 4,    cor: '#0891b2', bg: '#cffafe', desc: '4 m²' },
-            { nome: '🚿 Banheiro social',       tipo: 'area',      valor: 5,    cor: '#0891b2', bg: '#cffafe', desc: '5 m²' },
-            { nome: '🧺 Lavanderia',            tipo: 'area',      valor: 6,    cor: '#059669', bg: '#d1fae5', desc: '6 m²' },
-            { nome: '🏠 Hall / Circulação',     tipo: 'perimetro', valor: 10,   cor: '#64748b', bg: '#f1f5f9', desc: '10 m' },
-            { nome: '🚗 Garagem simples',       tipo: 'area',      valor: 18,   cor: '#64748b', bg: '#f1f5f9', desc: '18 m²' },
-            { nome: '🚗 Garagem dupla',         tipo: 'area',      valor: 36,   cor: '#64748b', bg: '#f1f5f9', desc: '36 m²' },
-            { nome: '🏢 Escritório',            tipo: 'area',      valor: 12,   cor: '#1d4ed8', bg: '#dbeafe', desc: '12 m²' },
-            { nome: '🍽 Área de serviço',       tipo: 'area',      valor: 6,    cor: '#b45309', bg: '#fef3c7', desc: '6 m²' },
-            { nome: '🏊 Área externa',          tipo: 'area',      valor: 20,   cor: '#15803d', bg: '#dcfce7', desc: '20 m²' },
-            { nome: '📦 Depósito',              tipo: 'area',      valor: 6,    cor: '#64748b', bg: '#f1f5f9', desc: '6 m²' },
-            { nome: '🛁 Suíte',                tipo: 'area',      valor: 14,   cor: '#7c3aed', bg: '#ede9fe', desc: '14 m²' },
-            { nome: '🍳 Copa',                  tipo: 'area',      valor: 6,    cor: '#ea580c', bg: '#ffedd5', desc: '6 m²' },
-            { nome: '🏗 Varanda',              tipo: 'perimetro', valor: 8,    cor: '#15803d', bg: '#dcfce7', desc: '8 m' },
+            { nome: 'Quarto simples',  em: '🛏', tipo: 'area',      valor: 9,   cor: '#7c3aed', bg: '#ede9fe', desc: '9 m²'  },
+            { nome: 'Quarto casal',    em: '🛏', tipo: 'area',      valor: 12,  cor: '#7c3aed', bg: '#ede9fe', desc: '12 m²' },
+            { nome: 'Sala de estar',   em: '🛋', tipo: 'area',      valor: 16,  cor: '#2563eb', bg: '#dbeafe', desc: '16 m²' },
+            { nome: 'Sala de jantar',  em: '🛋', tipo: 'area',      valor: 12,  cor: '#2563eb', bg: '#dbeafe', desc: '12 m²' },
+            { nome: 'Cozinha',         em: '🍳', tipo: 'area',      valor: 8,   cor: '#ea580c', bg: '#ffedd5', desc: '8 m²'  },
+            { nome: 'Banheiro',        em: '🚿', tipo: 'area',      valor: 4,   cor: '#0891b2', bg: '#cffafe', desc: '4 m²'  },
+            { nome: 'Banheiro social', em: '🚿', tipo: 'area',      valor: 5,   cor: '#0891b2', bg: '#cffafe', desc: '5 m²'  },
+            { nome: 'Lavanderia',      em: '🧺', tipo: 'area',      valor: 6,   cor: '#059669', bg: '#d1fae5', desc: '6 m²'  },
+            { nome: 'Hall/Circulação', em: '🏠', tipo: 'perimetro', valor: 10,  cor: '#64748b', bg: '#f1f5f9', desc: '10 m'  },
+            { nome: 'Garagem simples', em: '🚗', tipo: 'area',      valor: 18,  cor: '#64748b', bg: '#f1f5f9', desc: '18 m²' },
+            { nome: 'Garagem dupla',   em: '🚗', tipo: 'area',      valor: 36,  cor: '#64748b', bg: '#f1f5f9', desc: '36 m²' },
+            { nome: 'Escritório',      em: '🏢', tipo: 'area',      valor: 12,  cor: '#1d4ed8', bg: '#dbeafe', desc: '12 m²' },
+            { nome: 'Área de serviço', em: '🍽', tipo: 'area',      valor: 6,   cor: '#b45309', bg: '#fef3c7', desc: '6 m²'  },
+            { nome: 'Área externa',    em: '🏊', tipo: 'area',      valor: 20,  cor: '#15803d', bg: '#dcfce7', desc: '20 m²' },
+            { nome: 'Depósito',        em: '📦', tipo: 'area',      valor: 6,   cor: '#64748b', bg: '#f1f5f9', desc: '6 m²'  },
+            { nome: 'Suíte',           em: '🛁', tipo: 'area',      valor: 14,  cor: '#7c3aed', bg: '#ede9fe', desc: '14 m²' },
+            { nome: 'Copa',            em: '🍳', tipo: 'area',      valor: 6,   cor: '#ea580c', bg: '#ffedd5', desc: '6 m²'  },
+            { nome: 'Varanda',         em: '🏗',  tipo: 'perimetro', valor: 8,  cor: '#15803d', bg: '#dcfce7', desc: '8 m'   },
         ];
+
+        // ─── DEMANDA MÍNIMA POR CÔMODO (NBR 5410) ───────────────────────────────
 
         function initGridComodosPre() {
             const grid = document.getElementById('grid-comodos-pre');
             if (!grid || grid.children.length > 0) return;
-            // Estiliza botão "Adicionar todos" conforme modo
-            const btnTodos = document.getElementById('btn-todos-comodos');
+
             const icoTodos = document.getElementById('ico-todos-comodos');
-            if (btnTodos) {
-                if (_modoTeste) {
-                    btnTodos.style.cssText = 'opacity:0.5;cursor:not-allowed;border-color:#cbd5e1;color:#94a3b8;';
-                    if (icoTodos) icoTodos.textContent = '🔒';
-                } else {
-                    btnTodos.style.cssText = '';
-                    if (icoTodos) icoTodos.textContent = '+';
-                }
-            }
+            if (icoTodos) icoTodos.textContent = '+';
 
             COMODOS_PRE.forEach((c, idx) => {
                 const isCozinha = c.nome.includes('Cozinha') && !c.nome.includes('Copa');
                 const bloqueado = _modoTeste && !isCozinha;
 
                 const btn = document.createElement('button');
-                btn.style.cssText = bloqueado
-                    ? `background:#f1f5f9;border:1.5px solid #cbd5e133;border-radius:10px;padding:8px 6px;text-align:left;cursor:not-allowed;opacity:0.55;position:relative;`
-                    : `background:${c.bg};border:1.5px solid ${c.cor}33;border-radius:10px;padding:8px 6px;text-align:left;cursor:pointer;transition:all .15s;position:relative;`;
+                btn.id = 'grid-btn-' + idx;
+                btn.style.cssText = [
+                    'background:#f8f5ef',
+                    'padding:8px 4px',
+                    'text-align:center',
+                    'cursor:' + (bloqueado ? 'not-allowed' : 'pointer'),
+                    'width:100%',
+                    'border:none',
+                    'outline:none',
+                    'transition:background .15s',
+                    'display:flex',
+                    'flex-direction:column',
+                    'align-items:center',
+                    'justify-content:center',
+                    'gap:3px',
+                    'min-height:70px',
+                    'position:relative',
+                ].join(';');
 
-                btn.innerHTML = bloqueado
-                    ? `<span style="font-size:11px;font-weight:700;color:#94a3b8;display:block;line-height:1.3;">${c.nome}</span>
-                       <span style="font-size:10px;color:#94a3b8;font-weight:500;">${c.desc} — ${c.tipo === 'area' ? 'Área' : 'Perímetro'}</span>
-                       <span style="position:absolute;top:5px;right:6px;font-size:12px;">🔒</span>`
-                    : `<span style="font-size:11px;font-weight:700;color:${c.cor};display:block;line-height:1.3;">${c.nome}</span>
-                       <span style="font-size:10px;color:#64748b;font-weight:500;">${c.desc} — ${c.tipo === 'area' ? 'Área' : 'Perímetro'}</span>`;
+                btn.innerHTML = `
+                    <span style="font-size:20px;line-height:1;">${c.em || ''}</span>
+                    <span style="font-size:9px;font-weight:700;color:#5c5248;line-height:1.2;text-align:center;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px;">${c.nome}</span>
+                    <span style="font-size:8px;color:#a09688;">${c.desc}${bloqueado ? ' 🔒' : ''}</span>`;
 
-                if (!bloqueado) {
-                    btn.onmouseover = () => btn.style.transform = 'scale(1.02)';
-                    btn.onmouseout  = () => btn.style.transform = '';
-                }
-                btn.onclick = () => bloqueado
-                    ? _toastTeste('🔒 Cômodo bloqueado no modo TESTE — faça upgrade para PRO.')
-                    : adicionarComodoPreDefinido(idx);
+                btn.onmouseover = () => { if (!btn.classList.contains('sel')) btn.style.background = '#f0ebe0'; };
+                btn.onmouseout  = () => { if (!btn.classList.contains('sel')) btn.style.background = '#f8f5ef'; };
+
+                btn.onclick = () => {
+                    if (bloqueado) { _toastTeste('🔒 Upgrade para PRO e use todos os cômodos!'); return; }
+                    const jaSel = btn.classList.contains('sel');
+                    if (jaSel) {
+                        // Remover da lista
+                        btn.classList.remove('sel');
+                        btn.style.background = '#f8f5ef';
+                        btn.style.outline = 'none';
+                        const el = btn.querySelector('.sel-check');
+                        if (el) el.remove();
+                        // Remover do comodos-lista
+                        const rows = document.querySelectorAll('#comodos-lista .comodo-row');
+                        rows.forEach(row => {
+                            if (row.querySelector('.comodo-nome')?.value === c.nome) row.remove();
+                        });
+                        _atualizarLblSel();
+                    } else {
+                        adicionarComodoPreDefinido(idx);
+                    }
+                };
+
                 grid.appendChild(btn);
             });
+        }
+
+        function _atualizarLblSel() {
+            const lbl = document.getElementById('lbl-comodos-sel');
+            const lista = document.getElementById('comodos-lista');
+            if (lbl) lbl.classList.toggle('hidden', !lista || lista.children.length === 0);
         }
 
         function adicionarComodoPreDefinido(idx) {
             const c = COMODOS_PRE[idx];
             if (!c) return;
             const isCozinha = c.nome.includes('Cozinha') && !c.nome.includes('Copa');
-            if (_modoTeste && !isCozinha) { _toastTeste('🔒 Cômodo bloqueado no modo TESTE — faça upgrade para PRO.'); return; }
 
-            // Verifica se já existe cômodo com esse nome
+            // Modo teste: cômodo bloqueado via grid individual — não adiciona
+            if (_modoTeste && !isCozinha && !_chamadoPorTodos) {
+                _toastTeste('🔒 Upgrade para PRO e use todos os cômodos!');
+                return;
+            }
+
             const existentes = document.querySelectorAll('#comodos-lista .comodo-nome');
             for (const el of existentes) {
-                if (el.value === c.nome) {
-                    _toastSimples(`⚠️ "${c.nome}" já foi adicionado.`);
-                    return;
-                }
+                if (el.value === c.nome) { _toastSimples(`⚠️ "${c.nome}" já foi adicionado.`); return; }
             }
 
             adicionarComodo(c.nome);
 
-            // Preenche tipo e valor no último cômodo adicionado
             const rows = document.querySelectorAll('#comodos-lista .comodo-row');
             const last = rows[rows.length - 1];
             if (!last) return;
-
-            const selTipo = last.querySelector('.comodo-tipo');
+            const selTipo    = last.querySelector('.comodo-tipo');
             const inputValor = last.querySelector('.comodo-valor');
-            if (selTipo)    selTipo.value  = c.tipo;
-            if (inputValor) {
-                inputValor.value = c.valor;
-                inputValor.placeholder = c.tipo === 'area' ? `Ex: ${c.valor} m²` : `Ex: ${c.valor} m`;
+            if (selTipo)    selTipo.value    = c.tipo;
+            if (inputValor) inputValor.value = c.valor;
+
+            // Modo teste: bloquear edição dos cômodos não-cozinha
+            if (_modoTeste && !isCozinha) {
+                last.style.background = '#f8f7ff';
+                const inputNome  = last.querySelector('.comodo-nome');
+                const inputVal   = last.querySelector('.comodo-valor');
+                const selT       = last.querySelector('.comodo-tipo');
+                const btnDel     = last.querySelector('button');
+                const equipSec   = last.querySelector('.border-t');
+                if (inputNome)  { inputNome.readOnly  = true; inputNome.style.opacity  = '0.55'; }
+                if (inputVal)   { inputVal.readOnly   = true; inputVal.style.opacity   = '0.55'; inputVal.style.background = '#f1f5f9'; }
+                if (selT)       { selT.disabled       = true; selT.style.opacity       = '0.55'; }
+                if (btnDel)     { btnDel.style.display = 'none'; }
+                if (equipSec)   { equipSec.style.display = 'none'; }
+                const badge = document.createElement('span');
+                badge.style.cssText = 'font-size:9px;font-weight:700;color:#7c3aed;background:#ede9fe;padding:2px 6px;border-radius:20px;margin-left:6px;flex-shrink:0;';
+                badge.textContent = '🔒 PRO';
+                if (inputNome) inputNome.parentElement.appendChild(badge);
             }
 
-            _toastSimples(`✅ ${c.nome} adicionado (${c.desc})`);
+            // Marca botão do grid como selecionado (estilo planta)
+            const btnGrid = document.getElementById('grid-btn-' + idx);
+            if (btnGrid && !btnGrid.classList.contains('sel')) {
+                btnGrid.classList.add('sel');
+                btnGrid.style.background = '#fff7ed';
+                btnGrid.style.outline = '2px solid #f97316';
+                btnGrid.style.outlineOffset = '-2px';
+                const check = document.createElement('span');
+                check.className = 'sel-check';
+                check.style.cssText = 'position:absolute;top:3px;right:5px;font-size:9px;font-weight:900;color:#f97316;';
+                check.textContent = '✓';
+                btnGrid.appendChild(check);
+            }
+
+            _atualizarLblSel();
+            if (!_modoTeste || isCozinha) _toastSimples(`✅ ${c.nome} adicionado (${c.desc})`);
         }
 
         function adicionarTodosComodos() {
-            if (_modoTeste) { _toastTeste('🔒 Adicionar todos os cômodos é exclusivo da versão PRO.'); return; }
-            // Limpa lista atual
-            document.getElementById('comodos-lista').innerHTML = '';
-            // Cômodos de uma residência típica (sala, 2 quartos, cozinha, banheiro, área serviço)
-            const tipicos = [4, 0, 2, 5, 7, 8]; // índices no COMODOS_PRE
-            tipicos.forEach(idx => adicionarComodoPreDefinido(idx));
-            _toastSimples('🏠 Residência típica adicionada! Ajuste as medidas se necessário.');
-        }
-
-        function trocarSubAbaComodo(aba) {
-            ['entrada','resultado'].forEach(a => {
-                document.getElementById('saba-' + a).classList.toggle('hidden', a !== aba);
-                const t = document.getElementById('stab-' + a);
-                if (a === aba) {
-                    t.className = 'flex-1 py-2 rounded-lg text-xs font-bold bg-purple-600 text-white transition-all';
-                } else {
-                    t.className = 'flex-1 py-2 rounded-lg text-xs font-bold text-purple-500 transition-all';
-                }
+            // Limpar marcações visuais da planta
+            document.querySelectorAll('#grid-comodos-pre button').forEach(b => {
+                b.classList.remove('sel');
+                b.style.background = '#f8f5ef';
+                b.style.outline = 'none';
+                const ch = b.querySelector('.sel-check');
+                if (ch) ch.remove();
             });
+            document.getElementById('comodos-lista').innerHTML = '';
+            _chamadoPorTodos = true;
+            [4, 0, 2, 5, 7, 8].forEach(idx => adicionarComodoPreDefinido(idx));
+            _chamadoPorTodos = false;
+            if (_modoTeste) {
+                _toastSimples('🏠 Residência típica adicionada! Só a Cozinha é editável no modo TESTE.');
+            } else {
+                _toastSimples('🏠 Residência típica adicionada!');
+            }
         }
 
         function adicionarComodo(nomeDefault) {
             const lista = document.getElementById('comodos-lista');
-            // Modo teste: bloqueia adicionar qualquer cômodo novo
-            if (_modoTeste) return;
-            const div   = document.createElement('div');
-            div.className = 'comodo-row bg-white border border-purple-200 rounded-xl p-3 space-y-2';
 
-            // Linha 1: nome + tipo + remover
+            // Modo teste via botão Personalizado: permite só 1, somente leitura com badge PRO
+            const ehChamadaPersonalizada = !nomeDefault && !_chamadoPorTodos;
+            if (_modoTeste && ehChamadaPersonalizada) {
+                const jaTemPersonalizado = document.querySelector('#comodos-lista .comodo-row.personalizado-teste');
+                if (jaTemPersonalizado) {
+                    _toastTeste('🔒 Apenas 1 cômodo personalizado no modo TESTE.');
+                    return;
+                }
+            }
+
+            const div = document.createElement('div');
+            div.className = 'comodo-row bg-white border border-purple-200 rounded-xl p-3 space-y-2';
+            if (_modoTeste && ehChamadaPersonalizada) div.classList.add('personalizado-teste');
+
+            // Linha 1: nome + remover
             const row1 = document.createElement('div');
             row1.className = 'flex gap-2 items-center';
 
@@ -3731,27 +3856,37 @@
             inputNome.placeholder = 'Nome do cômodo...';
             inputNome.value = nomeDefault || '';
 
-            const select = document.createElement('select');
-            select.className = 'input-field p-2 rounded-lg border border-slate-200 text-xs text-slate-500';
-            select.style.width = '90px';
-            const optDef = document.createElement('option');
-            optDef.value = ''; optDef.textContent = 'Tipo...';
-            select.appendChild(optDef);
-            COMODOS_SUGESTAO.forEach(s => {
-                const o = document.createElement('option'); o.value = s; o.textContent = s; select.appendChild(o);
-            });
-            select.onchange = function() { if (this.value) inputNome.value = this.value; this.value = ''; };
-
             const btnDel = document.createElement('button');
             btnDel.className = 'text-slate-300 hover:text-red-400 flex-shrink-0';
             btnDel.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg>';
-            btnDel.onclick = () => div.remove();
+            btnDel.onclick = () => { div.remove(); _atualizarLblSel(); };
 
-            row1.appendChild(inputNome);
-            row1.appendChild(select);
-            row1.appendChild(btnDel);
+            // Modo teste via personalizado: bloqueia edição, exibe badge PRO
+            if (_modoTeste && ehChamadaPersonalizada) {
+                div.style.background = '#f8f7ff';
+                inputNome.readOnly = true;
+                inputNome.style.opacity = '0.55';
+                inputNome.value = 'Cômodo Personalizado';
+                btnDel.style.display = 'none';
+                const badge = document.createElement('span');
+                badge.style.cssText = 'font-size:9px;font-weight:700;color:#7c3aed;background:#ede9fe;padding:2px 6px;border-radius:20px;margin-left:6px;flex-shrink:0;';
+                badge.textContent = '🔒 PRO';
+                row1.appendChild(inputNome);
+                row1.appendChild(badge);
+                row1.appendChild(btnDel);
+            } else if (_modoTeste) {
+                // Chamado por pré-definido ou todos — nome somente leitura
+                inputNome.readOnly = true;
+                inputNome.style.opacity = '0.7';
+                btnDel.style.display = 'none';
+                row1.appendChild(inputNome);
+                row1.appendChild(btnDel);
+            } else {
+                row1.appendChild(inputNome);
+                row1.appendChild(btnDel);
+            }
 
-            // Linha 2: tipo medida + valor
+            // Linha 2: tipo + valor
             const row2 = document.createElement('div');
             row2.className = 'flex gap-2 items-center';
 
@@ -3766,34 +3901,43 @@
             inputValor.type = 'number';
             inputValor.className = 'input-field comodo-valor flex-grow p-2 rounded-lg border border-slate-200 text-xs text-center';
             inputValor.placeholder = 'Ex: 12 m²';
-            inputValor.min = '0';
-            inputValor.step = '0.1';
+            inputValor.min = '0'; inputValor.step = '0.1';
+            selTipo.onchange = () => { inputValor.placeholder = selTipo.value === 'area' ? 'Ex: 12 m²' : 'Ex: 14 m'; };
 
-            selTipo.onchange = () => {
-                inputValor.placeholder = selTipo.value === 'area' ? 'Ex: 12 m²' : 'Ex: 14 m';
-            };
+            // Modo teste: tipo fixo, valor bloqueado para personalizado
+            if (_modoTeste) {
+                selTipo.disabled = true;
+                selTipo.style.opacity = '0.7';
+                if (ehChamadaPersonalizada) {
+                    inputValor.readOnly = true;
+                    inputValor.style.opacity = '0.55';
+                    inputValor.style.background = '#f1f5f9';
+                    inputValor.value = '—';
+                }
+            }
 
             row2.appendChild(selTipo);
             row2.appendChild(inputValor);
 
-            // Linha 3: equipamentos do cômodo
+            // Linha 3: equipamentos
             const row3 = document.createElement('div');
             row3.className = 'space-y-1 border-t border-purple-100 pt-2';
-
-            // — Equipamentos apenas —
             const headerEquip = document.createElement('div');
             headerEquip.className = 'flex justify-between items-center';
-            headerEquip.innerHTML = `
-                <span class="text-[10px] font-bold text-purple-600 uppercase">🖥 Equipamentos</span>
-                <button class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-bold" onclick="adicionarEquipComodo(this)">+ Equipamento</button>`;
+            if (_modoTeste && ehChamadaPersonalizada) {
+                headerEquip.innerHTML = `<span class="text-[10px] font-bold text-purple-400 uppercase opacity-50">🖥 Equipamentos 🔒 PRO</span>`;
+            } else if (_modoTeste) {
+                headerEquip.innerHTML = `<span class="text-[10px] font-bold text-purple-600 uppercase">🖥 Equipamentos</span>
+                    <button class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-bold" onclick="adicionarEquipComodo(this)">+ Equip. (1 máx)</button>`;
+            } else {
+                headerEquip.innerHTML = `<span class="text-[10px] font-bold text-purple-600 uppercase">🖥 Equipamentos</span>
+                    <button class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-bold" onclick="adicionarEquipComodo(this)">+ Equip.</button>`;
+            }
             const listaEquip = document.createElement('div');
             listaEquip.className = 'comodo-equip-lista space-y-1';
-
-            // Listas ocultas para pontos e tomadas (usadas no cálculo via tabela de resultados)
-            const listaLuz = document.createElement('div');
-            listaLuz.className = 'comodo-luz-lista hidden';
-            const listaTom = document.createElement('div');
-            listaTom.className = 'comodo-tom-lista hidden';
+            // Listas ocultas usadas no cálculo
+            const listaLuz = document.createElement('div'); listaLuz.className = 'comodo-luz-lista hidden';
+            const listaTom = document.createElement('div'); listaTom.className = 'comodo-tom-lista hidden';
 
             row3.appendChild(headerEquip);
             row3.appendChild(listaEquip);
@@ -3804,86 +3948,55 @@
             div.appendChild(row2);
             div.appendChild(row3);
             lista.appendChild(div);
-
-            // Modo teste: bloqueia edição de nome, tipo e botão remover
-            if (_modoTeste) {
-                inputNome.readOnly = true;
-                inputNome.style.opacity = '0.6';
-                inputNome.style.pointerEvents = 'none';
-                select.disabled = true;
-                select.style.display = 'none';
-                btnDel.disabled = true;
-                btnDel.style.opacity = '0.2';
-                btnDel.style.pointerEvents = 'none';
-            }
         }
-
 
         function adicionarEquipComodo(btn) {
             const row = btn.closest('.comodo-row');
             if (!row) return;
             const listaEq = row.querySelector('.comodo-equip-lista');
-            if (!listaEq) return;
-            if (_modoTeste && listaEq.children.length >= 1) return;
-            const lista = listaEq;
-            const item  = document.createElement('div');
+            if (!listaEq || (_modoTeste && listaEq.children.length >= 1)) return;
+
+            const item = document.createElement('div');
             item.className = 'flex gap-1 items-center bg-slate-50 p-1.5 rounded-lg border border-slate-200';
 
-            // Select de equipamento pré-cadastrado
             const selEquip = document.createElement('select');
             selEquip.className = 'input-field comodo-equip-nome p-1.5 rounded-lg border border-slate-200 text-xs';
             selEquip.style.width = '110px';
-            const optE = document.createElement('option'); optE.value = ''; optE.textContent = 'Escolher...'; selEquip.appendChild(optE);
+            const optDef = document.createElement('option'); optDef.value = ''; optDef.textContent = 'Escolher...'; selEquip.appendChild(optDef);
             EQUIP_PRE.forEach(eq => {
-                const o = document.createElement('option');
-                o.value = eq.nome; o.textContent = eq.nome; o.dataset.w = eq.w;
-                selEquip.appendChild(o);
+                const o = document.createElement('option'); o.value = eq.nome; o.textContent = eq.nome; o.dataset.w = eq.w; selEquip.appendChild(o);
             });
-            const optOutro = document.createElement('option');
-            optOutro.value = 'outro'; optOutro.textContent = '✏️ Outro...';
-            selEquip.appendChild(optOutro);
-
-            const inputNomeEquip = document.createElement('input');
-            inputNomeEquip.type = 'text';
-            inputNomeEquip.className = 'input-field comodo-equip-custom hidden p-1.5 rounded-lg border border-orange-300 text-xs';
-            inputNomeEquip.placeholder = 'Nome do equip.';
-            inputNomeEquip.style.width = '110px';
-
-            // Ao escolher, preenche potência ou mostra campo livre
-            selEquip.onchange = function() {
-                const opt = this.options[this.selectedIndex];
-                if (this.value === 'outro') {
-                    inputNomeEquip.classList.remove('hidden');
-                    inputNomeEquip.focus();
-                } else {
-                    inputNomeEquip.classList.add('hidden');
-                    if (opt.dataset.w) item.querySelector('.comodo-equip-w').value = opt.dataset.w;
-                }
-            };
+            const optOutro = document.createElement('option'); optOutro.value = 'outro'; optOutro.textContent = '✏️ Outro...'; selEquip.appendChild(optOutro);
 
             const inputW = document.createElement('input');
-            inputW.type = 'number'; inputW.min = '1';
+            inputW.type = 'number'; inputW.min = '1'; inputW.placeholder = 'W';
             inputW.className = 'input-field comodo-equip-w p-1.5 rounded-lg border border-slate-200 text-xs text-center';
             inputW.style.width = '60px';
-            inputW.placeholder = 'W';
+
+            const inputNomeEquip = document.createElement('input');
+            inputNomeEquip.type = 'text'; inputNomeEquip.placeholder = 'Nome';
+            inputNomeEquip.className = 'input-field comodo-equip-custom hidden p-1.5 rounded-lg border border-orange-300 text-xs';
+            inputNomeEquip.style.width = '110px';
 
             const inputQtd = document.createElement('input');
             inputQtd.type = 'number'; inputQtd.value = '1'; inputQtd.min = '1';
             inputQtd.className = 'input-field comodo-equip-qtd p-1.5 rounded-lg border border-slate-200 text-xs text-center';
             inputQtd.style.width = '44px';
-            inputQtd.placeholder = 'Qtd';
+
+            selEquip.onchange = function() {
+                const opt = this.options[this.selectedIndex];
+                if (this.value === 'outro') { inputNomeEquip.classList.remove('hidden'); inputNomeEquip.focus(); }
+                else { inputNomeEquip.classList.add('hidden'); if (opt.dataset.w) inputW.value = opt.dataset.w; }
+            };
 
             const btnDel = document.createElement('button');
             btnDel.className = 'text-slate-300 hover:text-red-400 flex-shrink-0';
             btnDel.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg>';
             btnDel.onclick = () => item.remove();
 
-            item.appendChild(selEquip);
-            item.appendChild(inputNomeEquip);
-            item.appendChild(inputW);
-            item.appendChild(inputQtd);
-            item.appendChild(btnDel);
-            lista.appendChild(item);
+            item.appendChild(selEquip); item.appendChild(inputNomeEquip);
+            item.appendChild(inputW);   item.appendChild(inputQtd); item.appendChild(btnDel);
+            listaEq.appendChild(item);
         }
 
         function calcularDemandaComodo() {
@@ -3899,101 +4012,65 @@
                 const valor = parseFloat(row.querySelector('.comodo-valor').value) || 0;
                 if (valor === 0) return;
 
-                // Converter área e perímetro
                 let area, perimetro;
-                if (tipo === 'area') {
-                    area      = valor;
-                    perimetro = 4 * Math.sqrt(valor); // estimativa
-                } else {
-                    perimetro = valor;
-                    area      = Math.pow(valor / 4, 2); // estimativa
-                }
+                if (tipo === 'area') { area = valor; perimetro = 4 * Math.sqrt(valor); }
+                else                 { perimetro = valor; area = Math.pow(valor / 4, 2); }
 
-                // ── Detectar tipo de cômodo ──
                 const nLow = nome.toLowerCase();
-                const ehMolhado = /cozinha|copa|serviço|lavanderia|area de serv|área de serv/i.test(nLow);
+                const ehMolhado  = /cozinha|copa|serviço|lavanderia|area de serv|área de serv/i.test(nLow);
                 const ehBanheiro = /banheiro|wc|lavabo|toilet/i.test(nLow);
 
-                // ── ILUMINAÇÃO — NBR 5410 item 9.5.2.1 ──
-                // ≤6m²: 100 VA mínimo, 1 ponto
-                // >6m²: 100 VA para os primeiros 6m² + 60 VA para cada 4m² inteiros adicionais
-                // Número de pontos = 1 (base) + nº de parcelas de 60VA adicionais
-                let wIlum, ptosLuz, detIlum;
-                if (area <= 6) {
-                    wIlum    = 100;
-                    ptosLuz  = 1;
-                    detIlum  = `≤6m² → 100 VA / 1 pt`;
-                } else {
-                    const parcelas = Math.floor((area - 6) / 4);
-                    wIlum    = 100 + (parcelas * 60);
-                    ptosLuz  = 1 + parcelas;
-                    detIlum  = `100VA + ${parcelas}×60VA (${parcelas} parc. de 4m²)`;
-                }
+                // Iluminação — NBR 5410 item 9.5.2.1
+                let wIlum, ptosLuz;
+                if (area <= 6) { wIlum = 100; ptosLuz = 1; }
+                else { const p = Math.floor((area - 6) / 4); wIlum = 100 + p * 60; ptosLuz = 1 + p; }
 
-                // ── TOMADAS TUG — NBR 5410 item 9.1 ──
+                // Tomadas — NBR 5410 item 9.1
                 let tomadas, wTomadas;
                 if (ehBanheiro) {
-                    // Banheiro: mínimo 1 tomada ao lado do lavatório
-                    tomadas   = 1;
-                    wTomadas  = 600; // 600 VA para ambientes molhados
+                    tomadas = 1; wTomadas = 600;
                 } else if (ehMolhado) {
-                    // Cozinha/Lavanderia/Serviço: 1 tomada a cada 3,5m de perímetro (mín. 2 acima da bancada)
-                    tomadas  = Math.max(2, Math.ceil(perimetro / 3.5));
-                    // Potência: 600 VA para os 3 primeiros pontos, 100 VA para os demais
-                    const pts600 = Math.min(tomadas, 3);
-                    const pts100 = Math.max(0, tomadas - 3);
-                    wTomadas = (pts600 * 600) + (pts100 * 100);
+                    tomadas = Math.max(2, Math.ceil(perimetro / 3.5));
+                    wTomadas = Math.min(tomadas, 3) * 600 + Math.max(0, tomadas - 3) * 100;
                 } else {
-                    // Sala/Quarto/Demais: 1 tomada a cada 5m de perímetro (mín. 2)
-                    tomadas  = Math.max(2, Math.ceil(perimetro / 5));
-                    wTomadas = tomadas * 100; // 100 VA por ponto
+                    tomadas = Math.max(2, Math.ceil(perimetro / 5));
+                    wTomadas = tomadas * 100;
                 }
 
-                // ── PONTOS DE LUZ manuais ──
-                let wLuzManual = 0, ptosLuzManual = 0;
+                // Sobreposição de valores manuais (pontos de luz e tomadas)
+                let wLuzManual = 0, ptosLuzManual = 0, vaTomManual = 0, tomManual = 0;
                 row.querySelectorAll('.comodo-luz-lista > div').forEach(lz => {
-                    const w   = parseFloat(lz.querySelector('.comodo-luz-w')?.value)   || 0;
-                    const qtd = parseInt(lz.querySelector('.comodo-luz-qtd')?.value, 10)   || 1;
-                    wLuzManual   += w * qtd;
-                    ptosLuzManual += qtd;
+                    const w = parseFloat(lz.querySelector('.comodo-luz-w')?.value) || 0;
+                    const q = parseInt(lz.querySelector('.comodo-luz-qtd')?.value, 10) || 1;
+                    wLuzManual += w * q; ptosLuzManual += q;
                 });
-
-                // ── TOMADAS manuais ──
-                let vaTomManual = 0, tomManual = 0;
                 row.querySelectorAll('.comodo-tom-lista > div').forEach(tm => {
-                    const va  = parseFloat(tm.querySelector('.comodo-tom-va')?.value)  || 0;
-                    const qtd = parseInt(tm.querySelector('.comodo-tom-qtd')?.value, 10)   || 1;
-                    vaTomManual += va * qtd;
-                    tomManual   += qtd;
+                    const va = parseFloat(tm.querySelector('.comodo-tom-va')?.value) || 0;
+                    const q  = parseInt(tm.querySelector('.comodo-tom-qtd')?.value, 10) || 1;
+                    vaTomManual += va * q; tomManual += q;
                 });
 
-                // ── EQUIPAMENTOS do cômodo ──
-                let wEquip = 0, qtdEquip = 0;
+                // Equipamentos do cômodo
+                let wEquip = 0;
                 row.querySelectorAll('.comodo-equip-lista > div').forEach(eq => {
-                    const w   = parseFloat(eq.querySelector('.comodo-equip-w')?.value)   || 0;
-                    const qtd = parseFloat(eq.querySelector('.comodo-equip-qtd')?.value) || 1;
-                    wEquip   += w * qtd;
-                    qtdEquip += qtd;
+                    const w = parseFloat(eq.querySelector('.comodo-equip-w')?.value) || 0;
+                    const q = parseFloat(eq.querySelector('.comodo-equip-qtd')?.value) || 1;
+                    wEquip += w * q;
                 });
 
-                // Usar manual se informado, senão usar NBR
-                const ptosFinais = ptosLuzManual > 0 ? ptosLuzManual : ptosLuz;
-                const wLuzFinal  = ptosLuzManual > 0 ? wLuzManual    : wIlum;
-                const tomFinais  = tomManual > 0 ? tomManual : tomadas;
+                const ptosFinais  = ptosLuzManual > 0 ? ptosLuzManual : ptosLuz;
+                const wLuzFinal   = ptosLuzManual > 0 ? wLuzManual    : wIlum;
+                const tomFinais   = tomManual > 0 ? tomManual : tomadas;
                 const vaTomoFinal = vaTomManual > 0 ? vaTomManual : wTomadas;
 
                 totalPtos     += ptosFinais;
                 totalTomadas  += tomFinais;
                 totalWIlum    += wLuzFinal;
                 totalWTomadas += vaTomoFinal;
-                const cargaTotal = wLuzFinal + vaTomoFinal + wEquip;
 
-                const tipoLabel = ehBanheiro ? '🚿 Banheiro' : ehMolhado ? '🍳 Cômodo molhado' : '🛋 Cômodo seco';
-                const perLabel  = tipo === 'area' ? `${area.toFixed(1)}m² | per. ${perimetro.toFixed(1)}m` : `${perimetro.toFixed(1)}m | área ${area.toFixed(1)}m²`;
-                const tagLuz    = ptosLuzManual > 0 ? '✏️' : 'NBR';
-                const tagTom    = tomManual > 0 ? '✏️' : 'NBR';
-
-                itens.push({ nome, area: area.toFixed(1), perimetro: perimetro.toFixed(1), ptosLuz: ptosFinais, tomadas: tomFinais, wIlum: wLuzFinal, wTomadas: vaTomoFinal, wEquip, cargaTotal, tipoLabel, perLabel, ehMolhado, ehBanheiro, detIlum, tagLuz, tagTom });
+                itens.push({ nome, area: area.toFixed(1), ptosLuz: ptosFinais, tomadas: tomFinais,
+                             wIlum: wLuzFinal, wTomadas: vaTomoFinal, wEquip,
+                             cargaTotal: wLuzFinal + vaTomoFinal + wEquip });
             });
 
             if (itens.length === 0) { _toastSimples('⚠️ Informe o valor de ao menos um cômodo.'); return; }
@@ -4001,46 +4078,40 @@
             const res = document.getElementById('res-comodo');
             res.innerHTML = '';
 
-            // Guardar referência dos rows para edição
+            const totalEquip = itens.reduce((s, i) => s + i.wEquip, 0);
+            const totalArea  = itens.reduce((s, i) => s + parseFloat(i.area), 0).toFixed(1);
+            const totalCarga = totalWIlum + totalWTomadas + totalEquip;
 
             let html = `<div class="overflow-x-auto rounded-xl border border-slate-200">
                 <table style="width:100%;border-collapse:collapse;font-size:11px;">
-                    <thead>
-                        <tr style="background:#0f172a;color:white;">
-                            <th style="padding:8px 6px;text-align:left;">Cômodo</th>
-                            <th style="padding:8px 6px;text-align:center;">Área</th>
-                            <th style="padding:8px 6px;text-align:center;">💡 Pts</th>
-                            <th style="padding:8px 6px;text-align:center;">🔌 Tom.</th>
-                            <th style="padding:8px 6px;text-align:center;">🖥 Equip.</th>
-                            <th style="padding:8px 6px;text-align:center;">⚡ VA</th>
-                            <th style="padding:8px 6px;text-align:center;">✏️</th>
-                        </tr>
-                    </thead>
-                    <tbody>`;
+                    <thead><tr style="background:#0f172a;color:white;">
+                        <th style="padding:8px 6px;text-align:left;">Cômodo</th>
+                        <th style="padding:8px 6px;text-align:center;">Área</th>
+                        <th style="padding:8px 6px;text-align:center;">💡 Pts</th>
+                        <th style="padding:8px 6px;text-align:center;">🔌 Tom.</th>
+                        <th style="padding:8px 6px;text-align:center;">🖥 Equip.</th>
+                        <th style="padding:8px 6px;text-align:center;">⚡ VA</th>
+                        <th style="padding:8px 6px;text-align:center;">✏️</th>
+                    </tr></thead><tbody>`;
 
-            let totalEquip = 0;
             itens.forEach((item, i) => {
                 const bg = i % 2 === 0 ? '#fff' : '#f8fafc';
-                totalEquip += item.wEquip;
                 html += `<tr style="border-bottom:1px solid #f1f5f9;background:${bg};">
-                    <td style="padding:7px 6px;font-weight:700;color:#1e293b;">${item.nome}</td>
+                    <td style="padding:7px 6px;font-weight:700;">${item.nome}</td>
                     <td style="padding:7px 6px;text-align:center;color:#64748b;">${item.area}m²</td>
                     <td style="padding:7px 6px;text-align:center;font-weight:700;color:#d97706;">${item.ptosLuz}<br><span style="font-size:9px;color:#94a3b8;">${item.wIlum}VA</span></td>
                     <td style="padding:7px 6px;text-align:center;font-weight:700;color:#2563eb;">${item.tomadas}<br><span style="font-size:9px;color:#94a3b8;">${item.wTomadas}VA</span></td>
                     <td style="padding:7px 6px;text-align:center;font-weight:700;color:#7c3aed;">${item.wEquip > 0 ? item.wEquip + 'W' : '—'}</td>
                     <td style="padding:7px 6px;text-align:center;font-weight:700;color:#16a34a;">${item.cargaTotal}</td>
                     <td style="padding:7px 6px;text-align:center;">
-                        <button onclick='editarComodoResultado(${i})' style='background:#f97316;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;color:#000;font-weight:900;'>✏️</button>
+                        <button onclick="editarComodoResultado(${i})" style="background:#f97316;border:none;border-radius:6px;padding:4px 8px;font-size:11px;cursor:pointer;color:#000;font-weight:900;">✏️</button>
                     </td>
                 </tr>`;
             });
 
-            const totalArea  = itens.reduce((s,i) => s + parseFloat(i.area), 0).toFixed(1);
-            const totalCarga = totalWIlum + totalWTomadas + totalEquip;
-
             html += `<tr>
                     <td colspan="7" style="padding:4px 6px;">
-                        <button onclick="adicionarComodoNaTabela()" style="width:100%;padding:7px;background:#dcfce7;border:2px dashed #86efac;border-radius:8px;font-size:11px;font-weight:700;color:#16a34a;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:4px;">
+                        <button onclick="adicionarComodoNaTabela()" style="width:100%;padding:7px;background:#dcfce7;border:2px dashed #86efac;border-radius:8px;font-size:11px;font-weight:700;color:#16a34a;cursor:pointer;">
                             + ADICIONAR CÔMODO
                         </button>
                     </td>
@@ -4054,35 +4125,26 @@
                     <td style="padding:9px 6px;text-align:center;font-weight:900;color:#86efac;">${totalCarga} VA</td>
                     <td></td>
                 </tr>
-                    </tbody>
-                </table>
-            </div>
+                </tbody></table></div>
             <p style="font-size:10px;color:#94a3b8;text-align:center;margin-top:6px;">Ref: NBR 5410:2004 — itens 9.1 e 9.5.2.1</p>`;
 
             res.innerHTML = html;
 
-            // Botão recalcular
             const btnRecalc = document.createElement('button');
             btnRecalc.onclick = calcularDemandaComodo;
             btnRecalc.className = 'w-full py-2 rounded-xl text-xs font-black mt-2';
             btnRecalc.style.cssText = 'background:#f97316;color:#000;';
             btnRecalc.textContent = '↺ RECALCULAR';
             res.appendChild(btnRecalc);
-
-            trocarSubAbaComodo('resultado');
         }
-
-        // Guarda referência dos rows calculados para edição na tabela
 
         function editarComodoResultado(idx) {
             const rows = Array.from(document.querySelectorAll('.comodo-row'));
             if (!rows[idx]) return;
-            const row = rows[idx];
-            const nome = row.querySelector('.comodo-nome')?.value || `Cômodo ${idx+1}`;
+            const row  = rows[idx];
+            const nome = row.querySelector('.comodo-nome')?.value || `Cômodo ${idx + 1}`;
 
-            const existing = document.getElementById('modal-edit-comodo');
-            if (existing) existing.remove();
-
+            document.getElementById('modal-edit-comodo')?.remove();
             const modal = document.createElement('div');
             modal.id = 'modal-edit-comodo';
             modal.className = 'bg-white border-2 border-orange-300 rounded-2xl p-4 space-y-3 mt-2';
@@ -4095,8 +4157,6 @@
                     <p class="text-xs font-black text-slate-800">✏️ Editar: ${nome}</p>
                     <button onclick="document.getElementById('modal-edit-comodo').remove()" class="text-slate-300 hover:text-red-400"><svg class="ico" aria-hidden="true"><use href="#i-xmark"></use></svg></button>
                 </div>
-
-                <!-- Nome e medida do cômodo -->
                 <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
                     <p class="text-[10px] font-bold text-slate-400 uppercase">Dados do cômodo</p>
                     <input type="text" id="edit-comodo-nome-${idx}" value="${nome}" class="input-field w-full p-2 rounded-lg border border-slate-200 text-xs font-bold focus:outline-none">
@@ -4108,7 +4168,6 @@
                         <input type="number" id="edit-comodo-valor-${idx}" value="${valorAtual}" min="0" step="0.1" class="input-field flex-grow p-2 rounded-lg border border-slate-200 text-xs text-center focus:outline-none">
                     </div>
                 </div>
-
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
                         <span class="text-[10px] font-bold text-yellow-600 uppercase">💡 Pontos de Iluminação</span>
@@ -4116,7 +4175,6 @@
                     </div>
                     <div id="modal-luz-${idx}" class="space-y-1"></div>
                 </div>
-
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
                         <span class="text-[10px] font-bold text-blue-600 uppercase">🔌 Tomadas</span>
@@ -4124,48 +4182,31 @@
                     </div>
                     <div id="modal-tom-${idx}" class="space-y-1"></div>
                 </div>
-
                 <div class="space-y-2">
                     <div class="flex justify-between items-center">
                         <span class="text-[10px] font-bold text-purple-600 uppercase">🖥 Equipamentos</span>
-                        <button onclick="adicionarEquipModal(${idx})" class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-bold">+ Equipamento</button>
+                        <button onclick="adicionarEquipModal(${idx})" class="text-[10px] bg-purple-100 text-purple-700 px-2 py-1 rounded-full font-bold">+ Equip.</button>
                     </div>
                     <div id="modal-equip-${idx}" class="space-y-1"></div>
                 </div>
-
                 <button onclick="salvarEdicaoComodo(${idx})" class="w-full py-2 rounded-xl text-xs font-black" style="background:#f97316;color:#000;">SALVAR E RECALCULAR →</button>`;
 
             document.getElementById('res-comodo').appendChild(modal);
 
-            // Popular com itens já existentes
-            row.querySelectorAll('.comodo-luz-lista > div').forEach(item => {
+            // Popular com dados existentes
+            row.querySelectorAll('.comodo-luz-lista > div').forEach(() => {
                 adicionarPontoLuzModal(idx);
-                const last = document.querySelector(`#modal-luz-${idx} > div:last-child`);
-                if (last) {
-                    last.querySelector('.modal-luz-w').value  = item.querySelector('.comodo-luz-w')?.value  || 9;
-                    last.querySelector('.modal-luz-qtd').value = item.querySelector('.comodo-luz-qtd')?.value || 1;
-                }
             });
-            row.querySelectorAll('.comodo-tom-lista > div').forEach(item => {
+            row.querySelectorAll('.comodo-tom-lista > div').forEach(() => {
                 adicionarTomadaModal(idx);
-                const last = document.querySelector(`#modal-tom-${idx} > div:last-child`);
-                if (last) {
-                    last.querySelector('.modal-tom-va').value  = item.querySelector('.comodo-tom-va')?.value  || 100;
-                    last.querySelector('.modal-tom-qtd').value = item.querySelector('.comodo-tom-qtd')?.value || 1;
-                }
             });
-            row.querySelectorAll('.comodo-equip-lista > div').forEach(item => {
+            row.querySelectorAll('.comodo-equip-lista > div').forEach(() => {
                 adicionarEquipModal(idx);
-                const last = document.querySelector(`#modal-equip-${idx} > div:last-child`);
-                if (last) {
-                    last.querySelector('.modal-equip-w').value   = item.querySelector('.comodo-equip-w')?.value   || 0;
-                    last.querySelector('.modal-equip-qtd').value = item.querySelector('.comodo-equip-qtd')?.value || 1;
-                }
             });
         }
 
         function adicionarEquipModal(idx) {
-            if (_modoTeste) return; // modo teste: não permite equipamentos via modal de cômodo
+            if (_modoTeste) return;
             const lista = document.getElementById('modal-equip-' + idx);
             if (!lista) return;
             const item = document.createElement('div');
@@ -4190,30 +4231,23 @@
             inputNome.style.width = '90px';
 
             const inputQtd = document.createElement('input');
-            inputQtd.type = 'number'; inputQtd.value = '1'; inputQtd.min = '1'; inputQtd.placeholder = 'Qtd';
+            inputQtd.type = 'number'; inputQtd.value = '1'; inputQtd.min = '1';
             inputQtd.className = 'input-field modal-equip-qtd p-1.5 rounded-lg border border-purple-200 text-xs text-center';
             inputQtd.style.width = '38px';
 
             selEquip.onchange = function() {
                 const opt = this.options[this.selectedIndex];
-                if (this.value === 'outro') {
-                    inputNome.classList.remove('hidden');
-                } else {
-                    inputNome.classList.add('hidden');
-                    if (opt.dataset.w) inputW.value = opt.dataset.w;
-                }
+                if (this.value === 'outro') { inputNome.classList.remove('hidden'); }
+                else { inputNome.classList.add('hidden'); if (opt.dataset.w) inputW.value = opt.dataset.w; }
             };
 
             const btnDel = document.createElement('button');
-            btnDel.className = 'text-purple-300 hover:text-red-400 flex-shrink-0';
+            btnDel.className = 'text-slate-300 hover:text-red-400 flex-shrink-0';
             btnDel.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg>';
-            btnDel.onclick = () => { item.remove(); salvarEdicaoComodo(idx); };
+            btnDel.onclick = () => item.remove();
 
-            item.appendChild(selEquip);
-            item.appendChild(inputNome);
-            item.appendChild(inputW);
-            item.appendChild(inputQtd);
-            item.appendChild(btnDel);
+            item.appendChild(selEquip); item.appendChild(inputNome);
+            item.appendChild(inputW);   item.appendChild(inputQtd); item.appendChild(btnDel);
             lista.appendChild(item);
         }
 
@@ -4222,19 +4256,10 @@
             if (!lista) return;
             const item = document.createElement('div');
             item.className = 'flex gap-1 items-center bg-yellow-50 p-1.5 rounded-lg border border-yellow-200';
-            item.innerHTML = `
-                <select class="input-field modal-luz-tipo p-1.5 rounded-lg border border-yellow-200 text-xs flex-grow">
-                    <option value="led_simples">LED simples</option>
-                    <option value="led_plafon">Plafon LED</option>
-                    <option value="spot">Spot embutido</option>
-                    <option value="pendente">Pendente</option>
-                    <option value="arandela">Arandela</option>
-                    <option value="lustre">Lustre</option>
-                    <option value="outro">✏️ Outro</option>
-                </select>
-                <input type="number" value="9" min="1" class="input-field modal-luz-w p-1.5 rounded-lg border border-yellow-200 text-xs text-center" style="width:50px;" placeholder="W">
-                <input type="number" value="1" min="1" class="input-field modal-luz-qtd p-1.5 rounded-lg border border-yellow-200 text-xs text-center" style="width:38px;" placeholder="Qtd">
-                <button onclick="this.closest('div').remove(); salvarEdicaoComodo(${idx})" class="text-yellow-300 hover:text-red-400"><svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg></button>`;
+            item.innerHTML = `<span class="text-xs text-yellow-700 flex-grow">Ponto de luz</span>
+                <input type="number" class="modal-luz-w input-field p-1.5 rounded-lg border border-yellow-200 text-xs text-center" style="width:50px;" placeholder="W" value="9">
+                <input type="number" class="modal-luz-qtd input-field p-1.5 rounded-lg border border-yellow-200 text-xs text-center" style="width:38px;" value="1" min="1">
+                <button class="text-slate-300 hover:text-red-400" onclick="this.closest('div').remove()"><svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg></button>`;
             lista.appendChild(item);
         }
 
@@ -4243,71 +4268,33 @@
             if (!lista) return;
             const item = document.createElement('div');
             item.className = 'flex gap-1 items-center bg-blue-50 p-1.5 rounded-lg border border-blue-200';
-            item.innerHTML = `
-                <select class="input-field modal-tom-tipo p-1.5 rounded-lg border border-blue-200 text-xs flex-grow">
-                    <option value="tug_10a">TUG 10A (100 VA)</option>
-                    <option value="tug_20a">TUG 20A (200 VA)</option>
-                    <option value="tue_20a">TUE 20A (600 VA)</option>
-                    <option value="tue_30a">TUE 30A/Chuveiro (6000 VA)</option>
-                    <option value="tv">Tomada TV (100 VA)</option>
-                </select>
-                <input type="number" value="100" min="1" class="input-field modal-tom-va p-1.5 rounded-lg border border-blue-200 text-xs text-center" style="width:50px;" placeholder="VA">
-                <input type="number" value="1" min="1" class="input-field modal-tom-qtd p-1.5 rounded-lg border border-blue-200 text-xs text-center" style="width:38px;" placeholder="Qtd">
-                <button onclick="this.closest('div').remove(); salvarEdicaoComodo(${idx})" class="text-blue-300 hover:text-red-400"><svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg></button>`;
-            item.querySelector('.modal-tom-tipo').onchange = function() {
-                const vaMap = { tug_10a:100, tug_20a:200, tue_20a:600, tue_30a:6000, tv:100 };
-                item.querySelector('.modal-tom-va').value = vaMap[this.value] || 100;
-            };
+            item.innerHTML = `<span class="text-xs text-blue-700 flex-grow">Tomada</span>
+                <input type="number" class="modal-tom-va input-field p-1.5 rounded-lg border border-blue-200 text-xs text-center" style="width:50px;" placeholder="VA" value="100">
+                <input type="number" class="modal-tom-qtd input-field p-1.5 rounded-lg border border-blue-200 text-xs text-center" style="width:38px;" value="1" min="1">
+                <button class="text-slate-300 hover:text-red-400" onclick="this.closest('div').remove()"><svg class="ico" aria-hidden="true"><use href="#i-trash"></use></svg></button>`;
             lista.appendChild(item);
         }
 
         function adicionarComodoNaTabela() {
             const res = document.getElementById('res-comodo');
-
-            const existing = document.getElementById('form-novo-comodo-tabela');
-            if (existing) { existing.remove(); return; }
-
+            document.getElementById('form-novo-comodo-tabela')?.remove();
             const form = document.createElement('div');
             form.id = 'form-novo-comodo-tabela';
             form.className = 'bg-white border-2 border-purple-300 rounded-2xl p-4 space-y-3 mt-2';
 
-            // Header
             const header = document.createElement('div');
             header.className = 'flex justify-between items-center';
-            const titulo = document.createElement('p');
-            titulo.className = 'text-xs font-black text-purple-700 uppercase';
-            titulo.textContent = '+ Novo Cômodo';
-            const btnClose = document.createElement('button');
-            btnClose.className = 'text-slate-300 hover:text-red-400';
-            btnClose.innerHTML = '<svg class="ico" aria-hidden="true"><use href="#i-xmark"></use></svg>';
-            btnClose.onclick = () => form.remove();
-            header.appendChild(titulo);
-            header.appendChild(btnClose);
+            header.innerHTML = `<p class="text-xs font-black text-purple-700 uppercase">+ Novo Cômodo</p>
+                <button class="text-slate-300 hover:text-red-400" onclick="document.getElementById('form-novo-comodo-tabela').remove()"><svg class="ico" aria-hidden="true"><use href="#i-xmark"></use></svg></button>`;
 
-            // Linha 1: nome + sugestão
-            const row1 = document.createElement('div');
-            row1.className = 'flex gap-2';
+            const row1 = document.createElement('div'); row1.className = 'flex gap-2';
             const inputNome = document.createElement('input');
             inputNome.type = 'text'; inputNome.id = 'novo-comodo-nome';
             inputNome.placeholder = 'Nome do cômodo...';
             inputNome.className = 'input-field flex-grow p-2 rounded-lg border border-slate-200 text-xs font-bold focus:outline-none';
-
-            const selSug = document.createElement('select');
-            selSug.className = 'input-field p-2 rounded-lg border border-slate-200 text-xs';
-            selSug.style.width = '90px';
-            const optDef = document.createElement('option'); optDef.value = ''; optDef.textContent = 'Tipo...';
-            selSug.appendChild(optDef);
-            COMODOS_SUGESTAO.forEach(s => {
-                const o = document.createElement('option'); o.value = s; o.textContent = s; selSug.appendChild(o);
-            });
-            selSug.onchange = function() { if (this.value) { inputNome.value = this.value; this.value = ''; } };
-
             row1.appendChild(inputNome);
-            row1.appendChild(selSug);
 
-            // Linha 2: tipo + valor
-            const row2 = document.createElement('div');
-            row2.className = 'flex gap-2';
+            const row2 = document.createElement('div'); row2.className = 'flex gap-2';
             const selTipo = document.createElement('select');
             selTipo.id = 'novo-comodo-tipo';
             selTipo.className = 'input-field p-2 rounded-lg border border-slate-200 text-xs font-bold';
@@ -4319,21 +4306,16 @@
             inputValor.type = 'number'; inputValor.id = 'novo-comodo-valor';
             inputValor.placeholder = 'Ex: 12'; inputValor.min = '0'; inputValor.step = '0.1';
             inputValor.className = 'input-field flex-grow p-2 rounded-lg border border-slate-200 text-xs text-center focus:outline-none';
+            row2.appendChild(selTipo); row2.appendChild(inputValor);
 
-            row2.appendChild(selTipo);
-            row2.appendChild(inputValor);
-
-            // Botão confirmar
             const btnAdd = document.createElement('button');
             btnAdd.className = 'w-full py-2 rounded-xl text-xs font-black';
             btnAdd.style.cssText = 'background:#f97316;color:#000;';
             btnAdd.textContent = 'ADICIONAR E RECALCULAR →';
             btnAdd.onclick = confirmarNovoComodoTabela;
 
-            form.appendChild(header);
-            form.appendChild(row1);
-            form.appendChild(row2);
-            form.appendChild(btnAdd);
+            form.appendChild(header); form.appendChild(row1);
+            form.appendChild(row2);   form.appendChild(btnAdd);
             res.appendChild(form);
             inputNome.focus();
         }
@@ -4342,23 +4324,17 @@
             const nome  = document.getElementById('novo-comodo-nome')?.value.trim();
             const tipo  = document.getElementById('novo-comodo-tipo')?.value;
             const valor = document.getElementById('novo-comodo-valor')?.value;
-
-            if (!nome || !valor) { _toastSimples('⚠️ Preencha o nome e o valor do cômodo.'); return; }
-
-            // Adicionar novo cômodo na lista oculta de entrada
-            // Modo teste: bloqueia adição de cômodo pela tabela também
+            if (!nome || !valor) { _toastSimples('⚠️ Preencha nome e valor.'); return; }
             if (_modoTeste) return;
             adicionarComodo(nome);
-            const rows  = document.querySelectorAll('.comodo-row');
+            const rows    = document.querySelectorAll('.comodo-row');
             const novoRow = rows[rows.length - 1];
             if (novoRow) {
                 novoRow.querySelector('.comodo-tipo').value  = tipo;
                 novoRow.querySelector('.comodo-valor').value = valor;
             }
-
             document.getElementById('form-novo-comodo-tabela')?.remove();
             calcularDemandaComodo();
-            trocarSubAbaComodo('resultado');
         }
 
         function salvarEdicaoComodo(idx) {
@@ -4366,7 +4342,6 @@
             if (!rows[idx]) return;
             const row = rows[idx];
 
-            // Atualizar nome, tipo e valor do cômodo
             const nomeEdit  = document.getElementById(`edit-comodo-nome-${idx}`)?.value.trim();
             const tipoEdit  = document.getElementById(`edit-comodo-tipo-${idx}`)?.value;
             const valorEdit = document.getElementById(`edit-comodo-valor-${idx}`)?.value;
@@ -4378,10 +4353,9 @@
             const listaLuz = row.querySelector('.comodo-luz-lista');
             listaLuz.innerHTML = '';
             document.querySelectorAll(`#modal-luz-${idx} > div`).forEach(item => {
-                const w   = item.querySelector('.modal-luz-w')?.value   || 9;
-                const qtd = item.querySelector('.modal-luz-qtd')?.value || 1;
                 const clone = document.createElement('div');
-                clone.innerHTML = `<input class="comodo-luz-w" value="${w}" style="display:none"><input class="comodo-luz-qtd" value="${qtd}" style="display:none">`;
+                clone.innerHTML = `<input class="comodo-luz-w" value="${item.querySelector('.modal-luz-w')?.value || 9}" style="display:none">
+                    <input class="comodo-luz-qtd" value="${item.querySelector('.modal-luz-qtd')?.value || 1}" style="display:none">`;
                 listaLuz.appendChild(clone);
             });
 
@@ -4389,10 +4363,9 @@
             const listaTom = row.querySelector('.comodo-tom-lista');
             listaTom.innerHTML = '';
             document.querySelectorAll(`#modal-tom-${idx} > div`).forEach(item => {
-                const va  = item.querySelector('.modal-tom-va')?.value  || 100;
-                const qtd = item.querySelector('.modal-tom-qtd')?.value || 1;
                 const clone = document.createElement('div');
-                clone.innerHTML = `<input class="comodo-tom-va" value="${va}" style="display:none"><input class="comodo-tom-qtd" value="${qtd}" style="display:none">`;
+                clone.innerHTML = `<input class="comodo-tom-va" value="${item.querySelector('.modal-tom-va')?.value || 100}" style="display:none">
+                    <input class="comodo-tom-qtd" value="${item.querySelector('.modal-tom-qtd')?.value || 1}" style="display:none">`;
                 listaTom.appendChild(clone);
             });
 
@@ -4400,17 +4373,127 @@
             const listaEquip = row.querySelector('.comodo-equip-lista');
             listaEquip.innerHTML = '';
             document.querySelectorAll(`#modal-equip-${idx} > div`).forEach(item => {
-                const w   = item.querySelector('.modal-equip-w')?.value   || 0;
-                const qtd = item.querySelector('.modal-equip-qtd')?.value || 1;
                 const clone = document.createElement('div');
-                clone.innerHTML = `<input class="comodo-equip-w" value="${w}" style="display:none"><input class="comodo-equip-qtd" value="${qtd}" style="display:none">`;
+                clone.innerHTML = `<input class="comodo-equip-w" value="${item.querySelector('.modal-equip-w')?.value || 0}" style="display:none">
+                    <input class="comodo-equip-qtd" value="${item.querySelector('.modal-equip-qtd')?.value || 1}" style="display:none">`;
                 listaEquip.appendChild(clone);
             });
 
             document.getElementById('modal-edit-comodo')?.remove();
             calcularDemandaComodo();
-            trocarSubAbaComodo('resultado');
         }
+
+
+        function calcularCarga() {
+            const itens = document.querySelectorAll('#carga-itens > div');
+            if (itens.length === 0) {
+                _toastSimples('⚠️ Adicione ao menos um equipamento à lista.');
+                return;
+            }
+
+            const fd     = parseFloat(document.getElementById('carga-tipo-inst')?.value) || 1.0;
+            const tensao = tensaoCarga || 127;
+            const fpMedio = 0.92;
+
+            let cargaInstalada = 0;
+            itens.forEach(row => {
+                const w   = parseFloat(row.querySelector('.carga-watts')?.value) || 0;
+                const qtd = parseFloat(row.querySelector('.carga-qtd')?.value)   || 1;
+                cargaInstalada += w * qtd;
+            });
+
+            const cargaDemanda = Math.round(cargaInstalada * fd);
+
+            let corrente;
+            if (cargaSistema === 'tri')     corrente = cargaDemanda / (Math.sqrt(3) * tensao * fpMedio);
+            else if (cargaSistema === 'bi') corrente = cargaDemanda / (2 * tensao * fpMedio);
+            else                           corrente = cargaDemanda / (tensao * fpMedio);
+            corrente = Math.ceil(corrente * 10) / 10;
+
+            const serieDisj = [6,10,16,20,25,32,40,50,63,80,100,125,160,200];
+            const disjuntor = serieDisj.find(d => d >= corrente) || serieDisj[serieDisj.length - 1];
+
+            const tabelaBitola = [
+                {b:1.5,  Iz:13}, {b:2.5, Iz:17}, {b:4,  Iz:23},
+                {b:6,    Iz:29}, {b:10,  Iz:39}, {b:16, Iz:52},
+                {b:25,   Iz:66}, {b:35,  Iz:83}, {b:50, Iz:99},
+            ];
+            const fioRec = tabelaBitola.find(t => t.Iz >= corrente);
+            const fioStr = fioRec ? fioRec.b + ' mm²' : '> 50 mm²';
+            const fioIz  = fioRec ? fioRec.Iz + 'A' : '—';
+
+            const sistemaNome = cargaSistema === 'tri' ? 'Trifásico' : cargaSistema === 'bi' ? 'Bifásico' : 'Monofásico';
+            const sistemaSub  = cargaSistema === 'tri' ? tensao+'V — 3F + N + PE' : cargaSistema === 'bi' ? tensao+'V — 2F + N' : tensao+'V — F + N + PE';
+            const disjPolo    = cargaSistema === 'tri' ? 'Tetrapolar' : cargaSistema === 'bi' ? 'Tripolar' : 'Bipolar';
+
+            // Circuitos sugeridos NBR 5410
+            const circuitos = [
+                {nome:'💡 Iluminação geral',      bitola:'1,5 mm²', disj:'B 10A', tens:tensao+'V',  dr:false},
+                {nome:'🔌 Tomadas TUG',            bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V',  dr:false},
+                {nome:'🚿 Chuveiro (TUE)',          bitola:'10 mm²',  disj:'C 50A', tens:'220V',      dr:true},
+                {nome:'❄️ Ar-condicionado (TUE)',   bitola:'2,5 mm²', disj:'C 20A', tens:'220V',      dr:false},
+                {nome:'🍳 Cozinha / Serviço',       bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V',  dr:true},
+            ];
+
+            // Quadro de distribuição
+            const circQD = [
+                {nome:'Disjuntor geral',  amp:disjuntor+'A', cor:'#ef4444'},
+                {nome:'Chuveiro',         amp:'50A',         cor:'#f97316'},
+                {nome:'Iluminação',       amp:'10A',         cor:'#eab308'},
+                {nome:'Tomadas TUG',      amp:'20A',         cor:'#eab308'},
+                {nome:'Ar-condicionado',  amp:'20A',         cor:'#22c55e'},
+                {nome:'Cozinha/Serviço',  amp:'20A',         cor:'#3b82f6'},
+                {nome:'Reserva',          amp:'—',           cor:'#334155', reserva:true},
+                {nome:'Reserva',          amp:'—',           cor:'#334155', reserva:true},
+            ];
+
+            // Preencher campos
+            document.getElementById('res-potencia').textContent    = cargaInstalada.toLocaleString('pt-BR') + ' W';
+            document.getElementById('res-demanda').textContent     = cargaDemanda.toLocaleString('pt-BR') + ' VA';
+            document.getElementById('res-fd-sub').textContent      = 'fd = ' + (fd * 100).toFixed(0) + '%';
+            document.getElementById('res-corrente').textContent    = corrente.toFixed(1) + ' A';
+            document.getElementById('res-disjuntor').textContent   = disjuntor + ' A';
+            document.getElementById('res-disj-sub').textContent    = 'Curva C — ' + disjPolo;
+            document.getElementById('res-fio').textContent         = fioStr;
+            document.getElementById('res-fio-sub').textContent     = 'Iz = ' + fioIz + ' — método B1';
+            document.getElementById('res-dr').textContent          = '30 mA';
+            document.getElementById('res-dr-sub').textContent      = 'Obrig. áreas molhadas';
+            document.getElementById('res-sistema-nome').textContent = sistemaNome;
+            document.getElementById('res-sistema-sub').textContent  = sistemaSub;
+
+            // Circuitos
+            const circEl = document.getElementById('res-circuitos');
+            circEl.innerHTML = '';
+            circuitos.forEach(c => {
+                const row = document.createElement('div');
+                row.style.cssText = 'background:rgba(255,255,255,.05);border-radius:8px;padding:7px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;';
+                row.innerHTML = '<span style="font-size:11px;font-weight:700;color:white;flex:1;">' + c.nome + '</span>' +
+                    '<div style="display:flex;gap:3px;flex-wrap:nowrap;">' +
+                    '<span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;background:#14532d;color:#86efac;">' + c.bitola + '</span>' +
+                    '<span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;background:#1e3a5f;color:#93c5fd;">' + c.disj + '</span>' +
+                    '<span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;background:#431407;color:#fb923c;">' + c.tens + '</span>' +
+                    (c.dr ? '<span style="font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;background:#450a0a;color:#fca5a5;">DR 30mA</span>' : '') +
+                    '</div>';
+                circEl.appendChild(row);
+            });
+
+            // Quadro
+            const qdEl = document.getElementById('res-quadro');
+            qdEl.innerHTML = '';
+            circQD.forEach(c => {
+                const item = document.createElement('div');
+                item.style.cssText = 'background:#0f172a;border:1px solid #1e3a5f;border-radius:6px;padding:6px 8px;display:flex;align-items:center;gap:6px;' + (c.reserva ? 'opacity:.35;' : '');
+                item.innerHTML = '<div style="width:7px;height:18px;border-radius:2px;background:' + c.cor + ';flex-shrink:0;"></div>' +
+                    '<span style="font-size:9px;color:#94a3b8;flex:1;line-height:1.3;">' + c.nome + '</span>' +
+                    '<span style="font-size:10px;font-weight:900;color:#fcd34d;">' + c.amp + '</span>';
+                qdEl.appendChild(item);
+            });
+            document.getElementById('res-quadro-obs').textContent = circQD.length + ' posições · ' + circQD.filter(c=>c.reserva).length + ' reservas (NBR 5410 obrig.)';
+
+            document.getElementById('resultado-carga').classList.remove('hidden');
+            document.getElementById('resultado-carga').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
         // — QUEDA DE TENSÃO — variáveis de estado
         let quedaSistema  = 'mono';
         let quedaTipoCirc = 'terminal';
