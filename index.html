@@ -963,58 +963,71 @@
 
                         <!-- Painel Cobre/PVC — material e método (colapsável) -->
                         <div id="res-painel-cabo" style="display:none;background:#0d1b2a;border:1px solid #431407;border-radius:10px;padding:10px;flex-direction:column;gap:8px;">
-                            <div>
-                                <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;">Material do condutor</p>
-                                <div style="display:flex;gap:4px;">
-                                    <button onclick="setBadgeMaterial('cu')" id="badge-mat-cu" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;">Cobre (Cu)</button>
-                                    <button onclick="setBadgeMaterial('al')" id="badge-mat-al" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Alumínio (Al)</button>
-                                </div>
-                            </div>
-                            <div>
-                                <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;">Método de instalação</p>
-                                <div style="display:flex;gap:4px;flex-wrap:wrap;">
-                                    <button onclick="setBadgeMetodo('B1')" id="badge-met-B1" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;min-width:40px;">B1</button>
-                                    <button onclick="setBadgeMetodo('B2')" id="badge-met-B2" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">B2</button>
-                                    <button onclick="setBadgeMetodo('C')"  id="badge-met-C"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">C</button>
-                                    <button onclick="setBadgeMetodo('E')"  id="badge-met-E"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">E</button>
-                                    <button onclick="setBadgeMetodo('D')"  id="badge-met-D"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">D</button>
-                                </div>
-                                <p id="res-metodo-desc" style="font-size:9px;color:#64748b;margin:5px 0 0;font-style:italic;"></p>
+
+                            <!-- Material inline -->
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:9px;color:#64748b;white-space:nowrap;">Material</span>
+                                <button onclick="setBadgeMaterial('cu')" id="badge-mat-cu" style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;">Cobre (Cu)</button>
+                                <button onclick="setBadgeMaterial('al')" id="badge-mat-al" style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Alumínio (Al)</button>
                             </div>
 
-                            <!-- Pré-cálculo de queda de tensão -->
-                            <div style="height:1px;background:rgba(255,255,255,.06);"></div>
-                            <p style="font-size:9px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.08em;margin:0;">Pré-cálculo — Queda de tensão</p>
-                            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-                                <div style="display:flex;align-items:center;gap:5px;flex:1;min-width:120px;">
-                                    <label style="font-size:10px;color:#64748b;white-space:nowrap;">Distância (m)</label>
-                                    <input type="number" id="badge-dist" value="15" min="1" oninput="calcBadgeQueda()"
-                                        style="flex:1;padding:5px 6px;border-radius:6px;font-size:12px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:white;outline:none;text-align:center;width:60px;">
-                                </div>
-                                <div style="display:flex;align-items:center;gap:5px;flex:1;min-width:130px;">
-                                    <label style="font-size:10px;color:#64748b;white-space:nowrap;">Tipo</label>
-                                    <select id="badge-tipo-circ" onchange="calcBadgeQueda()"
-                                        style="flex:1;padding:5px 4px;border-radius:6px;font-size:10px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
-                                        <option value="4">Terminal (4%)</option>
-                                        <option value="7">Alimentador (7%)</option>
-                                    </select>
-                                </div>
+                            <!-- Método inline -->
+                            <div style="display:flex;gap:4px;align-items:center;">
+                                <span style="font-size:9px;color:#64748b;white-space:nowrap;">Método</span>
+                                <button onclick="setBadgeMetodo('B1')" id="badge-met-B1" style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;">B1</button>
+                                <button onclick="setBadgeMetodo('B2')" id="badge-met-B2" style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">B2</button>
+                                <button onclick="setBadgeMetodo('C')"  id="badge-met-C"  style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">C</button>
+                                <button onclick="setBadgeMetodo('E')"  id="badge-met-E"  style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">E</button>
+                                <button onclick="setBadgeMetodo('D')"  id="badge-met-D"  style="flex:1;padding:5px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">D</button>
                             </div>
-                            <div id="badge-res-queda" style="background:#0a1628;border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:5px;">
-                                <div style="display:flex;justify-content:space-between;align-items:center;">
-                                    <span style="font-size:10px;color:#64748b;">Queda calculada</span>
-                                    <span id="badge-pct-queda" style="font-size:18px;font-weight:900;color:#86efac;">—</span>
+
+                            <div style="height:1px;background:rgba(255,255,255,.06);"></div>
+
+                            <!-- Bitola + Distância + Tipo numa linha -->
+                            <div style="display:flex;gap:4px;align-items:center;flex-wrap:wrap;">
+                                <span style="font-size:9px;color:#64748b;white-space:nowrap;">Bitola</span>
+                                <select id="badge-sel-bit" onchange="setBadgeBitola()" style="flex:2;padding:5px;border-radius:6px;font-size:10px;font-weight:900;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
+                                    <option value="1.5">1,5mm²</option>
+                                    <option value="2.5">2,5mm²</option>
+                                    <option value="4">4mm²</option>
+                                    <option value="6">6mm²</option>
+                                    <option value="10">10mm²</option>
+                                    <option value="16">16mm²</option>
+                                    <option value="25">25mm²</option>
+                                    <option value="35">35mm²</option>
+                                    <option value="50">50mm²</option>
+                                </select>
+                                <span style="font-size:9px;color:#64748b;white-space:nowrap;">Dist (m)</span>
+                                <input type="number" id="badge-dist" value="" min="1" placeholder="Ex:15" oninput="calcBadgeQueda()"
+                                    style="width:54px;padding:5px;border-radius:6px;font-size:11px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:white;outline:none;text-align:center;">
+                                <select id="badge-tipo-circ" onchange="calcBadgeQueda()" style="flex:1;padding:5px;border-radius:6px;font-size:9px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
+                                    <option value="4">Terminal 4%</option>
+                                    <option value="7">Alimentador 7%</option>
+                                </select>
+                            </div>
+
+                            <!-- Resultado compacto numa linha -->
+                            <div style="background:#0a1628;border-radius:8px;padding:8px;display:flex;justify-content:space-between;align-items:center;gap:6px;">
+                                <div style="display:flex;gap:10px;">
+                                    <div style="text-align:center;">
+                                        <p style="font-size:8px;color:#64748b;margin:0;">Iz</p>
+                                        <p id="badge-liz" style="font-size:13px;font-weight:900;color:#86efac;margin:0;">—</p>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <p style="font-size:8px;color:#64748b;margin:0;">Ib</p>
+                                        <p id="badge-lib" style="font-size:13px;font-weight:900;color:#fdba74;margin:0;">—</p>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <p style="font-size:8px;color:#64748b;margin:0;">Queda</p>
+                                        <p id="badge-pct-queda" style="font-size:13px;font-weight:900;color:#86efac;margin:0;">—</p>
+                                    </div>
+                                    <div style="text-align:center;">
+                                        <p style="font-size:8px;color:#64748b;margin:0;">Tensão</p>
+                                        <p id="badge-v-carga" style="font-size:13px;font-weight:900;color:white;margin:0;">—</p>
+                                    </div>
                                 </div>
-                                <div style="display:flex;justify-content:space-between;">
-                                    <span style="font-size:10px;color:#64748b;">Tensão na carga</span>
-                                    <span id="badge-v-carga" style="font-size:11px;font-weight:700;color:white;">—</span>
-                                </div>
-                                <div style="display:flex;justify-content:space-between;">
-                                    <span style="font-size:10px;color:#64748b;">Limite NBR 5410</span>
-                                    <span id="badge-v-limite" style="font-size:11px;font-weight:700;color:#93c5fd;">—</span>
-                                </div>
-                                <div id="badge-status-queda" style="text-align:center;padding:5px;border-radius:6px;font-size:10px;font-weight:900;background:#1e3a5f;color:#93c5fd;">
-                                    Digite a distância para calcular
+                                <div id="badge-status-queda" style="font-size:10px;font-weight:900;padding:5px 8px;border-radius:6px;background:#1e3a5f;color:#93c5fd;white-space:nowrap;">
+                                    —
                                 </div>
                             </div>
                         </div>
@@ -1062,84 +1075,25 @@
                                 <p class="text-base font-black text-yellow-300" id="res-disjuntor">— A</p>
                                 <p class="text-[9px] text-slate-500" id="res-disj-sub">Curva C</p>
                             </div>
-                            <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;overflow:hidden;">
-
-                                <!-- Header clicável -->
-                                <button onclick="toggleAcordBitola()" style="width:100%;padding:10px 12px;background:transparent;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
-                                    <div>
-                                        <p style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;margin:0;">Bitola Mínima</p>
-                                        <div style="display:flex;align-items:baseline;gap:5px;margin-top:2px;">
-                                            <span id="res-fio" style="font-size:18px;font-weight:900;color:#86efac;">— mm²</span>
-                                            <span id="res-fio-badge" style="font-size:9px;font-weight:900;padding:1px 6px;border-radius:10px;background:#1e3a5f;color:#93c5fd;">Iz —</span>
-                                        </div>
-                                    </div>
-                                    <svg id="acord-bitola-chev" style="width:11px;height:11px;transition:transform .2s;flex-shrink:0;" viewBox="0 0 12 8" fill="none">
-                                        <path d="M1 1.5l5 5 5-5" stroke="#475569" stroke-width="1.8" stroke-linecap="round"/>
-                                    </svg>
-                                </button>
-
-                                <!-- Corpo compacto -->
-                                <div id="acord-bitola-body" style="display:none;border-top:1px solid #1e3a5f;padding:8px;flex-direction:column;gap:7px;">
-
-                                    <!-- Material + Bitola inline -->
-                                    <div style="display:flex;gap:4px;align-items:center;">
-                                        <span style="font-size:9px;color:#64748b;white-space:nowrap;">Material</span>
-                                        <button id="ab-cu" onclick="setAcordMat('cu')" style="flex:1;padding:4px;border-radius:5px;font-size:10px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;">Cu</button>
-                                        <button id="ab-al" onclick="setAcordMat('al')" style="flex:1;padding:4px;border-radius:5px;font-size:10px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Al</button>
-                                        <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:4px;">Bitola</span>
-                                        <select id="acord-sel-bit" onchange="setAcordBitola()" style="flex:2;padding:4px;border-radius:5px;font-size:10px;font-weight:900;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
-                                            <option value="1.5">1,5mm²</option>
-                                            <option value="2.5">2,5mm²</option>
-                                            <option value="4">4mm²</option>
-                                            <option value="6">6mm²</option>
-                                            <option value="10">10mm²</option>
-                                            <option value="16">16mm²</option>
-                                            <option value="25">25mm²</option>
-                                            <option value="35">35mm²</option>
-                                            <option value="50">50mm²</option>
-                                        </select>
-                                    </div>
-
-                                    <!-- Iz vs Ib inline -->
-                                    <div style="display:flex;gap:4px;">
-                                        <div style="flex:1;background:#0f172a;border-radius:6px;padding:5px;text-align:center;">
-                                            <p style="font-size:8px;color:#64748b;margin:0;">Iz (cabo)</p>
-                                            <p id="acord-liz" style="font-size:13px;font-weight:900;color:#86efac;margin:0;">—</p>
-                                        </div>
-                                        <div style="flex:1;background:#0f172a;border-radius:6px;padding:5px;text-align:center;">
-                                            <p style="font-size:8px;color:#64748b;margin:0;">Ib (carga)</p>
-                                            <p id="acord-lib" style="font-size:13px;font-weight:900;color:#fdba74;margin:0;">—</p>
-                                        </div>
-                                        <div style="flex:1;background:#0f172a;border-radius:6px;padding:5px;text-align:center;">
-                                            <p style="font-size:8px;color:#64748b;margin:0;">Cabo</p>
-                                            <p id="acord-okiz" style="font-size:12px;font-weight:900;color:#86efac;margin:0;">—</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Distância + tipo + resultado inline -->
-                                    <div style="display:flex;gap:4px;align-items:center;">
-                                        <span style="font-size:9px;color:#64748b;white-space:nowrap;">Dist (m)</span>
-                                        <input id="acord-dist" type="number" value="" min="1" placeholder="Ex: 15" oninput="calcAcordQueda()"
-                                            style="width:52px;padding:4px;border-radius:5px;font-size:11px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:white;outline:none;text-align:center;">
-                                        <select id="acord-tipo" onchange="calcAcordQueda()" style="flex:1;padding:4px;border-radius:5px;font-size:9px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
-                                            <option value="4">Terminal 4%</option>
-                                            <option value="7">Alimentador 7%</option>
-                                        </select>
-                                        <span id="acord-pct" style="font-size:15px;font-weight:900;color:#64748b;white-space:nowrap;min-width:36px;text-align:right;">—</span>
-                                    </div>
-
-                                    <!-- Status -->
-                                    <div id="acord-status" style="text-align:center;padding:5px;border-radius:6px;font-size:10px;font-weight:900;background:#1e3a5f;color:#93c5fd;">
-                                        Digite a distância para calcular
-                                    </div>
-
-                                </div>
-                            </div>
                             <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Proteção DR</p>
                                 <p class="text-base font-black text-purple-300" id="res-dr">30 mA</p>
                                 <p class="text-[9px] text-slate-500" id="res-dr-sub">Áreas molhadas</p>
                             </div>
+                        </div>
+
+                        <!-- Card Bitola Mínima simples -->
+                        <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;padding:10px 12px;display:flex;justify-content:space-between;align-items:center;">
+                            <div>
+                                <p style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;margin:0;">Bitola Mínima</p>
+                                <div style="display:flex;align-items:baseline;gap:5px;margin-top:2px;">
+                                    <span id="res-fio" style="font-size:18px;font-weight:900;color:#86efac;">— mm²</span>
+                                    <span id="res-fio-badge" style="font-size:9px;font-weight:900;padding:1px 6px;border-radius:10px;background:#1e3a5f;color:#93c5fd;">Iz —</span>
+                                </div>
+                            </div>
+                            <button onclick="importarParaQueda()" style="font-size:10px;font-weight:900;padding:6px 10px;border-radius:8px;border:none;background:#2563eb;color:white;cursor:pointer;white-space:nowrap;">
+                                Calcular queda →
+                            </button>
                         </div>
 
                         <div style="height:1px;background:rgba(255,255,255,.06);"></div>
@@ -1167,6 +1121,17 @@
 
                 <!-- ABA: QUEDA DE TENSÃO -->
                 <div id="ferr-queda" class="hidden space-y-3">
+
+                    <!-- Banner: importar da Demanda -->
+                    <div id="queda-banner-demanda" style="display:none;background:#1e3a5f;border:1px solid #2563eb;border-radius:10px;padding:10px 12px;display:none;justify-content:space-between;align-items:center;gap:8px;">
+                        <div>
+                            <p style="font-size:10px;font-weight:700;color:#93c5fd;margin:0;">Dados da Demanda disponíveis</p>
+                            <p style="font-size:9px;color:#64748b;margin:2px 0 0;" id="queda-banner-info">—</p>
+                        </div>
+                        <button onclick="aplicarDadosDemanda()" style="font-size:10px;font-weight:900;padding:6px 10px;border-radius:8px;border:none;background:#2563eb;color:white;cursor:pointer;white-space:nowrap;flex-shrink:0;">
+                            Usar esses dados
+                        </button>
+                    </div>
 
                     <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
 
@@ -4057,15 +4022,20 @@
             _badgeMaterial = v;
             _syncBadgeCaboBtns();
             _atualizarTextoBadgeCabo();
-            calcBadgeQueda(); // atualiza queda imediatamente com novo material
-            calcularCarga();  // recalcula bitola com material correto
+            calcularCarga(); // recalcula bitola e atualiza select automaticamente
         }
 
         function setBadgeMetodo(v) {
             _badgeMetodo = v;
             _syncBadgeCaboBtns();
             _atualizarTextoBadgeCabo();
-            calcularCarga();
+            calcularCarga(); // recalcula com novo método
+        }
+
+        function setBadgeBitola() {
+            const sel = document.getElementById('badge-sel-bit');
+            if (sel) _resBitola = parseFloat(sel.value) || _resBitola;
+            calcBadgeQueda();
         }
 
         function _atualizarTextoBadgeCabo() {
@@ -4085,38 +4055,47 @@
             const limite = parseFloat(document.getElementById('badge-tipo-circ')?.value) || 4;
             const pctEl  = document.getElementById('badge-pct-queda');
             const vEl    = document.getElementById('badge-v-carga');
-            const limEl  = document.getElementById('badge-v-limite');
+            const lizEl  = document.getElementById('badge-liz');
+            const libEl  = document.getElementById('badge-lib');
             const stEl   = document.getElementById('badge-status-queda');
             if (!pctEl) return;
 
-            if (dist <= 0 || _resCorrente <= 0 || _resBitola <= 0) {
-                pctEl.textContent = '—'; vEl.textContent = '—';
-                limEl.textContent = limite + '% (' + (limite === 4 ? 'terminal' : 'alimentador') + ')';
-                stEl.textContent = 'Digite a distância para calcular';
-                stEl.style.background = '#1e3a5f'; stEl.style.color = '#93c5fd';
+            // Iz do cabo selecionado
+            const bitola  = _resBitola || 0;
+            const izTabela = _IZ_METODO[_badgeMetodo] || _IZ_METODO['B1'];
+            const izBase   = izTabela[bitola] || 0;
+            const fMat     = _badgeMaterial === 'al' ? _IZ_AL_FATOR : 1.0;
+            const iz       = Math.round(izBase * fMat);
+            const okIz     = iz >= _resCorrente;
+
+            if (lizEl) { lizEl.textContent = iz > 0 ? iz + 'A' : '—'; lizEl.style.color = okIz ? '#86efac' : '#fca5a5'; }
+            if (libEl) libEl.textContent = _resCorrente > 0 ? _resCorrente.toFixed(1) + 'A' : '—';
+
+            // Atualiza select de bitola com a bitola atual
+            const selBit = document.getElementById('badge-sel-bit');
+            if (selBit && _resBitola) selBit.value = _resBitola;
+
+            if (dist <= 0 || _resCorrente <= 0 || bitola <= 0) {
+                pctEl.textContent = '—'; pctEl.style.color = '#64748b';
+                if (vEl) vEl.textContent = '—';
+                if (stEl) { stEl.textContent = !okIz && iz > 0 ? '❌ Bitola insuf.' : '—'; stEl.style.background = !okIz && iz > 0 ? '#450a0a' : '#1e3a5f'; stEl.style.color = !okIz && iz > 0 ? '#fca5a5' : '#93c5fd'; }
                 return;
             }
 
-            // ρ: Cu=0.0172, Al=0.0282 Ω·mm²/m | fator 2 = ida+volta (monofásico)
-            const rho    = _badgeMaterial === 'cu' ? 0.0172 : 0.0282;
-            const fCirc  = cargaSistema === 'tri' ? Math.sqrt(3) : 2;
-            const R      = (rho * fCirc * dist) / _resBitola;
-            const quedaV = _resCorrente * R;
+            const rho      = _badgeMaterial === 'cu' ? 0.0172 : 0.0282;
+            const fCirc    = cargaSistema === 'tri' ? Math.sqrt(3) : 2;
+            const quedaV   = _resCorrente * (rho * fCirc * dist) / bitola;
             const quedaPct = (quedaV / _resTensao) * 100;
             const vCarga   = _resTensao - quedaV;
-            const aprovado = quedaPct <= limite;
+            const aprovado = quedaPct <= limite && okIz;
 
-            pctEl.textContent     = quedaPct.toFixed(2) + '%';
-            pctEl.style.color     = aprovado ? '#86efac' : '#fca5a5';
-            vEl.textContent       = vCarga.toFixed(1) + 'V';
-            limEl.textContent     = limite + '% (' + (limite === 4 ? 'terminal' : 'alimentador') + ')';
-
-            if (aprovado) {
-                stEl.style.background = '#14532d'; stEl.style.color = '#86efac';
-                stEl.textContent = '✅ APROVADO — dentro do limite NBR 5410';
-            } else {
-                stEl.style.background = '#450a0a'; stEl.style.color = '#fca5a5';
-                stEl.textContent = '❌ REPROVADO — aumente a bitola ou reduza a distância';
+            pctEl.textContent = quedaPct.toFixed(1) + '%';
+            pctEl.style.color = aprovado ? '#86efac' : '#fca5a5';
+            if (vEl) vEl.textContent = vCarga.toFixed(1) + 'V';
+            if (stEl) {
+                if (!okIz)       { stEl.style.background = '#450a0a'; stEl.style.color = '#fca5a5'; stEl.textContent = '❌ Bitola insuf. p/ Ib'; }
+                else if (aprovado){ stEl.style.background = '#14532d'; stEl.style.color = '#86efac'; stEl.textContent = '✅ NBR OK'; }
+                else              { stEl.style.background = '#450a0a'; stEl.style.color = '#fca5a5'; stEl.textContent = '❌ ' + quedaPct.toFixed(1) + '% > ' + limite + '%'; }
             }
         }
 
@@ -5248,6 +5227,14 @@
             _resCorrente = corrente;
             _resBitola   = fioRec ? fioRec.b : 0;
             _resTensao   = tensao;
+            // Atualiza select de bitola do badge com a sugerida (marca ★)
+            const selBadgeBit = document.getElementById('badge-sel-bit');
+            if (selBadgeBit && _resBitola) {
+                Array.from(selBadgeBit.options).forEach(o => {
+                    o.textContent = parseFloat(o.value) + 'mm²' + (parseFloat(o.value) === _resBitola ? ' ★' : '');
+                });
+                selBadgeBit.value = _resBitola;
+            }
             calcBadgeQueda();
             // Sincroniza e fecha o painel do cabo
             _syncBadgeCaboBtns();
@@ -5408,6 +5395,55 @@
             const R = (rho * fCirc * comprimento) / bitola;
             const quedaV = corrente * R * fp;
             return (quedaV / tensao) * 100;
+        }
+
+        // Importa dados da Demanda para a aba Queda de Tensão
+        function importarParaQueda() {
+            if (_resCorrente <= 0 || _resBitola <= 0) {
+                _toastSimples('⚠️ Calcule a Demanda primeiro.');
+                return;
+            }
+            // Navega para a aba Queda
+            trocarAbaFerr('queda');
+            // Mostra o banner com os dados disponíveis
+            setTimeout(() => {
+                const banner = document.getElementById('queda-banner-demanda');
+                const info   = document.getElementById('queda-banner-info');
+                if (banner) {
+                    const matNome = _acordMat === 'al' ? 'Alumínio' : 'Cobre';
+                    if (info) info.textContent = 'Ib = ' + _resCorrente.toFixed(1) + 'A · Bitola = ' + _resBitola + 'mm² · ' + matNome + ' · ' + (_resTensao || 127) + 'V';
+                    banner.style.display = 'flex';
+                }
+            }, 100);
+        }
+
+        // Aplica os dados da Demanda nos campos da aba Queda
+        function aplicarDadosDemanda() {
+            // Corrente
+            const inpCorr = document.getElementById('queda-corrente');
+            if (inpCorr) inpCorr.value = _resCorrente.toFixed(1);
+
+            // Bitola
+            const selBit = document.getElementById('queda-bitola');
+            if (selBit) { selBit.value = _resBitola; atualizarInfoBitola(); }
+
+            // Tensão
+            const tensao = _resTensao || 127;
+            const selTensao = document.getElementById('queda-tensao');
+            if (selTensao) selTensao.value = tensao;
+
+            // Material (isolamento)
+            setIsolamento(_acordMat === 'al' ? 'pvc' : 'pvc');
+            setQuedaMaterial(_acordMat || 'cu');
+
+            // Sistema
+            setQuedaSistema(cargaSistema || 'mono');
+
+            // Esconde o banner
+            const banner = document.getElementById('queda-banner-demanda');
+            if (banner) banner.style.display = 'none';
+
+            _toastSimples('✅ Dados da Demanda aplicados! Informe a distância e calcule.');
         }
 
         function calcularQueda() {
