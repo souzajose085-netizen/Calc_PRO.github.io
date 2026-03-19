@@ -92,7 +92,7 @@
 
         /* ── SCROLLBAR VISÍVEL NOS MODAIS ── */
         /* Botão flutuante calcular */
-        .fab-calcular { position:fixed; bottom:60px; left:50%; transform:translateX(-50%); width:calc(100% - 32px); max-width:calc(28rem - 32px); z-index:39; }
+        .fab-calcular { position:fixed; bottom:calc(76px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); width:calc(100% - 32px); max-width:calc(28rem - 32px); z-index:41; }
         .modal-scroll::-webkit-scrollbar { width: 6px; }
         .modal-scroll::-webkit-scrollbar-track { background: transparent; }
         .modal-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 999px; }
@@ -939,20 +939,102 @@
                         <!-- Título -->
                         <p class="text-[10px] font-bold text-blue-300 uppercase tracking-widest">⚡ Resultado — Demanda Elétrica NBR 5410</p>
 
-                        <!-- Sistema + cabo -->
+                        <!-- Sistema + cabo — badge clicável -->
                         <div style="display:flex;gap:6px;flex-wrap:wrap;">
-                            <div id="res-sistema-badge" style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #2563eb;border-radius:8px;padding:6px 10px;">
+                            <button onclick="toggleBadgeSistema()" id="res-sistema-badge"
+                                style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #2563eb;border-radius:8px;padding:6px 10px;cursor:pointer;">
                                 <span style="font-size:14px;">🔌</span>
-                                <div>
+                                <div style="text-align:left;">
                                     <div id="res-sistema-nome" style="font-size:12px;font-weight:900;color:white;">—</div>
                                     <div id="res-sistema-sub" style="font-size:9px;color:#93c5fd;">—</div>
                                 </div>
-                            </div>
-                            <div style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #f97316;border-radius:8px;padding:6px 10px;">
+                                <svg id="res-badge-chevron" style="width:10px;height:10px;transition:transform .2s;flex-shrink:0;" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#93c5fd" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </button>
+                            <button onclick="toggleBadgeCabo()" id="res-cabo-badge"
+                                style="display:inline-flex;align-items:center;gap:6px;background:#1e3a5f;border:1px solid #f97316;border-radius:8px;padding:6px 10px;cursor:pointer;">
                                 <span style="font-size:14px;">🔧</span>
-                                <div>
-                                    <div style="font-size:12px;font-weight:900;color:white;">Cobre — PVC</div>
-                                    <div style="font-size:9px;color:#93c5fd;">Método B1 — embutido</div>
+                                <div style="text-align:left;">
+                                    <div id="res-cabo-nome" style="font-size:12px;font-weight:900;color:white;">Cobre — PVC</div>
+                                    <div id="res-cabo-sub" style="font-size:9px;color:#93c5fd;">Método B1 — embutido</div>
+                                </div>
+                                <svg id="res-cabo-chevron" style="width:10px;height:10px;transition:transform .2s;flex-shrink:0;" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#fb923c" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </button>
+                        </div>
+
+                        <!-- Painel Cobre/PVC — material e método (colapsável) -->
+                        <div id="res-painel-cabo" style="display:none;background:#0d1b2a;border:1px solid #431407;border-radius:10px;padding:10px;flex-direction:column;gap:8px;">
+                            <div>
+                                <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;">Material do condutor</p>
+                                <div style="display:flex;gap:4px;">
+                                    <button onclick="setBadgeMaterial('cu')" id="badge-mat-cu" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;">Cobre (Cu)</button>
+                                    <button onclick="setBadgeMaterial('al')" id="badge-mat-al" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Alumínio (Al)</button>
+                                </div>
+                            </div>
+                            <div>
+                                <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;">Método de instalação</p>
+                                <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                                    <button onclick="setBadgeMetodo('B1')" id="badge-met-B1" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;min-width:40px;">B1</button>
+                                    <button onclick="setBadgeMetodo('B2')" id="badge-met-B2" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">B2</button>
+                                    <button onclick="setBadgeMetodo('C')"  id="badge-met-C"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">C</button>
+                                    <button onclick="setBadgeMetodo('E')"  id="badge-met-E"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">E</button>
+                                    <button onclick="setBadgeMetodo('D')"  id="badge-met-D"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;min-width:40px;">D</button>
+                                </div>
+                                <p id="res-metodo-desc" style="font-size:9px;color:#64748b;margin:5px 0 0;font-style:italic;"></p>
+                            </div>
+
+                            <!-- Pré-cálculo de queda de tensão -->
+                            <div style="height:1px;background:rgba(255,255,255,.06);"></div>
+                            <p style="font-size:9px;font-weight:700;color:#93c5fd;text-transform:uppercase;letter-spacing:.08em;margin:0;">Pré-cálculo — Queda de tensão</p>
+                            <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+                                <div style="display:flex;align-items:center;gap:5px;flex:1;min-width:120px;">
+                                    <label style="font-size:10px;color:#64748b;white-space:nowrap;">Distância (m)</label>
+                                    <input type="number" id="badge-dist" value="15" min="1" oninput="calcBadgeQueda()"
+                                        style="flex:1;padding:5px 6px;border-radius:6px;font-size:12px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:white;outline:none;text-align:center;width:60px;">
+                                </div>
+                                <div style="display:flex;align-items:center;gap:5px;flex:1;min-width:130px;">
+                                    <label style="font-size:10px;color:#64748b;white-space:nowrap;">Tipo</label>
+                                    <select id="badge-tipo-circ" onchange="calcBadgeQueda()"
+                                        style="flex:1;padding:5px 4px;border-radius:6px;font-size:10px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
+                                        <option value="4">Terminal (4%)</option>
+                                        <option value="7">Alimentador (7%)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="badge-res-queda" style="background:#0a1628;border-radius:8px;padding:8px;display:flex;flex-direction:column;gap:5px;">
+                                <div style="display:flex;justify-content:space-between;align-items:center;">
+                                    <span style="font-size:10px;color:#64748b;">Queda calculada</span>
+                                    <span id="badge-pct-queda" style="font-size:18px;font-weight:900;color:#86efac;">—</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;">
+                                    <span style="font-size:10px;color:#64748b;">Tensão na carga</span>
+                                    <span id="badge-v-carga" style="font-size:11px;font-weight:700;color:white;">—</span>
+                                </div>
+                                <div style="display:flex;justify-content:space-between;">
+                                    <span style="font-size:10px;color:#64748b;">Limite NBR 5410</span>
+                                    <span id="badge-v-limite" style="font-size:11px;font-weight:700;color:#93c5fd;">—</span>
+                                </div>
+                                <div id="badge-status-queda" style="text-align:center;padding:5px;border-radius:6px;font-size:10px;font-weight:900;background:#1e3a5f;color:#93c5fd;">
+                                    Digite a distância para calcular
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Painel de seleção sistema/tensão (colapsável) -->
+                        <div id="res-painel-sistema" style="display:none;background:#0d1b2a;border:1px solid #1e3a5f;border-radius:10px;padding:10px;flex-direction:column;gap:8px;">
+                            <div>
+                                <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;">Sistema elétrico</p>
+                                <div style="display:flex;gap:4px;">
+                                    <button onclick="setBadgeSistema('mono')" id="badge-cbtn-mono" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #2563eb;background:#1e3a5f;color:#93c5fd;">Monofásico</button>
+                                    <button onclick="setBadgeSistema('bi')"   id="badge-cbtn-bi"   style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Bifásico</button>
+                                    <button onclick="setBadgeSistema('tri')"  id="badge-cbtn-tri"  style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Trifásico</button>
+                                </div>
+                            </div>
+                            <div>
+                                <p style="font-size:9px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.08em;margin:0 0 5px;">Tensão da rede</p>
+                                <div style="display:flex;gap:4px;">
+                                    <button onclick="setBadgeTensao(127)" id="badge-btn127" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #2563eb;background:#1e3a5f;color:#93c5fd;">127V</button>
+                                    <button onclick="setBadgeTensao(220)" id="badge-btn220" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">220V</button>
+                                    <button onclick="setBadgeTensao(380)" id="badge-btn380" style="flex:1;padding:6px 4px;border-radius:6px;font-size:11px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">380V</button>
                                 </div>
                             </div>
                         </div>
@@ -980,10 +1062,78 @@
                                 <p class="text-base font-black text-yellow-300" id="res-disjuntor">— A</p>
                                 <p class="text-[9px] text-slate-500" id="res-disj-sub">Curva C</p>
                             </div>
-                            <div class="bg-white/10 p-3 rounded-xl">
-                                <p class="text-[9px] text-slate-400 uppercase font-bold">Bitola Mínima</p>
-                                <p class="text-base font-black text-green-400" id="res-fio">— mm²</p>
-                                <p class="text-[9px] text-slate-500" id="res-fio-sub">Iz —A</p>
+                            <div style="background:#0d1b2a;border:1px solid #1e3a5f;border-radius:12px;overflow:hidden;">
+
+                                <!-- Header clicável -->
+                                <button onclick="toggleAcordBitola()" style="width:100%;padding:10px 12px;background:transparent;border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+                                    <div>
+                                        <p style="font-size:9px;color:#64748b;text-transform:uppercase;font-weight:700;margin:0;">Bitola Mínima</p>
+                                        <div style="display:flex;align-items:baseline;gap:5px;margin-top:2px;">
+                                            <span id="res-fio" style="font-size:18px;font-weight:900;color:#86efac;">— mm²</span>
+                                            <span id="res-fio-badge" style="font-size:9px;font-weight:900;padding:1px 6px;border-radius:10px;background:#1e3a5f;color:#93c5fd;">Iz —</span>
+                                        </div>
+                                    </div>
+                                    <svg id="acord-bitola-chev" style="width:11px;height:11px;transition:transform .2s;flex-shrink:0;" viewBox="0 0 12 8" fill="none">
+                                        <path d="M1 1.5l5 5 5-5" stroke="#475569" stroke-width="1.8" stroke-linecap="round"/>
+                                    </svg>
+                                </button>
+
+                                <!-- Corpo compacto -->
+                                <div id="acord-bitola-body" style="display:none;border-top:1px solid #1e3a5f;padding:8px;flex-direction:column;gap:7px;">
+
+                                    <!-- Material + Bitola inline -->
+                                    <div style="display:flex;gap:4px;align-items:center;">
+                                        <span style="font-size:9px;color:#64748b;white-space:nowrap;">Material</span>
+                                        <button id="ab-cu" onclick="setAcordMat('cu')" style="flex:1;padding:4px;border-radius:5px;font-size:10px;font-weight:900;cursor:pointer;border:1.5px solid #f97316;background:#431407;color:#fb923c;">Cu</button>
+                                        <button id="ab-al" onclick="setAcordMat('al')" style="flex:1;padding:4px;border-radius:5px;font-size:10px;font-weight:900;cursor:pointer;border:1.5px solid #334155;background:transparent;color:#475569;">Al</button>
+                                        <span style="font-size:9px;color:#64748b;white-space:nowrap;margin-left:4px;">Bitola</span>
+                                        <select id="acord-sel-bit" onchange="setAcordBitola()" style="flex:2;padding:4px;border-radius:5px;font-size:10px;font-weight:900;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
+                                            <option value="1.5">1,5mm²</option>
+                                            <option value="2.5">2,5mm²</option>
+                                            <option value="4">4mm²</option>
+                                            <option value="6">6mm²</option>
+                                            <option value="10">10mm²</option>
+                                            <option value="16">16mm²</option>
+                                            <option value="25">25mm²</option>
+                                            <option value="35">35mm²</option>
+                                            <option value="50">50mm²</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Iz vs Ib inline -->
+                                    <div style="display:flex;gap:4px;">
+                                        <div style="flex:1;background:#0f172a;border-radius:6px;padding:5px;text-align:center;">
+                                            <p style="font-size:8px;color:#64748b;margin:0;">Iz (cabo)</p>
+                                            <p id="acord-liz" style="font-size:13px;font-weight:900;color:#86efac;margin:0;">—</p>
+                                        </div>
+                                        <div style="flex:1;background:#0f172a;border-radius:6px;padding:5px;text-align:center;">
+                                            <p style="font-size:8px;color:#64748b;margin:0;">Ib (carga)</p>
+                                            <p id="acord-lib" style="font-size:13px;font-weight:900;color:#fdba74;margin:0;">—</p>
+                                        </div>
+                                        <div style="flex:1;background:#0f172a;border-radius:6px;padding:5px;text-align:center;">
+                                            <p style="font-size:8px;color:#64748b;margin:0;">Cabo</p>
+                                            <p id="acord-okiz" style="font-size:12px;font-weight:900;color:#86efac;margin:0;">—</p>
+                                        </div>
+                                    </div>
+
+                                    <!-- Distância + tipo + resultado inline -->
+                                    <div style="display:flex;gap:4px;align-items:center;">
+                                        <span style="font-size:9px;color:#64748b;white-space:nowrap;">Dist (m)</span>
+                                        <input id="acord-dist" type="number" value="" min="1" placeholder="Ex: 15" oninput="calcAcordQueda()"
+                                            style="width:52px;padding:4px;border-radius:5px;font-size:11px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:white;outline:none;text-align:center;">
+                                        <select id="acord-tipo" onchange="calcAcordQueda()" style="flex:1;padding:4px;border-radius:5px;font-size:9px;font-weight:700;border:1px solid #1e3a5f;background:#0a1628;color:#93c5fd;outline:none;">
+                                            <option value="4">Terminal 4%</option>
+                                            <option value="7">Alimentador 7%</option>
+                                        </select>
+                                        <span id="acord-pct" style="font-size:15px;font-weight:900;color:#64748b;white-space:nowrap;min-width:36px;text-align:right;">—</span>
+                                    </div>
+
+                                    <!-- Status -->
+                                    <div id="acord-status" style="text-align:center;padding:5px;border-radius:6px;font-size:10px;font-weight:900;background:#1e3a5f;color:#93c5fd;">
+                                        Digite a distância para calcular
+                                    </div>
+
+                                </div>
                             </div>
                             <div class="bg-white/10 p-3 rounded-xl">
                                 <p class="text-[9px] text-slate-400 uppercase font-bold">Proteção DR</p>
@@ -1264,40 +1414,108 @@
 
     <!-- ÁREA DE IMPRESSÃO — DEMANDA ELÉTRICA -->
     <div id="printable-demanda" class="hidden">
-        <div style="font-family:'Inter',sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:40px;">
+        <div style="font-family:'Inter',sans-serif;color:#334155;max-width:600px;margin:0 auto;padding:40px;position:relative;">
+
+            <!-- Marca d'água Modelo 2: logo grande centralizado -->
+            <div id="prd-watermark" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.05;pointer-events:none;z-index:0;text-align:center;white-space:nowrap;">
+                <img id="prd-watermark-img" src="" style="width:280px;height:280px;object-fit:contain;display:block;margin:0 auto;">
+                <div id="prd-watermark-nome" style="font-size:20px;font-weight:900;color:#0f172a;letter-spacing:4px;margin-top:-8px;"></div>
+            </div>
+            <!-- Fallback sem logo: ⚡ + nome -->
+            <div id="prd-watermark-fallback" style="display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:0.05;pointer-events:none;z-index:0;text-align:center;white-space:nowrap;">
+                <div style="font-size:120px;line-height:1;color:#0f172a;">⚡</div>
+                <div id="prd-watermark-fallback-nome" style="font-size:20px;font-weight:900;color:#0f172a;letter-spacing:4px;margin-top:-8px;"></div>
+            </div>
+
+            <div style="position:relative;z-index:1;">
+
+            <!-- Cabeçalho -->
             <div style="background:#0f172a;padding:24px;border-radius:12px;margin-bottom:24px;text-align:center;">
                 <p style="color:#93c5fd;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:3px;margin:0 0 4px;">Eletricista Power — Ferramenta CALC NBR</p>
                 <h1 style="color:white;font-size:20px;font-weight:900;text-transform:uppercase;margin:0;">Cálculo de Demanda Elétrica</h1>
+                <p style="color:#64748b;font-size:11px;margin:6px 0 0;" id="prd-subtitulo">—</p>
             </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;" id="print-demanda-grid">
-                <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;">
-                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 4px;">Carga Instalada</p>
-                    <p style="font-size:20px;font-weight:900;color:#0f172a;margin:0;" id="prd-potencia">—</p>
+
+            <!-- Grid principal 3 colunas -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:16px;">
+                <div style="background:#f8fafc;padding:14px;border-radius:10px;border:1px solid #e2e8f0;">
+                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 3px;">Carga Instalada</p>
+                    <p style="font-size:18px;font-weight:900;color:#0f172a;margin:0;" id="prd-potencia">—</p>
                 </div>
-                <div style="background:#fefce8;padding:16px;border-radius:10px;border:1px solid #fde047;">
-                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 4px;">Carga Demanda</p>
-                    <p style="font-size:20px;font-weight:900;color:#854d0e;margin:0;" id="prd-demanda">—</p>
+                <div style="background:#fefce8;padding:14px;border-radius:10px;border:1px solid #fde047;">
+                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 3px;">Carga Demanda</p>
+                    <p style="font-size:18px;font-weight:900;color:#854d0e;margin:0;" id="prd-demanda">—</p>
                 </div>
-                <div style="background:#f8fafc;padding:16px;border-radius:10px;border:1px solid #e2e8f0;">
-                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 4px;">Corrente</p>
-                    <p style="font-size:20px;font-weight:900;color:#0f172a;margin:0;" id="prd-corrente">—</p>
+                <div style="background:#f8fafc;padding:14px;border-radius:10px;border:1px solid #e2e8f0;">
+                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 3px;">fp Médio</p>
+                    <p style="font-size:18px;font-weight:900;color:#0f172a;margin:0;" id="prd-fp">—</p>
                 </div>
-                <div style="background:#fefce8;padding:16px;border-radius:10px;border:1px solid #fde047;">
-                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 4px;">Disjuntor</p>
-                    <p style="font-size:20px;font-weight:900;color:#854d0e;margin:0;" id="prd-disjuntor">—</p>
+                <div style="background:#f8fafc;padding:14px;border-radius:10px;border:1px solid #e2e8f0;">
+                    <p style="font-size:10px;font-weight:700;color:#94a3b8;text-transform:uppercase;margin:0 0 3px;">Corrente (Ib)</p>
+                    <p style="font-size:18px;font-weight:900;color:#0f172a;margin:0;" id="prd-corrente">—</p>
                 </div>
-                <div style="background:#f0fdf4;padding:16px;border-radius:10px;border:1px solid #bbf7d0;">
-                    <p style="font-size:10px;font-weight:700;color:#166534;text-transform:uppercase;margin:0 0 4px;">Fio Mínimo</p>
-                    <p style="font-size:20px;font-weight:900;color:#14532d;margin:0;" id="prd-fio">—</p>
+                <div style="background:#fefce8;padding:14px;border-radius:10px;border:1px solid #fde047;">
+                    <p style="font-size:10px;font-weight:700;color:#a16207;text-transform:uppercase;margin:0 0 3px;">Disjuntor Geral</p>
+                    <p style="font-size:18px;font-weight:900;color:#854d0e;margin:0;" id="prd-disjuntor">—</p>
                 </div>
-                <div style="background:#eff6ff;padding:16px;border-radius:10px;border:1px solid #bfdbfe;">
-                    <p style="font-size:10px;font-weight:700;color:#1e40af;text-transform:uppercase;margin:0 0 4px;">Fator Demanda</p>
-                    <p style="font-size:20px;font-weight:900;color:#1e3a8a;margin:0;" id="prd-fd">—</p>
+                <div style="background:#eff6ff;padding:14px;border-radius:10px;border:1px solid #bfdbfe;">
+                    <p style="font-size:10px;font-weight:700;color:#1e40af;text-transform:uppercase;margin:0 0 3px;">Proteção DR</p>
+                    <p style="font-size:18px;font-weight:900;color:#1e3a8a;margin:0;">30 mA</p>
                 </div>
             </div>
-            <div id="prd-equipamentos" style="margin-bottom:24px;"></div>
-            <div style="text-align:center;font-size:11px;color:#94a3b8;border-top:1px dashed #cbd5e1;padding-top:16px;">
-                <p>Ref: ABNT NBR 5410:2004 — Gerado via <strong>Eletricista Power</strong></p>
+
+            <!-- Cabo selecionado -->
+            <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:10px;padding:14px;margin-bottom:16px;">
+                <p style="font-size:10px;font-weight:700;color:#166534;text-transform:uppercase;margin:0 0 8px;">Cabo selecionado</p>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+                    <div><p style="font-size:9px;color:#4ade80;margin:0;">Bitola</p><p style="font-size:16px;font-weight:900;color:#14532d;margin:0;" id="prd-fio">—</p></div>
+                    <div><p style="font-size:9px;color:#4ade80;margin:0;">Material</p><p style="font-size:16px;font-weight:900;color:#14532d;margin:0;" id="prd-cabo-mat">—</p></div>
+                    <div><p style="font-size:9px;color:#4ade80;margin:0;">Método</p><p style="font-size:16px;font-weight:900;color:#14532d;margin:0;" id="prd-cabo-met">—</p></div>
+                    <div><p style="font-size:9px;color:#4ade80;margin:0;">Capacidade Iz</p><p style="font-size:16px;font-weight:900;color:#14532d;margin:0;" id="prd-cabo-iz">—</p></div>
+                </div>
+            </div>
+
+            <!-- Queda de tensão -->
+            <div id="prd-queda-box" style="display:none;background:#fff7ed;border:1.5px solid #fed7aa;border-radius:10px;padding:14px;margin-bottom:16px;">
+                <p style="font-size:10px;font-weight:700;color:#9a3412;text-transform:uppercase;margin:0 0 8px;">Queda de tensão</p>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+                    <div><p style="font-size:9px;color:#fb923c;margin:0;">Distância</p><p style="font-size:16px;font-weight:900;color:#9a3412;margin:0;" id="prd-queda-dist">—</p></div>
+                    <div><p style="font-size:9px;color:#fb923c;margin:0;">Queda (%)</p><p style="font-size:16px;font-weight:900;color:#9a3412;margin:0;" id="prd-queda-pct">—</p></div>
+                    <div><p style="font-size:9px;color:#fb923c;margin:0;">Tensão na carga</p><p style="font-size:16px;font-weight:900;color:#9a3412;margin:0;" id="prd-queda-v">—</p></div>
+                    <div><p style="font-size:9px;color:#fb923c;margin:0;">Status NBR</p><p style="font-size:16px;font-weight:900;margin:0;" id="prd-queda-status">—</p></div>
+                </div>
+            </div>
+
+            <!-- Circuitos sugeridos -->
+            <div style="margin-bottom:16px;">
+                <p style="font-size:10px;font-weight:700;color:#0f172a;text-transform:uppercase;margin:0 0 8px;border-bottom:2px solid #0f172a;padding-bottom:6px;">Circuitos sugeridos</p>
+                <table style="width:100%;border-collapse:collapse;font-size:11px;">
+                    <thead><tr style="background:#0f172a;color:white;">
+                        <th style="padding:7px 10px;text-align:left;">Circuito</th>
+                        <th style="padding:7px 10px;text-align:center;">Bitola</th>
+                        <th style="padding:7px 10px;text-align:center;">Disjuntor</th>
+                        <th style="padding:7px 10px;text-align:center;">Tensão</th>
+                        <th style="padding:7px 10px;text-align:center;">DR</th>
+                    </tr></thead>
+                    <tbody id="prd-circuitos"></tbody>
+                </table>
+            </div>
+
+            <!-- Quadro de distribuição -->
+            <div style="margin-bottom:16px;">
+                <p style="font-size:10px;font-weight:700;color:#0f172a;text-transform:uppercase;margin:0 0 8px;border-bottom:2px solid #0f172a;padding-bottom:6px;">Quadro de distribuição</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;" id="prd-quadro"></div>
+            </div>
+
+            <!-- Equipamentos -->
+            <div id="prd-equipamentos" style="margin-bottom:16px;"></div>
+
+            <!-- Rodapé -->
+            <div style="text-align:center;font-size:10px;color:#94a3b8;border-top:1px dashed #cbd5e1;padding-top:14px;">
+                <p style="margin:0;">Ref: ABNT NBR 5410:2004 · ρ Cu=0,0172 Ω·mm²/m · Gerado via <strong>Eletricista Power</strong></p>
+                <p id="prd-fd" style="margin:4px 0 0;color:#94a3b8;"></p>
+            </div>
+
             </div>
         </div>
     </div>
@@ -1633,6 +1851,7 @@
 
             </div>
         </div>
+    </div>
 
     <!-- MODAL HISTÓRICO -->
     <div id="historyModal" class="fixed inset-0 z-50 hidden">
@@ -2698,31 +2917,133 @@
         // ─────────────────────────────────────────────
         function _preencherPrintDemanda() {
             const _g = id => document.getElementById(id)?.textContent || '—';
+
+            // Marca d'água modelo 2: logo grande centralizado + nome
+            const temLogo = !!state.logoBase64;
+            const wm      = document.getElementById('prd-watermark');
+            const wmFb    = document.getElementById('prd-watermark-fallback');
+            const nome    = state.prestadorPadrao || 'ELETRICISTA POWER';
+            if (temLogo) {
+                document.getElementById('prd-watermark-img').src  = state.logoBase64;
+                document.getElementById('prd-watermark-nome').textContent = nome.toUpperCase();
+                if (wm)   wm.style.display   = 'block';
+                if (wmFb) wmFb.style.display  = 'none';
+            } else {
+                document.getElementById('prd-watermark-fallback-nome').textContent = nome.toUpperCase();
+                if (wm)   wm.style.display   = 'none';
+                if (wmFb) wmFb.style.display  = 'block';
+            }
+
+            // Subtítulo do cabeçalho
+            const sistemaNome = cargaSistema === 'tri' ? 'Trifásico' : cargaSistema === 'bi' ? 'Bifásico' : 'Monofásico';
+            const fd = parseFloat(document.getElementById('carga-tipo-inst')?.value) || 1.0;
+            const sub = document.getElementById('prd-subtitulo');
+            if (sub) sub.textContent = sistemaNome + ' · ' + (tensaoCarga || 127) + 'V · fd ' + (fd * 100).toFixed(0) + '%';
+
+            // Grid principal
             document.getElementById('prd-potencia').textContent  = _g('res-potencia');
             document.getElementById('prd-demanda').textContent   = _g('res-demanda');
+            document.getElementById('prd-fp').textContent        = (() => {
+                const txt = _g('res-fd-sub');
+                const m = txt.match(/fp\s*=\s*([\d,\.]+)/);
+                return m ? m[1] : '—';
+            })();
             document.getElementById('prd-corrente').textContent  = _g('res-corrente');
             document.getElementById('prd-disjuntor').textContent = _g('res-disjuntor') + ' — ' + _g('res-disj-sub');
-            document.getElementById('prd-fio').textContent       = _g('res-fio') + ' (' + _g('res-fio-sub') + ')';
             document.getElementById('prd-fd').textContent        = _g('res-fd-sub');
 
-            // Lista de equipamentos
+            // Cabo selecionado
+            const matNome = _acordMat === 'al' ? 'Alumínio' : 'Cobre';
+            const izVal   = _acordBitola ? _getIzAcord(_acordBitola) : 0;
+            const okIz    = izVal >= _acordCorrente;
+            document.getElementById('prd-fio').textContent       = _acordBitola ? _acordBitola + ' mm²' : _g('res-fio');
+            document.getElementById('prd-cabo-mat').textContent  = matNome;
+            document.getElementById('prd-cabo-met').textContent  = _badgeMetodo || 'B1';
+            document.getElementById('prd-cabo-iz').textContent   = izVal + 'A ' + (okIz ? '✅' : '❌');
+
+            // Queda de tensão (só exibe se distância foi preenchida)
+            const dist   = parseFloat(document.getElementById('acord-dist')?.value) || 0;
+            const qdBox  = document.getElementById('prd-queda-box');
+            if (dist > 0 && _acordCorrente > 0 && _acordBitola > 0) {
+                const limite  = parseFloat(document.getElementById('acord-tipo')?.value) || 4;
+                const rho     = _acordMat === 'cu' ? 0.0172 : 0.0282;
+                const fCirc   = cargaSistema === 'tri' ? Math.sqrt(3) : 2;
+                const quedaV  = _acordCorrente * (rho * fCirc * dist) / _acordBitola;
+                const quedaPct = (quedaV / (tensaoCarga || 127)) * 100;
+                const vCarga  = (tensaoCarga || 127) - quedaV;
+                const aprov   = quedaPct <= limite && okIz;
+                document.getElementById('prd-queda-dist').textContent   = dist + ' m';
+                document.getElementById('prd-queda-pct').textContent    = quedaPct.toFixed(2) + '%';
+                document.getElementById('prd-queda-v').textContent      = vCarga.toFixed(1) + 'V';
+                const stEl = document.getElementById('prd-queda-status');
+                if (stEl) { stEl.textContent = aprov ? '✅ ' + limite + '%' : '❌ ' + quedaPct.toFixed(1) + '%'; stEl.style.color = aprov ? '#16a34a' : '#dc2626'; }
+                if (qdBox) qdBox.style.display = 'block';
+            } else {
+                if (qdBox) qdBox.style.display = 'none';
+            }
+
+            // Circuitos sugeridos
+            const tbody = document.getElementById('prd-circuitos');
+            if (tbody) {
+                tbody.innerHTML = '';
+                document.querySelectorAll('#res-circuitos > div').forEach((row, idx) => {
+                    const spans = row.querySelectorAll('span');
+                    const nome  = spans[0]?.textContent || '—';
+                    const bitola= spans[1]?.textContent || '—';
+                    const disj  = spans[2]?.textContent || '—';
+                    const tens  = spans[3]?.textContent || '—';
+                    const dr    = spans[4]?.textContent || '—';
+                    const bg    = idx % 2 === 0 ? '#fff' : '#f8fafc';
+                    const tr    = document.createElement('tr');
+                    tr.style.cssText = 'border-bottom:1px solid #f1f5f9;background:' + bg;
+                    tr.innerHTML = `<td style="padding:7px 10px;">${nome}</td>
+                        <td style="padding:7px 10px;text-align:center;font-weight:700;">${bitola}</td>
+                        <td style="padding:7px 10px;text-align:center;font-weight:700;">${disj}</td>
+                        <td style="padding:7px 10px;text-align:center;">${tens}</td>
+                        <td style="padding:7px 10px;text-align:center;color:#dc2626;font-weight:700;">${dr !== '—' ? dr : '—'}</td>`;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Quadro de distribuição
+            const qdEl = document.getElementById('prd-quadro');
+            if (qdEl) {
+                qdEl.innerHTML = '';
+                document.querySelectorAll('#res-quadro > div').forEach(item => {
+                    const bar   = item.querySelector('div');
+                    const nome  = item.querySelectorAll('span')[0]?.textContent || '—';
+                    const amp   = item.querySelectorAll('span')[1]?.textContent || '—';
+                    const cor   = bar?.style.background || '#94a3b8';
+                    const reserva = nome.toLowerCase().includes('reserva');
+                    const div   = document.createElement('div');
+                    div.style.cssText = 'display:flex;align-items:center;gap:7px;background:#f8fafc;border:0.5px solid #e2e8f0;border-radius:7px;padding:8px;' + (reserva ? 'opacity:.4;' : '');
+                    div.innerHTML = `<div style="width:6px;height:20px;border-radius:2px;background:${cor};flex-shrink:0;"></div>
+                        <div><p style="font-size:9px;color:#94a3b8;margin:0;">${nome}</p><p style="font-size:13px;font-weight:900;color:#0f172a;margin:0;">${amp}</p></div>`;
+                    qdEl.appendChild(div);
+                });
+            }
+
+            // Equipamentos
             const itens = [];
             document.querySelectorAll('#carga-itens > div').forEach(row => {
-                const nome = row.querySelector('.carga-nome')?.value || row.querySelector('input[type="text"]')?.value || '—';
+                const nome = row.querySelector('.carga-nome')?.value || '—';
                 const w    = row.querySelector('.carga-watts')?.value || '0';
                 const qtd  = row.querySelector('.carga-qtd')?.value || '1';
-                if (parseFloat(w) > 0) itens.push({ nome, w, qtd });
+                const fp   = row.querySelector('.carga-fp')?.value || '1';
+                if (parseFloat(w) > 0) itens.push({ nome, w, qtd, fp });
             });
             const equip = document.getElementById('prd-equipamentos');
-            if (itens.length > 0) {
-                let tbl = '<table style="width:100%;border-collapse:collapse;font-size:13px;"><thead><tr style="background:#0f172a;color:white;"><th style="padding:8px;text-align:left;">Equipamento</th><th style="padding:8px;text-align:center;">Qtd</th><th style="padding:8px;text-align:right;">Potência</th></tr></thead><tbody>';
+            if (itens.length > 0 && equip) {
+                equip.style.marginBottom = '16px';
+                let tbl = '<p style="font-size:10px;font-weight:700;color:#0f172a;text-transform:uppercase;margin:0 0 8px;border-bottom:2px solid #0f172a;padding-bottom:6px;">Equipamentos</p>';
+                tbl += '<table style="width:100%;border-collapse:collapse;font-size:11px;"><thead><tr style="background:#0f172a;color:white;"><th style="padding:7px 10px;text-align:left;">Equipamento</th><th style="padding:7px 10px;text-align:center;">Qtd</th><th style="padding:7px 10px;text-align:center;">fp</th><th style="padding:7px 10px;text-align:right;">Potência</th></tr></thead><tbody>';
                 itens.forEach((i, idx) => {
                     const bg = idx % 2 === 0 ? '#f8fafc' : '#fff';
-                    tbl += `<tr style="background:${bg};border-bottom:1px solid #f1f5f9;"><td style="padding:8px;">${i.nome}</td><td style="padding:8px;text-align:center;">${i.qtd}</td><td style="padding:8px;text-align:right;font-weight:700;">${i.w} W</td></tr>`;
+                    tbl += `<tr style="background:${bg};border-bottom:1px solid #f1f5f9;"><td style="padding:7px 10px;">${i.nome}</td><td style="padding:7px 10px;text-align:center;">${i.qtd}</td><td style="padding:7px 10px;text-align:center;">${i.fp}</td><td style="padding:7px 10px;text-align:right;font-weight:700;">${i.w} W</td></tr>`;
                 });
                 tbl += '</tbody></table>';
                 equip.innerHTML = tbl;
-            } else {
+            } else if (equip) {
                 equip.innerHTML = '';
             }
         }
@@ -3557,6 +3878,310 @@
             { nome:'Motor monofásico 1cv',  w:750,  fp:0.85 },
         ];
 
+        // Estado do badge Cobre/PVC
+        let _badgeMaterial = 'cu'; // cu | al
+        let _badgeMetodo   = 'B1'; // B1 | B2 | C | E | D
+
+        const _METODO_DESC = {
+            B1: 'Eletroduto embutido em alvenaria',
+            B2: 'Cabo multipolar embutido',
+            C:  'Cabo aparente sobre parede',
+            E:  'Bandeja aberta / ao ar livre',
+            D:  'Cabo enterrado no solo',
+        };
+
+        // Tabela de correntes NBR 5410 por método (Cu, PVC 70°C, 3 cond., 30°C)
+        const _IZ_METODO = {
+            B1: { 1.5:13, 2.5:18, 4:24, 6:31, 10:43, 16:57, 25:73,  35:89,  50:108 },
+            B2: { 1.5:13, 2.5:17, 4:23, 6:29, 10:39, 16:52, 25:66,  35:83,  50:99  },
+            C:  { 1.5:15, 2.5:20, 4:27, 6:35, 10:47, 16:63, 25:81,  35:99,  50:119 },
+            E:  { 1.5:17, 2.5:23, 4:31, 6:40, 10:54, 16:73, 25:94,  35:114, 50:138 },
+            D:  { 1.5:0,  2.5:22, 4:29, 6:36, 10:48, 16:64, 25:82,  35:97,  50:0   },
+        };
+        // Alumínio reduz ~20% na capacidade
+        const _IZ_AL_FATOR = 0.80;
+
+        // ── ACORDEÃO BITOLA MÍNIMA ──────────────────────────────────────
+        let _acordAberto   = false;
+        let _acordMat      = 'cu';
+        let _acordBitola   = 10;
+        let _acordCorrente = 0;
+        let _acordTensao   = 127;
+
+        const _IZ_ACORD = {1.5:13,2.5:18,4:24,6:31,10:43,16:57,25:73,35:89,50:108};
+
+        function _getIzAcord(b) {
+            const base = _IZ_ACORD[b] || 0;
+            return _acordMat === 'al' ? Math.round(base * 0.80) : base;
+        }
+
+        function toggleAcordBitola() {
+            _acordAberto = !_acordAberto;
+            const body = document.getElementById('acord-bitola-body');
+            const chev = document.getElementById('acord-bitola-chev');
+            if (body) body.style.display = _acordAberto ? 'flex' : 'none';
+            if (chev) chev.style.transform = _acordAberto ? 'rotate(180deg)' : '';
+            if (_acordAberto) calcAcordQueda();
+        }
+
+        function setAcordMat(v) {
+            _acordMat = v;
+            ['cu','al'].forEach(m => {
+                const el = document.getElementById('ab-'+m);
+                if (!el) return;
+                const a = m === v;
+                el.style.border     = a ? '1.5px solid #f97316' : '1.5px solid #334155';
+                el.style.background = a ? '#431407' : 'transparent';
+                el.style.color      = a ? '#fb923c' : '#475569';
+            });
+            calcAcordQueda();
+        }
+
+        function setAcordBitola() {
+            const sel = document.getElementById('acord-sel-bit');
+            if (sel) _acordBitola = parseFloat(sel.value) || 10;
+            calcAcordQueda();
+        }
+
+        function _atualizarAcordBitola() {
+            // Atualiza o select para a bitola sugerida
+            const sel = document.getElementById('acord-sel-bit');
+            if (sel) {
+                // Marca com ★ a bitola sugerida
+                Array.from(sel.options).forEach(o => {
+                    const v = parseFloat(o.value);
+                    o.textContent = v + 'mm²' + (v === _acordBitola ? ' ★' : '');
+                });
+                sel.value = _acordBitola;
+            }
+            // Sincroniza material
+            setAcordMat(_acordMat);
+            calcAcordQueda();
+        }
+
+        function calcAcordQueda() {
+            const iz     = _getIzAcord(_acordBitola);
+            const okIz   = iz >= _acordCorrente;
+            const dist   = parseFloat(document.getElementById('acord-dist')?.value) || 0;
+            const limite = parseFloat(document.getElementById('acord-tipo')?.value) || 4;
+
+            // Iz vs Ib
+            const lizEl = document.getElementById('acord-liz');
+            const libEl = document.getElementById('acord-lib');
+            const okEl  = document.getElementById('acord-okiz');
+            if (lizEl) { lizEl.textContent = iz + 'A'; lizEl.style.color = okIz ? '#86efac' : '#fca5a5'; }
+            if (libEl) libEl.textContent = (_acordCorrente || 0).toFixed(1) + 'A';
+            if (okEl)  { okEl.textContent = okIz ? '✅' : '❌'; okEl.style.color = okIz ? '#86efac' : '#fca5a5'; }
+
+            // Atualiza header badge
+            const badge = document.getElementById('res-fio-badge');
+            if (badge) {
+                badge.textContent      = 'Iz ' + iz + 'A';
+                badge.style.background = okIz ? '#14532d' : '#450a0a';
+                badge.style.color      = okIz ? '#86efac' : '#fca5a5';
+            }
+            // Atualiza valor da bitola no header
+            const fioEl = document.getElementById('res-fio');
+            if (fioEl) fioEl.textContent = _acordBitola + ' mm²';
+
+            const pctEl = document.getElementById('acord-pct');
+            const stEl  = document.getElementById('acord-status');
+
+            if (dist <= 0) {
+                if (pctEl) { pctEl.textContent = '—'; pctEl.style.color = '#64748b'; }
+                if (stEl)  { stEl.textContent = 'Digite a distância para calcular'; stEl.style.background = '#1e3a5f'; stEl.style.color = '#93c5fd'; }
+                return;
+            }
+
+            const rho    = _acordMat === 'cu' ? 0.0172 : 0.0282;
+            const fCirc  = cargaSistema === 'tri' ? Math.sqrt(3) : 2;
+            const quedaV = _acordCorrente * (rho * fCirc * dist) / _acordBitola;
+            const quedaPct = (quedaV / _acordTensao) * 100;
+            const aprovado = quedaPct <= limite && okIz;
+
+            if (pctEl) { pctEl.textContent = quedaPct.toFixed(1) + '%'; pctEl.style.color = aprovado ? '#86efac' : '#fca5a5'; }
+            if (stEl) {
+                if (!okIz) {
+                    stEl.style.background = '#450a0a'; stEl.style.color = '#fca5a5';
+                    stEl.textContent = '❌ Bitola insuficiente para Ib=' + _acordCorrente.toFixed(1) + 'A';
+                } else if (aprovado) {
+                    stEl.style.background = '#14532d'; stEl.style.color = '#86efac';
+                    stEl.textContent = '✅ APROVADO — NBR 5410';
+                } else {
+                    stEl.style.background = '#450a0a'; stEl.style.color = '#fca5a5';
+                    stEl.textContent = '❌ REPROVADO — queda ' + quedaPct.toFixed(1) + '% > ' + limite + '%';
+                }
+            }
+        }
+
+        function toggleBadgeCabo() {
+            const painel  = document.getElementById('res-painel-cabo');
+            const chevron = document.getElementById('res-cabo-chevron');
+            const aberto  = painel.style.display === 'flex';
+            painel.style.display    = aberto ? 'none' : 'flex';
+            chevron.style.transform = aberto ? '' : 'rotate(180deg)';
+            // Fechar o outro painel se estiver aberto
+            const painelSis = document.getElementById('res-painel-sistema');
+            if (painelSis && !aberto) {
+                painelSis.style.display = 'none';
+                const ch = document.getElementById('res-badge-chevron');
+                if (ch) ch.style.transform = '';
+            }
+        }
+
+        function _syncBadgeCaboBtns() {
+            // Material
+            ['cu','al'].forEach(m => {
+                const el = document.getElementById('badge-mat-'+m);
+                if (!el) return;
+                const ativo = m === _badgeMaterial;
+                el.style.border     = ativo ? '1.5px solid #f97316' : '1.5px solid #334155';
+                el.style.background = ativo ? '#431407'             : 'transparent';
+                el.style.color      = ativo ? '#fb923c'             : '#475569';
+            });
+            // Método
+            ['B1','B2','C','E','D'].forEach(m => {
+                const el = document.getElementById('badge-met-'+m);
+                if (!el) return;
+                const ativo = m === _badgeMetodo;
+                el.style.border     = ativo ? '1.5px solid #f97316' : '1.5px solid #334155';
+                el.style.background = ativo ? '#431407'             : 'transparent';
+                el.style.color      = ativo ? '#fb923c'             : '#475569';
+            });
+            // Descrição do método
+            const desc = document.getElementById('res-metodo-desc');
+            if (desc) desc.textContent = _METODO_DESC[_badgeMetodo] || '';
+        }
+
+        function setBadgeMaterial(v) {
+            _badgeMaterial = v;
+            _syncBadgeCaboBtns();
+            _atualizarTextoBadgeCabo();
+            calcBadgeQueda(); // atualiza queda imediatamente com novo material
+            calcularCarga();  // recalcula bitola com material correto
+        }
+
+        function setBadgeMetodo(v) {
+            _badgeMetodo = v;
+            _syncBadgeCaboBtns();
+            _atualizarTextoBadgeCabo();
+            calcularCarga();
+        }
+
+        function _atualizarTextoBadgeCabo() {
+            const nomeEl = document.getElementById('res-cabo-nome');
+            const subEl  = document.getElementById('res-cabo-sub');
+            if (nomeEl) nomeEl.textContent = (_badgeMaterial === 'cu' ? 'Cobre' : 'Alumínio') + ' — PVC';
+            if (subEl)  subEl.textContent  = 'Método ' + _badgeMetodo + ' — ' + (_METODO_DESC[_badgeMetodo] || '');
+        }
+
+        // Variáveis globais para compartilhar com calcBadgeQueda
+        let _resCorrente = 0;
+        let _resBitola   = 0;
+        let _resTensao   = 127;
+
+        function calcBadgeQueda() {
+            const dist   = parseFloat(document.getElementById('badge-dist')?.value) || 0;
+            const limite = parseFloat(document.getElementById('badge-tipo-circ')?.value) || 4;
+            const pctEl  = document.getElementById('badge-pct-queda');
+            const vEl    = document.getElementById('badge-v-carga');
+            const limEl  = document.getElementById('badge-v-limite');
+            const stEl   = document.getElementById('badge-status-queda');
+            if (!pctEl) return;
+
+            if (dist <= 0 || _resCorrente <= 0 || _resBitola <= 0) {
+                pctEl.textContent = '—'; vEl.textContent = '—';
+                limEl.textContent = limite + '% (' + (limite === 4 ? 'terminal' : 'alimentador') + ')';
+                stEl.textContent = 'Digite a distância para calcular';
+                stEl.style.background = '#1e3a5f'; stEl.style.color = '#93c5fd';
+                return;
+            }
+
+            // ρ: Cu=0.0172, Al=0.0282 Ω·mm²/m | fator 2 = ida+volta (monofásico)
+            const rho    = _badgeMaterial === 'cu' ? 0.0172 : 0.0282;
+            const fCirc  = cargaSistema === 'tri' ? Math.sqrt(3) : 2;
+            const R      = (rho * fCirc * dist) / _resBitola;
+            const quedaV = _resCorrente * R;
+            const quedaPct = (quedaV / _resTensao) * 100;
+            const vCarga   = _resTensao - quedaV;
+            const aprovado = quedaPct <= limite;
+
+            pctEl.textContent     = quedaPct.toFixed(2) + '%';
+            pctEl.style.color     = aprovado ? '#86efac' : '#fca5a5';
+            vEl.textContent       = vCarga.toFixed(1) + 'V';
+            limEl.textContent     = limite + '% (' + (limite === 4 ? 'terminal' : 'alimentador') + ')';
+
+            if (aprovado) {
+                stEl.style.background = '#14532d'; stEl.style.color = '#86efac';
+                stEl.textContent = '✅ APROVADO — dentro do limite NBR 5410';
+            } else {
+                stEl.style.background = '#450a0a'; stEl.style.color = '#fca5a5';
+                stEl.textContent = '❌ REPROVADO — aumente a bitola ou reduza a distância';
+            }
+        }
+
+        function toggleBadgeSistema() {
+            const painel  = document.getElementById('res-painel-sistema');
+            const chevron = document.getElementById('res-badge-chevron');
+            const aberto  = painel.style.display === 'flex';
+            painel.style.display  = aberto ? 'none' : 'flex';
+            chevron.style.transform = aberto ? '' : 'rotate(180deg)';
+            // Fechar o painel do cabo se estiver aberto
+            const painelCabo = document.getElementById('res-painel-cabo');
+            if (painelCabo && !aberto) {
+                painelCabo.style.display = 'none';
+                const ch = document.getElementById('res-cabo-chevron');
+                if (ch) ch.style.transform = '';
+            }
+        }
+
+        function _syncBadgeBtns() {
+            ['mono','bi','tri'].forEach(s => {
+                const el = document.getElementById('badge-cbtn-'+s);
+                if (!el) return;
+                const ativo = s === cargaSistema;
+                el.style.border     = ativo ? '1.5px solid #2563eb' : '1.5px solid #334155';
+                el.style.background = ativo ? '#1e3a5f' : 'transparent';
+                el.style.color      = ativo ? '#93c5fd' : '#475569';
+            });
+            [127,220,380].forEach(t => {
+                const el = document.getElementById('badge-btn'+t);
+                if (!el) return;
+                const ativo = t === tensaoCarga;
+                el.style.border     = ativo ? '1.5px solid #2563eb' : '1.5px solid #334155';
+                el.style.background = ativo ? '#1e3a5f' : 'transparent';
+                el.style.color      = ativo ? '#93c5fd' : '#475569';
+            });
+        }
+
+        function setBadgeSistema(v) {
+            if (_modoTeste && v !== 'mono') { _toastTeste('Modo TESTE: apenas sistema Monofásico disponível.'); return; }
+            cargaSistema = v;
+            // Sincroniza botões do topo da aba
+            ['mono','bi','tri'].forEach(s => {
+                const el = document.getElementById('cbtn-'+s);
+                if (el) el.className = s === v
+                    ? 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-500 bg-blue-50 text-blue-700'
+                    : 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-slate-200 text-slate-500';
+            });
+            _syncBadgeBtns();
+            calcularCarga();
+        }
+
+        function setBadgeTensao(v) {
+            if (_modoTeste && v !== 127) { _toastTeste('Modo TESTE: apenas tensão 110/127V disponível.'); return; }
+            tensaoCarga = v;
+            // Sincroniza botões do topo da aba
+            [127,220,380].forEach(t => {
+                const el = document.getElementById('btn'+t);
+                if (el) el.className = t === v
+                    ? 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-blue-500 bg-blue-50 text-blue-700'
+                    : 'flex-1 py-2 rounded-lg text-xs font-bold border-2 border-slate-200 text-slate-500';
+            });
+            _syncBadgeBtns();
+            calcularCarga();
+        }
+
         function setCargaSistema(v) {
             if (_modoTeste && v !== 'mono') { _toastTeste('Modo TESTE: apenas sistema Monofásico disponível.'); return; }
             cargaSistema = v;
@@ -4386,80 +5011,260 @@
 
         function calcularCarga() {
             const itens = document.querySelectorAll('#carga-itens > div');
-            if (itens.length === 0) {
-                _toastSimples('⚠️ Adicione ao menos um equipamento à lista.');
-                return;
-            }
+            // Sem equipamentos: calcula com carga zero e exibe resultado base
 
             const fd     = parseFloat(document.getElementById('carga-tipo-inst')?.value) || 1.0;
             const tensao = tensaoCarga || 127;
-            const fpMedio = 0.92;
 
+            // ── PASSO 1: Coletar equipamentos da lista manual (fp individual) ─
             let cargaInstalada = 0;
+            let somaVA = 0;
+            let somaCorrente = 0;
+            const equipamentos = [];
+
             itens.forEach(row => {
                 const w   = parseFloat(row.querySelector('.carga-watts')?.value) || 0;
+                const fp  = parseFloat(row.querySelector('.carga-fp')?.value)    || 1.0;
                 const qtd = parseFloat(row.querySelector('.carga-qtd')?.value)   || 1;
-                cargaInstalada += w * qtd;
+                const nomeEl = row.querySelector('.carga-nome');
+                const nome = nomeEl ? nomeEl.value || 'Equipamento' : 'Equipamento';
+                if (w <= 0) return;
+
+                const wTotal  = w * qtd;
+                const vaTotal = wTotal / fp;
+
+                let iEquip;
+                if (cargaSistema === 'tri')     iEquip = vaTotal / (Math.sqrt(3) * tensao);
+                else if (cargaSistema === 'bi') iEquip = vaTotal / (2 * tensao);
+                else                           iEquip = vaTotal / tensao;
+
+                cargaInstalada += wTotal;
+                somaVA         += vaTotal;
+                somaCorrente   += iEquip;
+                equipamentos.push({ nome, w: wTotal, fp, va: vaTotal, i: iEquip, qtd });
             });
 
-            const cargaDemanda = Math.round(cargaInstalada * fd);
+            // ── PASSO 1B: Incluir carga dos CÔMODOS (demanda mínima NBR 5410) ─
+            // Coleta iluminação + tomadas + equipamentos de cada cômodo adicionado
+            let wComodos = 0;
+            document.querySelectorAll('.comodo-row').forEach(row => {
+                const tipo  = row.querySelector('.comodo-tipo')?.value || 'area';
+                const valor = parseFloat(row.querySelector('.comodo-valor')?.value) || 0;
+                if (valor <= 0) return;
 
-            let corrente;
-            if (cargaSistema === 'tri')     corrente = cargaDemanda / (Math.sqrt(3) * tensao * fpMedio);
-            else if (cargaSistema === 'bi') corrente = cargaDemanda / (2 * tensao * fpMedio);
-            else                           corrente = cargaDemanda / (tensao * fpMedio);
+                const nome  = row.querySelector('.comodo-nome')?.value?.trim() || 'Cômodo';
+                const nLow  = nome.toLowerCase();
+                const ehMolhado  = /cozinha|copa|serviço|lavanderia|area de serv|área de serv/i.test(nLow);
+                const ehBanheiro = /banheiro|wc|lavabo|toilet/i.test(nLow);
+
+                let area, perimetro;
+                if (tipo === 'area') { area = valor; perimetro = 4 * Math.sqrt(valor); }
+                else                 { perimetro = valor; area = Math.pow(valor / 4, 2); }
+
+                // Iluminação mínima NBR 5410 § 9.5.2.1
+                let wIlum;
+                if (area <= 6) { wIlum = 100; }
+                else { wIlum = 100 + Math.floor((area - 6) / 4) * 60; }
+
+                // Tomadas mínimas NBR 5410 § 9.1
+                let wTomadas;
+                if (ehBanheiro) {
+                    wTomadas = 600;
+                } else if (ehMolhado) {
+                    const tom = Math.max(2, Math.ceil(perimetro / 3.5));
+                    wTomadas = Math.min(tom, 3) * 600 + Math.max(0, tom - 3) * 100;
+                } else {
+                    const tom = Math.max(2, Math.ceil(perimetro / 5));
+                    wTomadas = tom * 100;
+                }
+
+                // Equipamentos específicos do cômodo
+                let wEquipComodo = 0;
+                row.querySelectorAll('.comodo-equip-lista > div').forEach(eq => {
+                    const w = parseFloat(eq.querySelector('.comodo-equip-w')?.value) || 0;
+                    const q = parseFloat(eq.querySelector('.comodo-equip-qtd')?.value) || 1;
+                    wEquipComodo += w * q;
+                });
+                // Equipamentos do modal de edição (comodo-luz-lista e comodo-tom-lista)
+                let wLuzManual = 0, wTomManual = 0;
+                row.querySelectorAll('.comodo-luz-lista > div').forEach(lz => {
+                    wLuzManual += (parseFloat(lz.querySelector('.comodo-luz-w')?.value) || 0)
+                                * (parseInt(lz.querySelector('.comodo-luz-qtd')?.value, 10) || 1);
+                });
+                row.querySelectorAll('.comodo-tom-lista > div').forEach(tm => {
+                    wTomManual += (parseFloat(tm.querySelector('.comodo-tom-va')?.value) || 0)
+                                * (parseInt(tm.querySelector('.comodo-tom-qtd')?.value, 10) || 1);
+                });
+
+                const wLuzFinal = wLuzManual > 0 ? wLuzManual : wIlum;
+                const wTomFinal = wTomManual > 0 ? wTomManual : wTomadas;
+                const totalComodo = wLuzFinal + wTomFinal + wEquipComodo;
+                wComodos += totalComodo;
+
+                // Adiciona cada cômodo como item de equipamento (fp=1 para resistivos)
+                const vaComodo = totalComodo / 1.0;
+                let iComodo;
+                if (cargaSistema === 'tri')     iComodo = vaComodo / (Math.sqrt(3) * tensao);
+                else if (cargaSistema === 'bi') iComodo = vaComodo / (2 * tensao);
+                else                           iComodo = vaComodo / tensao;
+
+                cargaInstalada += totalComodo;
+                somaVA         += vaComodo;
+                somaCorrente   += iComodo;
+                equipamentos.push({ nome: nome + ' (cômodo)', w: totalComodo, fp: 1.0, va: vaComodo, i: iComodo, qtd: 1 });
+            });
+
+            // ── PASSO 2: Fator de demanda ────────────────────────────────────
+            const cargaDemandaW  = Math.round(cargaInstalada * fd);
+            const cargaDemandaVA = Math.round(somaVA * fd);
+            // fp médio ponderado pela potência
+            const fpMedioPond = cargaInstalada > 0 ? cargaInstalada / somaVA : 0.92;
+
+            // ── PASSO 3: Corrente de projeto (Ib) ────────────────────────────
+            // Usa a soma real das correntes individuais × fd
+            let corrente = somaCorrente * fd;
             corrente = Math.ceil(corrente * 10) / 10;
 
+            // ── PASSO 4: Disjuntor geral ─────────────────────────────────────
             const serieDisj = [6,10,16,20,25,32,40,50,63,80,100,125,160,200];
             const disjuntor = serieDisj.find(d => d >= corrente) || serieDisj[serieDisj.length - 1];
 
-            const tabelaBitola = [
-                {b:1.5,  Iz:13}, {b:2.5, Iz:17}, {b:4,  Iz:23},
-                {b:6,    Iz:29}, {b:10,  Iz:39}, {b:16, Iz:52},
-                {b:25,   Iz:66}, {b:35,  Iz:83}, {b:50, Iz:99},
-            ];
-            const fioRec = tabelaBitola.find(t => t.Iz >= corrente);
+            // ── PASSO 5: Bitola mínima — usa método e material do badge ────
+            const _metodoAtual = (typeof _badgeMetodo !== 'undefined') ? _badgeMetodo : 'B1';
+            const _matAtual    = (typeof _badgeMaterial !== 'undefined') ? _badgeMaterial : 'cu';
+            const _izTabela    = _IZ_METODO[_metodoAtual] || _IZ_METODO['B1'];
+            const _fatorMat    = _matAtual === 'al' ? _IZ_AL_FATOR : 1.0;
+            const bitolas      = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50];
+            let fioRec = null;
+            for (const b of bitolas) {
+                const iz = (_izTabela[b] || 0) * _fatorMat;
+                if (iz >= corrente) { fioRec = { b, Iz: Math.round(iz) }; break; }
+            }
             const fioStr = fioRec ? fioRec.b + ' mm²' : '> 50 mm²';
             const fioIz  = fioRec ? fioRec.Iz + 'A' : '—';
 
+            // ── PASSO 6: Circuitos sugeridos — dinâmicos pelos equipamentos ──
+            // Detecta quais equipamentos foram adicionados para sugerir circuitos relevantes
+            const nomesEquip = equipamentos.map(e => e.nome.toLowerCase());
+            const temChuveiro  = nomesEquip.some(n => /chuveiro|torneira/.test(n));
+            const temAr        = nomesEquip.some(n => /ar.cond|split|ar-cond/.test(n));
+            const temBomba     = nomesEquip.some(n => /bomba/.test(n));
+            const temForno     = nomesEquip.some(n => /forno|microond/.test(n));
+            const temMotor     = nomesEquip.some(n => /motor/.test(n));
+
+            // Calcula disjuntor sugerido para cada TUE detectado
+            function _disjTUE(wEquip, fpEquip, vEquip) {
+                const iEquip = (wEquip / fpEquip) / vEquip;
+                return serieDisj.find(d => d >= Math.ceil(iEquip * 1.25)) || 32;
+            }
+
+            const circuitos = [
+                {nome:'💡 Iluminação geral',    bitola:'1,5 mm²', disj:'B 10A',  tens:tensao+'V', dr:false},
+                {nome:'🔌 Tomadas TUG',          bitola:'2,5 mm²', disj:'C 20A',  tens:tensao+'V', dr:false},
+            ];
+
+            if (temChuveiro) {
+                const wChuv = equipamentos.find(e => /chuveiro|torneira/.test(e.nome.toLowerCase()))?.w || 5500;
+                const dChuv = _disjTUE(wChuv, 1.0, 220);
+                const bChuv = wChuv <= 4000 ? '6 mm²' : wChuv <= 6000 ? '10 mm²' : '16 mm²';
+                circuitos.push({nome:'🚿 Chuveiro (TUE)', bitola: bChuv, disj:'C '+dChuv+'A', tens:'220V', dr:true});
+            }
+            if (temAr) {
+                const eAr = equipamentos.find(e => /ar.cond|split|ar-cond/.test(e.nome.toLowerCase()));
+                const wAr = eAr?.w || 1200;
+                const dAr = _disjTUE(wAr, 0.92, 220);
+                const bAr = wAr <= 1500 ? '2,5 mm²' : wAr <= 3000 ? '4 mm²' : '6 mm²';
+                circuitos.push({nome:'❄️ Ar-condicionado (TUE)', bitola: bAr, disj:'C '+dAr+'A', tens:'220V', dr:false});
+            }
+            if (temBomba) {
+                const eBomba = equipamentos.find(e => /bomba/.test(e.nome.toLowerCase()));
+                const wBomba = eBomba?.w || 750;
+                const dBomba = _disjTUE(wBomba, 0.75, tensao);
+                const bBomba = wBomba <= 750 ? '2,5 mm²' : wBomba <= 1500 ? '4 mm²' : '6 mm²';
+                circuitos.push({nome:'💧 Bomba d\'água (TUE)', bitola: bBomba, disj:'C '+dBomba+'A', tens:tensao+'V', dr:false});
+            }
+            if (temForno) {
+                const eForno = equipamentos.find(e => /forno|microond/.test(e.nome.toLowerCase()));
+                const wForno = eForno?.w || 1500;
+                const dForno = _disjTUE(wForno, 1.0, 220);
+                circuitos.push({nome:'🍳 Forno/Microondas (TUE)', bitola:'4 mm²', disj:'C '+dForno+'A', tens:'220V', dr:true});
+            }
+            if (temMotor) {
+                const eMotor = equipamentos.find(e => /motor/.test(e.nome.toLowerCase()));
+                const wMotor = eMotor?.w || 750;
+                const dMotor = _disjTUE(wMotor, 0.85, tensao);
+                const bMotor = wMotor <= 750 ? '2,5 mm²' : '4 mm²';
+                circuitos.push({nome:'⚙️ Motor (TUE)', bitola: bMotor, disj:'C '+dMotor+'A', tens:tensao+'V', dr:false});
+            }
+            // Cozinha/Área de serviço — sempre sugerida
+            circuitos.push({nome:'🍽 Cozinha / Área de serviço', bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V', dr:true});
+
+            // ── PASSO 7: Quadro de distribuição — dinâmico ───────────────────
+            const circQD = [{nome:'Disjuntor geral', amp:disjuntor+'A', cor:'#ef4444'}];
+            circuitos.forEach((c, i) => {
+                const cores = ['#f97316','#eab308','#22c55e','#3b82f6','#a855f7','#06b6d4','#ec4899','#84cc16'];
+                const ampVal = c.disj.replace(/[^\d]/g,'');
+                circQD.push({nome: c.nome.replace(/[^\w\s\/\-áàãâéêíóôõúç🚿❄️💡🔌🍳💧⚙️🍽]/gu,'').trim(), amp: ampVal+'A', cor: cores[i % cores.length]});
+            });
+            // Reservas: NBR 5410 exige mínimo 20% de posições reserva, mínimo 2
+            const nReserva = Math.max(2, Math.ceil(circQD.length * 0.25));
+            for (let r = 0; r < nReserva; r++) circQD.push({nome:'Reserva', amp:'—', cor:'#334155', reserva:true});
+
+            // ── EXIBIR RESULTADOS ─────────────────────────────────────────────
             const sistemaNome = cargaSistema === 'tri' ? 'Trifásico' : cargaSistema === 'bi' ? 'Bifásico' : 'Monofásico';
-            const sistemaSub  = cargaSistema === 'tri' ? tensao+'V — 3F + N + PE' : cargaSistema === 'bi' ? tensao+'V — 2F + N' : tensao+'V — F + N + PE';
+            const sistemaSub  = cargaSistema === 'tri' ? tensao+'V — 3F+N+PE' : cargaSistema === 'bi' ? tensao+'V — 2F+N' : tensao+'V — F+N+PE';
             const disjPolo    = cargaSistema === 'tri' ? 'Tetrapolar' : cargaSistema === 'bi' ? 'Tripolar' : 'Bipolar';
 
-            // Circuitos sugeridos NBR 5410
-            const circuitos = [
-                {nome:'💡 Iluminação geral',      bitola:'1,5 mm²', disj:'B 10A', tens:tensao+'V',  dr:false},
-                {nome:'🔌 Tomadas TUG',            bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V',  dr:false},
-                {nome:'🚿 Chuveiro (TUE)',          bitola:'10 mm²',  disj:'C 50A', tens:'220V',      dr:true},
-                {nome:'❄️ Ar-condicionado (TUE)',   bitola:'2,5 mm²', disj:'C 20A', tens:'220V',      dr:false},
-                {nome:'🍳 Cozinha / Serviço',       bitola:'2,5 mm²', disj:'C 20A', tens:tensao+'V',  dr:true},
-            ];
+            document.getElementById('res-potencia').textContent     = cargaInstalada.toLocaleString('pt-BR') + ' W';
+            document.getElementById('res-demanda').textContent      = cargaDemandaVA.toLocaleString('pt-BR') + ' VA';
+            const nComodos = document.querySelectorAll('.comodo-row').length;
+            const nEquip   = equipamentos.filter(e => !e.nome.includes('(cômodo)')).length;
+            const origemStr = [
+                nComodos > 0 ? nComodos + ' cômodo' + (nComodos > 1 ? 's' : '') : '',
+                nEquip   > 0 ? nEquip   + ' equipamento' + (nEquip > 1 ? 's' : '') : '',
+            ].filter(Boolean).join(' + ') || 'sem itens';
 
-            // Quadro de distribuição
-            const circQD = [
-                {nome:'Disjuntor geral',  amp:disjuntor+'A', cor:'#ef4444'},
-                {nome:'Chuveiro',         amp:'50A',         cor:'#f97316'},
-                {nome:'Iluminação',       amp:'10A',         cor:'#eab308'},
-                {nome:'Tomadas TUG',      amp:'20A',         cor:'#eab308'},
-                {nome:'Ar-condicionado',  amp:'20A',         cor:'#22c55e'},
-                {nome:'Cozinha/Serviço',  amp:'20A',         cor:'#3b82f6'},
-                {nome:'Reserva',          amp:'—',           cor:'#334155', reserva:true},
-                {nome:'Reserva',          amp:'—',           cor:'#334155', reserva:true},
-            ];
-
-            // Preencher campos
-            document.getElementById('res-potencia').textContent    = cargaInstalada.toLocaleString('pt-BR') + ' W';
-            document.getElementById('res-demanda').textContent     = cargaDemanda.toLocaleString('pt-BR') + ' VA';
-            document.getElementById('res-fd-sub').textContent      = 'fd = ' + (fd * 100).toFixed(0) + '%';
-            document.getElementById('res-corrente').textContent    = corrente.toFixed(1) + ' A';
-            document.getElementById('res-disjuntor').textContent   = disjuntor + ' A';
-            document.getElementById('res-disj-sub').textContent    = 'Curva C — ' + disjPolo;
-            document.getElementById('res-fio').textContent         = fioStr;
-            document.getElementById('res-fio-sub').textContent     = 'Iz = ' + fioIz + ' — método B1';
-            document.getElementById('res-dr').textContent          = '30 mA';
-            document.getElementById('res-dr-sub').textContent      = 'Obrig. áreas molhadas';
+            document.getElementById('res-fd-sub').textContent = 'fd = ' + (fd * 100).toFixed(0) + '% · fp = ' + fpMedioPond.toFixed(2) + ' · ' + origemStr;
+            document.getElementById('res-corrente').textContent     = corrente.toFixed(1) + ' A';
+            document.getElementById('res-disjuntor').textContent    = disjuntor + ' A';
+            document.getElementById('res-disj-sub').textContent     = 'Curva C — ' + disjPolo;
+            document.getElementById('res-fio').textContent          = fioStr;
+            // Atualiza badge e acordeão
+            const _fioIzNum = fioRec ? fioRec.Iz : 0;
+            const _fioBadge = document.getElementById('res-fio-badge');
+            if (_fioBadge) {
+                _fioBadge.textContent   = 'Iz ' + fioIz;
+                _fioBadge.style.background = _fioIzNum >= corrente ? '#14532d' : '#450a0a';
+                _fioBadge.style.color      = _fioIzNum >= corrente ? '#86efac' : '#fca5a5';
+            }
+            // Sincroniza estado do acordeão com os valores calculados
+            _acordBitola  = fioRec ? fioRec.b   : 10;
+            _acordMat     = _matAtual;
+            _acordCorrente = corrente;
+            _acordTensao   = tensao;
+            _atualizarAcordBitola();
+            document.getElementById('res-cabo-sub').textContent      = 'Método ' + _metodoAtual + ' — ' + (_METODO_DESC[_metodoAtual] || '');
+            // Salvar para pré-cálculo de queda de tensão
+            _resCorrente = corrente;
+            _resBitola   = fioRec ? fioRec.b : 0;
+            _resTensao   = tensao;
+            calcBadgeQueda();
+            // Sincroniza e fecha o painel do cabo
+            _syncBadgeCaboBtns();
+            const painelCabo = document.getElementById('res-painel-cabo');
+            if (painelCabo) painelCabo.style.display = 'none';
+            const chevronCabo = document.getElementById('res-cabo-chevron');
+            if (chevronCabo) chevronCabo.style.transform = '';
+            document.getElementById('res-dr').textContent           = '30 mA';
+            document.getElementById('res-dr-sub').textContent       = 'Obrig. áreas molhadas (NBR 5410)';
             document.getElementById('res-sistema-nome').textContent = sistemaNome;
             document.getElementById('res-sistema-sub').textContent  = sistemaSub;
+            // Sincroniza e fecha o painel do badge
+            _syncBadgeBtns();
+            const painel = document.getElementById('res-painel-sistema');
+            if (painel) { painel.style.display = 'none'; }
+            const chevron = document.getElementById('res-badge-chevron');
+            if (chevron) chevron.style.transform = '';
 
             // Circuitos
             const circEl = document.getElementById('res-circuitos');
@@ -4488,7 +5293,9 @@
                     '<span style="font-size:10px;font-weight:900;color:#fcd34d;">' + c.amp + '</span>';
                 qdEl.appendChild(item);
             });
-            document.getElementById('res-quadro-obs').textContent = circQD.length + ' posições · ' + circQD.filter(c=>c.reserva).length + ' reservas (NBR 5410 obrig.)';
+            const nPos = circQD.length;
+            const nRes = circQD.filter(c => c.reserva).length;
+            document.getElementById('res-quadro-obs').textContent = nPos + ' posições · ' + nRes + ' reservas (NBR 5410 — mín. 20%)';
 
             document.getElementById('resultado-carga').classList.remove('hidden');
             document.getElementById('resultado-carga').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
